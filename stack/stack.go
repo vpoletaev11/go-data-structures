@@ -33,6 +33,7 @@ func (s *Stack) Peek() (string, bool) {
 
 // Demo displays example of using the stack data structure
 func Demo() {
+	fmt.Println("Demonstration of using the stack data structure:")
 	var stack Stack
 
 	stack.Push("one")
