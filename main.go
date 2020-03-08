@@ -1,10 +1,9 @@
 package main
 
-import (
-	"github.com/vpoletaev11/data-structures/queue"
-)
+import "github.com/vpoletaev11/data-structures/heap"
 
 func main() {
 	//stack.Demo()
-	queue.Demo()
+	// queue.Demo()
+	heap.Demo()
 }
