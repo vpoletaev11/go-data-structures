@@ -46,7 +46,7 @@ func TestDequeueSuccess(t *testing.T) {
 		t.Error("Dequeue status should be true, but returns false")
 	}
 	if elem != "two" {
-		t.Error("Enqueued value \"one\", but dequeued:", elem)
+		t.Error("Enqueued value \"two\", but dequeued:", elem)
 	}
 }
 
@@ -72,7 +72,7 @@ func TestPeekSuccess(t *testing.T) {
 		t.Error("Peek should return true, but returns false")
 	}
 	if elem != "one" {
-		t.Error("Peeked value \"one\", but dequeued:", elem)
+		t.Error("Enqueued value \"one\", but peeked:", elem)
 	}
 }
 
