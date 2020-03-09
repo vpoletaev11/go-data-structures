@@ -1,59 +1,36 @@
 package queue
 
-import "fmt"
+// Queue - list of items organized according to the FIFO principle
+type Queue struct {
+	items []string
+}
 
-// Queue - list of elements organized according to the FIFO principle
-type Queue []string
+// Len returns length of the queue
+func (q *Queue) Len() int {
+	return len(q.items)
+}
 
 // Enqueue adds element into queue
 func (q *Queue) Enqueue(elem string) {
-	*q = append(*q, elem)
+	q.items = append(q.items, elem)
 }
 
 // Dequeue obtains and deletes element from queue
 func (q *Queue) Dequeue() (string, bool) {
-	if len(*q) == 0 {
+	if q.Len() == 0 {
 		return "", false
 	}
 
-	elem := (*q)[0]
-	*q = (*q)[1:]
+	elem := q.items[0]
+	q.items = q.items[1:]
 	return elem, true
 }
 
 // Peek obtains element from queue
 func (q *Queue) Peek() (string, bool) {
-	if len(*q) == 0 {
+	if q.Len() == 0 {
 		return "", false
 	}
 
-	return (*q)[0], true
-}
-
-// Demo displays example of using the queue data structure
-func Demo() {
-	fmt.Println("Demonstration of using the queue data structure:")
-	var queue Queue
-
-	fmt.Println("Enqueued: one")
-	queue.Enqueue("one")
-
-	fmt.Println("Enqueued: two")
-	queue.Enqueue("two")
-
-	fmt.Println("Enqueued: three")
-	queue.Enqueue("three")
-	fmt.Print("\n")
-
-	elem, ok := queue.Peek()
-	if ok {
-		fmt.Println("Peeked:", elem)
-	}
-
-	for len(queue) > 0 {
-		elem, ok := queue.Dequeue()
-		if ok {
-			fmt.Println("Dequeued:", elem)
-		}
-	}
+	return q.items[0], true
 }
