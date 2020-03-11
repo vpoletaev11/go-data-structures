@@ -18,7 +18,7 @@ func (h *Heap) Push(x int) {
 	h.items = append(h.items, x)
 
 	indexPushedElem := h.Len() - 1
-	parentIndex := indexParentElement(indexPushedElem)
+	parentIndex := indexParent(indexPushedElem)
 
 	for {
 		if h.items[parentIndex] >= x {
@@ -28,7 +28,7 @@ func (h *Heap) Push(x int) {
 		h.items[indexPushedElem], h.items[parentIndex] = h.items[parentIndex], h.items[indexPushedElem]
 
 		indexPushedElem = parentIndex
-		parentIndex = indexParentElement(indexPushedElem)
+		parentIndex = indexParent(indexPushedElem)
 	}
 }
 
@@ -42,9 +42,48 @@ func (h *Heap) Pop() (int, bool) {
 	h.items[0] = h.items[h.Len()-1]
 	h.items = h.items[:h.Len()-1]
 
+	h.heapify(0)
+
 	return elem, true
 }
 
-func indexParentElement(i int) int {
+func indexParent(i int) int {
 	return (i - 1) / 2
+}
+
+func (h *Heap) indexChildLeft(rootIndex int) (childIndex int, exist bool) {
+	childIndex = 2*rootIndex + 1
+	if childIndex > h.Len()-1 {
+		return 0, false
+	}
+	return childIndex, true
+}
+
+func (h *Heap) indexChildRight(rootIndex int) (childIndex int, exist bool) {
+	childIndex = 2*rootIndex + 2
+	if childIndex > h.Len()-1 {
+		return 0, false
+	}
+	return childIndex, true
+}
+
+func (h *Heap) swap(index1, index2 int) {
+	h.items[index1], h.items[index2] = h.items[index2], h.items[index1]
+}
+
+func (h *Heap) heapify(rootIndex int) {
+	largest := rootIndex
+	indexLeftChild, exist := h.indexChildLeft(rootIndex)
+	if exist && (h.items[indexLeftChild] > h.items[largest]) {
+		largest = indexLeftChild
+	}
+
+	indexRightChild, exist := h.indexChildRight(rootIndex)
+	if exist && (h.items[indexRightChild] > h.items[largest]) {
+		largest = indexRightChild
+	}
+	if rootIndex != largest {
+		h.swap(rootIndex, largest)
+		h.heapify(largest)
+	}
 }

@@ -63,6 +63,97 @@ func TestPopEmptyHeap(t *testing.T) {
 	}
 }
 
+func TestIndexParent(t *testing.T) {
+	var heap Heap
+
+	heap.items = []int{5521, 13, 111, 4, 3, 2, 99, 1}
+
+	parent := indexParent(1)
+	assert.Equal(t, 0, parent)
+
+	parent = indexParent(3)
+	assert.Equal(t, 1, parent)
+
+	parent = indexParent(5)
+	assert.Equal(t, 2, parent)
+
+	parent = indexParent(7)
+	assert.Equal(t, 3, parent)
+}
+
+func TestIndexChildLeft(t *testing.T) {
+	var heap Heap
+
+	heap.items = []int{5521, 13, 111, 4, 3, 2, 99, 1}
+
+	leftChildIndex, exist := heap.indexChildLeft(0)
+	assert.Equal(t, 1, leftChildIndex)
+	assert.Equal(t, true, exist)
+
+	leftChildIndex, exist = heap.indexChildLeft(1)
+	assert.Equal(t, 3, leftChildIndex)
+	assert.Equal(t, true, exist)
+
+	leftChildIndex, exist = heap.indexChildLeft(7)
+	assert.Equal(t, 0, leftChildIndex)
+	assert.Equal(t, false, exist)
+}
+
+func TestIndexChildRight(t *testing.T) {
+	var heap Heap
+
+	heap.items = []int{5521, 13, 111, 4, 3, 2, 99, 1}
+
+	rightChildIndex, exist := heap.indexChildRight(0)
+	assert.Equal(t, 2, rightChildIndex)
+	assert.Equal(t, true, exist)
+
+	rightChildIndex, exist = heap.indexChildRight(1)
+	assert.Equal(t, 4, rightChildIndex)
+	assert.Equal(t, true, exist)
+
+	rightChildIndex, exist = heap.indexChildRight(7)
+	assert.Equal(t, 0, rightChildIndex)
+	assert.Equal(t, false, exist)
+}
+
+func TestSwap(t *testing.T) {
+	var heap Heap
+	heap.items = []int{1, 2}
+
+	heap.swap(0, 1)
+
+	expected := []int{2, 1}
+	assert.Equal(t, expected, heap.items)
+}
+
+func TestHeapify(t *testing.T) {
+	var heap Heap
+	// testing heapifying left child
+	heap.items = []int{4, 11, 9}
+
+	heap.heapify(0)
+
+	expected := []int{11, 4, 9}
+	assert.Equal(t, expected, heap.items)
+
+	// testing heapifying right child
+	heap.items = []int{4, 3, 11}
+
+	heap.heapify(0)
+
+	expected = []int{11, 3, 4}
+	assert.Equal(t, expected, heap.items)
+
+	// testing recursively heapifying
+	heap.items = []int{4, 11, 9, 10, 5, 6, 8, 1, 2, 4}
+
+	heap.heapify(0)
+
+	expected = []int{11, 10, 9, 4, 5, 6, 8, 1, 2, 4}
+	assert.Equal(t, expected, heap.items)
+}
+
 // TestHeapDemo displays example of using the heap data structure
 func TestHeapDemo(t *testing.T) {
 	fmt.Println("Demonstration of using the heap data structure:")
