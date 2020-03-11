@@ -63,6 +63,24 @@ func TestPopEmptyHeap(t *testing.T) {
 	}
 }
 
+func TestPeekSuccess(t *testing.T) {
+	var heap Heap
+
+	heap.items = []int{1}
+
+	elem, ok := heap.Peek()
+	assert.Equal(t, 1, elem)
+	assert.Equal(t, true, ok)
+}
+
+func TestPeekEmptyHeap(t *testing.T) {
+	var heap Heap
+
+	elem, ok := heap.Peek()
+	assert.Equal(t, 0, elem)
+	assert.Equal(t, false, ok)
+}
+
 func TestIndexParent(t *testing.T) {
 	var heap Heap
 

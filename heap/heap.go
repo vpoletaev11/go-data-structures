@@ -47,6 +47,15 @@ func (h *Heap) Pop() (int, bool) {
 	return elem, true
 }
 
+// Peek obtains element from heap
+func (h *Heap) Peek() (int, bool) {
+	if h.Len() == 0 {
+		return 0, false
+	}
+
+	return h.items[0], true
+}
+
 func indexParent(i int) int {
 	return (i - 1) / 2
 }
