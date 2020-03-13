@@ -21,7 +21,9 @@ func TestPush(t *testing.T) {
 
 	stack.Push("one")
 
-	assert.Equal(t, "one", stack.elements[0])
+	actual, ok := stack.Peek()
+	assert.Equal(t, "one", actual)
+	assert.True(t, ok)
 }
 
 func TestPopSuccess(t *testing.T) {
