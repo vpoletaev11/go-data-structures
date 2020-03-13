@@ -1,36 +1,36 @@
 package queue
 
-// Queue - list of items organized according to the FIFO principle
+// Queue - list of elements organized according to the FIFO principle
 type Queue struct {
-	items []string
+	elements []string
 }
 
 // Len returns length of the queue
 func (q *Queue) Len() int {
-	return len(q.items)
+	return len(q.elements)
 }
 
 // Enqueue adds element into queue
-func (q *Queue) Enqueue(elem string) {
-	q.items = append(q.items, elem)
+func (q *Queue) Enqueue(element string) {
+	q.elements = append(q.elements, element)
 }
 
 // Dequeue obtains and deletes element from queue
-func (q *Queue) Dequeue() (string, bool) {
+func (q *Queue) Dequeue() (element string, status bool) {
 	if q.Len() == 0 {
 		return "", false
 	}
 
-	elem := q.items[0]
-	q.items = q.items[1:]
-	return elem, true
+	element = q.elements[0]     // Obtain the first inserted element.
+	q.elements = q.elements[1:] // Remove the first inserted element.
+	return element, true
 }
 
 // Peek obtains element from queue
-func (q *Queue) Peek() (string, bool) {
+func (q *Queue) Peek() (element string, status bool) {
 	if q.Len() == 0 {
 		return "", false
 	}
 
-	return q.items[0], true
+	return q.elements[0], true
 }

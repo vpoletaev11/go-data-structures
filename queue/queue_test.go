@@ -1,8 +1,9 @@
 package queue
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLen(t *testing.T) {
@@ -12,9 +13,7 @@ func TestLen(t *testing.T) {
 	queue.Enqueue("two")
 	queue.Enqueue("three")
 
-	if queue.Len() != 3 {
-		t.Error("Enqueued 3 elements, but length of queue ==", queue.Len())
-	}
+	assert.Equal(t, 3, queue.Len())
 }
 
 func TestEnqueue(t *testing.T) {
@@ -22,96 +21,48 @@ func TestEnqueue(t *testing.T) {
 
 	queue.Enqueue("one")
 
-	if queue.items[0] != "one" {
-		t.Error("Enqueued element \"one\", but queue item ==", queue.items[0])
-	}
+	element, ok := queue.Peek()
+	assert.Equal(t, "one", element)
+	assert.True(t, ok)
 }
 
 func TestDequeueSuccess(t *testing.T) {
 	var queue Queue
 
-	queue.items = append(queue.items, "one")
-	queue.items = append(queue.items, "two")
+	queue.Enqueue("one")
+	queue.Enqueue("two")
 
-	elem, ok := queue.Dequeue()
-	if ok != true {
-		t.Error("Dequeue status should be true, but returns false")
-	}
-	if elem != "one" {
-		t.Error("Enqueued value \"one\", but dequeued:", elem)
-	}
+	element, ok := queue.Dequeue()
+	assert.Equal(t, "one", element)
+	assert.True(t, ok)
 
-	elem, ok = queue.Dequeue()
-	if ok != true {
-		t.Error("Dequeue status should be true, but returns false")
-	}
-	if elem != "two" {
-		t.Error("Enqueued value \"two\", but dequeued:", elem)
-	}
+	element, ok = queue.Dequeue()
+	assert.Equal(t, "two", element)
+	assert.True(t, ok)
 }
 
 func TestDequeueEmptyQueue(t *testing.T) {
 	var queue Queue
 
-	elem, ok := queue.Dequeue()
-	if elem != "" {
-		t.Error("Nothing enqueued, but dequeued value ==", elem)
-	}
-	if ok != false {
-		t.Error("Nothing enqueued, but dequeue status == true")
-	}
+	element, ok := queue.Dequeue()
+	assert.Equal(t, "", element)
+	assert.False(t, ok)
 }
 
 func TestPeekSuccess(t *testing.T) {
 	var queue Queue
 
-	queue.items = append(queue.items, "one")
+	queue.Enqueue("one")
 
-	elem, ok := queue.Peek()
-	if ok != true {
-		t.Error("Peek should return true, but returns false")
-	}
-	if elem != "one" {
-		t.Error("Enqueued value \"one\", but peeked:", elem)
-	}
+	element, ok := queue.Peek()
+	assert.Equal(t, "one", element)
+	assert.True(t, ok)
 }
 
 func TestPeekEmptyQueue(t *testing.T) {
 	var queue Queue
 
-	elem, ok := queue.Peek()
-	if elem != "" {
-		t.Error("Nothing enqueued, but peeked value ==", elem)
-	}
-	if ok != false {
-		t.Error("Nothing enqueued, but peek status == true")
-	}
-}
-
-// TestQueueDemo displays example of using the queue data structure
-func TestQueueDemo(t *testing.T) {
-	fmt.Println("Demonstration of using the queue data structure:")
-	var queue Queue
-
-	fmt.Println("Enqueued: one")
-	queue.Enqueue("one")
-
-	fmt.Println("Enqueued: two")
-	queue.Enqueue("two")
-
-	fmt.Println("Enqueued: three")
-	queue.Enqueue("three")
-	fmt.Print("\n")
-
-	elem, ok := queue.Peek()
-	if ok {
-		fmt.Println("Peeked:", elem)
-	}
-
-	for queue.Len() > 0 {
-		elem, ok := queue.Dequeue()
-		if ok {
-			fmt.Println("Dequeued:", elem)
-		}
-	}
+	element, ok := queue.Peek()
+	assert.Equal(t, "", element)
+	assert.False(t, ok)
 }
