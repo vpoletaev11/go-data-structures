@@ -1,5 +1,7 @@
 package linkedlist
 
+import "fmt"
+
 // node of linked list
 type node struct {
 	data     string // stored data
@@ -22,6 +24,31 @@ func (l *LinkedList) InsertHead(val string) {
 	l.head = &node{val, l.head}
 }
 
+// Insert adds value in list by index.
+// If on index already exists value, it and all subsequent will be moved by 1, and in his place will be inserted value
+func (l *LinkedList) Insert(index int, val string) (err error) {
+	if index < 0 {
+		return fmt.Errorf("Cannot use negative index: %v", index)
+	}
+
+	if index == 0 {
+		if l.head == nil {
+			l.head = &node{val, nil}
+		}
+
+		l.head = &node{val, l.head}
+	}
+
+	prevNode := l.nodeByIndex(index - 1)
+	if prevNode == nil || prevNode.nextNode == nil {
+		return fmt.Errorf("Index out of range")
+	}
+
+	prevNode.nextNode = &node{val, prevNode.nextNode}
+
+	return nil
+}
+
 // InsertTail adds value in end of list
 func (l *LinkedList) InsertTail(val string) {
 	if l.head == nil {
@@ -41,6 +68,34 @@ func (l *LinkedList) GetHead() (val string, status bool) {
 
 	val = l.head.data
 	l.head = l.head.nextNode
+	return val, true
+}
+
+// Get obtains and deletes element by index from list
+func (l *LinkedList) Get(index int) (val string, status bool) {
+	if l.head == nil {
+		return "", false
+	}
+
+	if index < 0 {
+		return "", false
+	}
+
+	if index == 0 {
+		val = l.head.data
+		l.head = l.head.nextNode
+		return val, true
+	}
+
+	prevNode := l.nodeByIndex(index - 1)
+	if prevNode == nil || prevNode.nextNode == nil {
+		return "", false
+	}
+
+	val = prevNode.nextNode.data
+
+	prevNode.nextNode = prevNode.nextNode.nextNode
+
 	return val, true
 }
 
@@ -75,6 +130,20 @@ func (l LinkedList) PeekHead() (val string, status bool) {
 	return l.head.data, true
 }
 
+// Peek obtains element by index from list
+func (l LinkedList) Peek(index int) (val string, status bool) {
+	if l.head == nil {
+		return "", false
+	}
+
+	node := l.nodeByIndex(index)
+	if node == nil {
+		return "", false
+	}
+
+	return node.data, true
+}
+
 // PeekTail obtains element from end of list
 func (l LinkedList) PeekTail() (val string, status bool) {
 	if l.head == nil {
@@ -95,4 +164,20 @@ func (l *LinkedList) findLastNode() (pointer *node) {
 		}
 		pointer = pointer.nextNode
 	}
+}
+
+// nodeByIndex returns node from list by index
+func (l *LinkedList) nodeByIndex(index int) (pointer *node) {
+	pointer = l.head
+	if pointer == nil {
+		return nil
+	}
+
+	for i := 0; i < index; i++ {
+		if pointer.nextNode == nil {
+			return nil
+		}
+		pointer = pointer.nextNode
+	}
+	return pointer
 }
