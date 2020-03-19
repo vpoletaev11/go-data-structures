@@ -1,7 +1,5 @@
 package linkedlist
 
-import "fmt"
-
 // node of linked list
 type node struct {
 	data     string // Stored data
@@ -26,23 +24,18 @@ func (l *LinkedList) InsertHead(val string) {
 
 // Insert adds value in list by index.
 // If on index already exists value, it and all subsequent values will be moved by 1, and in its place will be inserted new value
-func (l *LinkedList) Insert(index int, val string) (err error) {
-	if index < 0 {
-		return fmt.Errorf("Cannot use negative index: %v", index)
-	}
-
+func (l *LinkedList) Insert(index int, val string) (status bool) {
 	if index == 0 {
 		l.InsertHead(val)
-		return nil
+		return true
 	}
 
 	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be inserted
 	if prevNode == nil {
-		return fmt.Errorf("Index out of range")
+		return false
 	}
 	prevNode.nextNode = &node{val, prevNode.nextNode} // prevNode now pointing on inserted node which pointing to node who was here before
-
-	return nil
+	return true
 }
 
 // InsertTail adds value in end of list
@@ -68,30 +61,26 @@ func (l *LinkedList) GetHead() (val string, status bool) {
 }
 
 // Get obtains and deletes element by index from list
-func (l *LinkedList) Get(index int) (val string, err error) {
+func (l *LinkedList) Get(index int) (val string, status bool) {
 	if l.head == nil {
-		return "", fmt.Errorf("Empty list")
-	}
-
-	if index < 0 {
-		return "", fmt.Errorf("Cannot use negative index: %v", index)
+		return "", false
 	}
 
 	if index == 0 {
 		// Similar to GetHead, but without check for empty of list
 		val = l.head.data
 		l.head = l.head.nextNode
-		return val, nil
+		return val, true
 	}
 
 	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be obtained and deleted
 	if prevNode == nil || prevNode.nextNode == nil {
-		return "", fmt.Errorf("Index out of range")
+		return "", false
 	}
 	val = prevNode.nextNode.data                   // Obtain node data
 	prevNode.nextNode = prevNode.nextNode.nextNode // prevNode now pointing to next node after deleted node.
 
-	return val, nil
+	return val, true
 }
 
 // GetTail obtains and deletes element from end of list
@@ -100,7 +89,7 @@ func (l *LinkedList) GetTail() (val string, status bool) {
 		return "", false
 	}
 
-	p1, p2 := l.head, l.head // Initialize variables that stores pointers to the penultimate and last nodes respectively
+	p1, p2 := l.head, l.head // Initialize variables that stores pointers to the second-to-last and last nodes respectively
 	for {
 		if p2.nextNode == nil {
 			break
@@ -109,8 +98,13 @@ func (l *LinkedList) GetTail() (val string, status bool) {
 		p1 = p2
 		p2 = p2.nextNode
 	}
+
+	if p1 == p2 { // checking if in list is only 1 element
+		l.head = nil
+	}
+
 	val = p2.data
-	p1.nextNode = nil // Penultimate node points to nil i.e now it last node
+	p1.nextNode = nil // Second-to-last node points to nil i.e now it last node
 
 	return val, true
 }
@@ -125,17 +119,20 @@ func (l LinkedList) PeekHead() (val string, status bool) {
 }
 
 // Peek obtains element by index from list
-func (l LinkedList) Peek(index int) (val string, err error) {
+func (l LinkedList) Peek(index int) (val string, status bool) {
 	if l.head == nil {
-		return "", fmt.Errorf("Empty list")
+		return "", false
+	}
+
+	if index < 0 {
+		return "", false
 	}
 
 	node := l.nodeByIndex(index)
 	if node == nil {
-		return "", fmt.Errorf("Index out of range")
+		return "", false
 	}
-
-	return node.data, nil
+	return node.data, true
 }
 
 // PeekTail obtains element from end of list
@@ -168,7 +165,7 @@ func (l *LinkedList) nodeByIndex(index int) (pointer *node) {
 	}
 
 	for i := 0; i < index; i++ {
-		if pointer.nextNode == nil { // Check if last node founded before of index node
+		if pointer.nextNode == nil { // Checking if last node is reached before of index node
 			return nil
 		}
 		pointer = pointer.nextNode

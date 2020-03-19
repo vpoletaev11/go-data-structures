@@ -1,7 +1,6 @@
 package linkedlist
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,23 +25,27 @@ func TestInsertHead(t *testing.T) {
 	val, ok = l.GetHead()
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 // test Insert
 func TestInsertSuccess(t *testing.T) {
 	var l LinkedList
 
-	err := l.Insert(0, "two")
-	assert.Nil(t, err)
+	ok := l.Insert(0, "two")
+	assert.True(t, ok)
 
-	err = l.Insert(0, "one")
-	assert.Nil(t, err)
+	ok = l.Insert(0, "one")
+	assert.True(t, ok)
 
-	err = l.Insert(1, "three")
-	assert.Nil(t, err)
+	ok = l.Insert(1, "three")
+	assert.True(t, ok)
 
-	err = l.Insert(3, "four")
-	assert.Nil(t, err)
+	ok = l.Insert(3, "four")
+	assert.True(t, ok)
 
 	val, ok := l.GetHead()
 	assert.Equal(t, "one", val)
@@ -59,30 +62,20 @@ func TestInsertSuccess(t *testing.T) {
 	val, ok = l.GetHead()
 	assert.Equal(t, "four", val)
 	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 func TestInsertOutOfRange(t *testing.T) {
 	var l LinkedList
 
-	l.InsertHead("one")
+	ok := l.Insert(5, "one")
+	assert.False(t, ok)
 
-	err := l.Insert(5, "two")
-	assert.Equal(t, fmt.Errorf("Index out of range"), err)
-}
-
-func TestInsertOutOfRangeEmptyList(t *testing.T) {
-	var l LinkedList
-
-	err := l.Insert(5, "one")
-	assert.Equal(t, fmt.Errorf("Index out of range"), err)
-}
-
-func TestInsertNegativeIndex(t *testing.T) {
-	var l LinkedList
-
-	err := l.Insert(-1, "value")
-
-	assert.Equal(t, fmt.Errorf("Cannot use negative index: -1"), err)
+	ok = l.Insert(-1, "two")
+	assert.False(t, ok)
 }
 
 // test InsertTail
@@ -104,6 +97,10 @@ func TestInsertTail(t *testing.T) {
 	val, ok = l.GetHead()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 // test GetHead
@@ -125,6 +122,10 @@ func TestGetHeadSuccess(t *testing.T) {
 	val, ok = l.GetHead()
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 func TestGetHeadEmptyList(t *testing.T) {
@@ -143,34 +144,28 @@ func TestGetSuccess(t *testing.T) {
 	l.InsertHead("two")
 	l.InsertHead("three")
 
-	val, err := l.Get(2)
-	assert.Nil(t, err)
+	val, ok := l.Get(2)
 	assert.Equal(t, "one", val)
+	assert.True(t, ok)
 
-	val, err = l.Get(0)
-	assert.Nil(t, err)
+	val, ok = l.Get(0)
 	assert.Equal(t, "three", val)
+	assert.True(t, ok)
 
-	val, err = l.Get(0)
-	assert.Nil(t, err)
+	val, ok = l.Get(0)
 	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(0)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 func TestGetEmptyList(t *testing.T) {
 	var l LinkedList
 
-	val, err := l.Get(0)
-	assert.Equal(t, fmt.Errorf("Empty list"), err)
-	assert.Equal(t, "", val)
-}
-
-func TestGetNegativeIndex(t *testing.T) {
-	var l LinkedList
-
-	l.InsertHead("one")
-
-	val, err := l.Get(-1)
-	assert.Equal(t, fmt.Errorf("Cannot use negative index: -1"), err)
+	val, ok := l.Get(0)
+	assert.False(t, ok)
 	assert.Equal(t, "", val)
 }
 
@@ -179,9 +174,13 @@ func TestGetOutOfRange(t *testing.T) {
 
 	l.InsertHead("one")
 
-	val, err := l.Get(5)
-	assert.Equal(t, fmt.Errorf("Index out of range"), err)
+	val, ok := l.Get(5)
 	assert.Equal(t, "", val)
+	assert.False(t, ok)
+
+	val, ok = l.Get(-1)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 // test GetTail
@@ -203,6 +202,10 @@ func TestGetTailSuccess(t *testing.T) {
 	val, ok = l.GetTail()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 func TestGetTailEmptyList(t *testing.T) {
@@ -242,17 +245,25 @@ func TestPeekSuccess(t *testing.T) {
 	l.InsertHead("two")
 	l.InsertHead("three")
 
-	val, err := l.Peek(2)
+	val, ok := l.Peek(2)
 	assert.Equal(t, "one", val)
-	assert.Nil(t, err)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(1)
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(0)
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
 }
 
 func TestPeekEmptyList(t *testing.T) {
 	var l LinkedList
 
-	val, err := l.Peek(0)
+	val, ok := l.Peek(0)
 	assert.Equal(t, "", val)
-	assert.Equal(t, fmt.Errorf("Empty list"), err)
+	assert.False(t, ok)
 }
 
 func TestPeekOutOfRange(t *testing.T) {
@@ -260,9 +271,13 @@ func TestPeekOutOfRange(t *testing.T) {
 
 	l.InsertHead("one")
 
-	val, err := l.Peek(2)
+	val, ok := l.Peek(2)
 	assert.Equal(t, "", val)
-	assert.Equal(t, fmt.Errorf("Index out of range"), err)
+	assert.False(t, ok)
+
+	val, ok = l.Peek(-1)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
 // test PeekTail
