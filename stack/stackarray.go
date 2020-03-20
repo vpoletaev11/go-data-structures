@@ -1,22 +1,22 @@
 package stack
 
-// Stack - list of elements organized according to the LIFO principle
-type Stack struct {
+// SliceStack - slice based list of elements organized according to the LIFO principle
+type SliceStack struct {
 	elements []string
 }
 
 // Len returns length of the stack
-func (s *Stack) Len() int {
+func (s *SliceStack) Len() int {
 	return len(s.elements)
 }
 
 // Push adds element into stack
-func (s *Stack) Push(element string) {
+func (s *SliceStack) Push(element string) {
 	s.elements = append(s.elements, element)
 }
 
 // Pop obtains and deletes element from stack
-func (s *Stack) Pop() (element string, status bool) {
+func (s *SliceStack) Pop() (element string, status bool) {
 	if s.Len() == 0 {
 		return "", false
 	}
@@ -28,7 +28,7 @@ func (s *Stack) Pop() (element string, status bool) {
 }
 
 // Peek obtains element from stack
-func (s *Stack) Peek() (element string, status bool) {
+func (s *SliceStack) Peek() (element string, status bool) {
 	if s.Len() == 0 {
 		return "", false
 	}
