@@ -15,7 +15,7 @@ type SinglyLinkedList struct {
 // Len returns length of list
 func (l *SinglyLinkedList) Len() int {
 	pointer := l.head
-	i := 0
+	i := 1
 	for {
 		if pointer.nextNode == nil {
 			return i
