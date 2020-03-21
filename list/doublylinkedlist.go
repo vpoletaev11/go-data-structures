@@ -20,7 +20,9 @@ func (l *DoublyLinkedList) InsertHead(val string) {
 		return
 	}
 
-	l.head = &nodeDL{data: val, prevNode: nil, nextNode: l.head}
+	nextNode := l.head
+	l.head = &nodeDL{data: val, prevNode: nil, nextNode: nextNode} // Move head node in second place and insert new node on its place
+	nextNode.prevNode = l.head                                     // Second node prevNode field points to head node
 }
 
 // Insert adds value in list by index.
@@ -66,91 +68,85 @@ func (l *DoublyLinkedList) GetHead() (val string, ok bool) {
 	return val, true
 }
 
-// // Get obtains and deletes element by index from list
-// func (l *SinglyLinkedList) Get(index int) (val string, ok bool) {
-// 	if l.head == nil {
-// 		return "", false
-// 	}
+// Get obtains and deletes element by index from list
+func (l *DoublyLinkedList) Get(index int) (val string, ok bool) {
+	if l.head == nil {
+		return "", false
+	}
 
-// 	if index == 0 {
-// 		// Similar to GetHead, but without check for empty of list
-// 		val = l.head.data
-// 		l.head = l.head.nextNode
-// 		return val, true
-// 	}
+	if index == 0 {
+		// Similar to GetHead, but without check for empty of list
+		val = l.head.data
+		l.head = l.head.nextNode
+		if l.head != nil {
+			l.head.prevNode = nil
+		}
+		return val, true
+	}
 
-// 	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be obtained and deleted
-// 	if prevNode == nil || prevNode.nextNode == nil {
-// 		return "", false
-// 	}
-// 	val = prevNode.nextNode.data                   // Obtain node data
-// 	prevNode.nextNode = prevNode.nextNode.nextNode // prevNode now pointing to next node after deleted node.
+	node := l.nodeByIndex(index)
+	if node == nil {
+		return "", false
+	}
+	val = node.data
 
-// 	return val, true
-// }
+	if node.nextNode == nil {
+		node.prevNode.nextNode = nil // Previous node nextNode field now points to nil
+	}
+	node.prevNode.nextNode = node.nextNode // Previous node nextNode field now points to next node
 
-// // GetTail obtains and deletes element from end of SinglyLinkedList
-// func (l *SinglyLinkedList) GetTail() (val string, ok bool) {
-// 	if l.head == nil {
-// 		return "", false
-// 	}
+	return val, true
+}
 
-// 	p1, p2 := l.head, l.head // Initialize variables that stores pointers to the second-to-last and last nodes respectively
-// 	for {
-// 		if p2.nextNode == nil {
-// 			break
-// 		}
+// GetTail obtains and deletes element from end of SinglyLinkedList
+func (l *DoublyLinkedList) GetTail() (val string, ok bool) {
+	if l.head == nil {
+		return "", false
+	}
 
-// 		p1 = p2
-// 		p2 = p2.nextNode
-// 	}
+	lastNode := l.findLastNode()
+	val = lastNode.data
+	if lastNode.prevNode == nil { // Check if lastNode is only one in list
+		l.head = nil
+		return val, true
+	}
+	lastNode.prevNode.nextNode = nil // Second-to-last node now points to nil
 
-// 	if p1 == p2 { // checking if in list is only 1 element
-// 		l.head = nil
-// 	}
+	return val, true
+}
 
-// 	val = p2.data
-// 	p1.nextNode = nil // Second-to-last node points to nil i.e now it last node
+// PeekHead obtains element from begin of list
+func (l DoublyLinkedList) PeekHead() (val string, ok bool) {
+	if l.head == nil {
+		return "", false
+	}
 
-// 	return val, true
-// }
+	return l.head.data, true
+}
 
-// // PeekHead obtains element from begin of list
-// func (l SinglyLinkedList) PeekHead() (val string, ok bool) {
-// 	if l.head == nil {
-// 		return "", false
-// 	}
+// Peek obtains element by index from list
+func (l DoublyLinkedList) Peek(index int) (val string, ok bool) {
+	if l.head == nil {
+		return "", false
+	}
 
-// 	return l.head.data, true
-// }
+	node := l.nodeByIndex(index)
+	if node == nil {
+		return "", false
+	}
+	return node.data, true
+}
 
-// // Peek obtains element by index from list
-// func (l SinglyLinkedList) Peek(index int) (val string, ok bool) {
-// 	if l.head == nil {
-// 		return "", false
-// 	}
+// PeekTail obtains element from end of list
+func (l DoublyLinkedList) PeekTail() (val string, ok bool) {
+	if l.head == nil {
+		return "", false
+	}
 
-// 	if index < 0 {
-// 		return "", false
-// 	}
+	lastNode := l.findLastNode()
 
-// 	node := l.nodeByIndex(index)
-// 	if node == nil {
-// 		return "", false
-// 	}
-// 	return node.data, true
-// }
-
-// // PeekTail obtains element from end of list
-// func (l SinglyLinkedList) PeekTail() (val string, ok bool) {
-// 	if l.head == nil {
-// 		return "", false
-// 	}
-
-// 	lastNode := l.findLastNode()
-
-// 	return lastNode.data, true
-// }
+	return lastNode.data, true
+}
 
 // findLastNode finds last element in list
 func (l *DoublyLinkedList) findLastNode() *nodeDL {
