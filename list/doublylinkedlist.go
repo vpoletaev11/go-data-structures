@@ -13,6 +13,19 @@ type DoublyLinkedList struct {
 	head *nodeDL // First element in linked list
 }
 
+// Len returns length of list
+func (l *DoublyLinkedList) Len() int {
+	pointer := l.head
+	i := 0
+	for {
+		if pointer.nextNode == nil {
+			return i
+		}
+		pointer = pointer.nextNode
+		i++
+	}
+}
+
 // InsertHead adds value in begin of list
 func (l *DoublyLinkedList) InsertHead(val string) {
 	if l.head == nil {

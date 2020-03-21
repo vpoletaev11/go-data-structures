@@ -9,6 +9,19 @@ import (
 
 // Testing singly linked list:
 //
+// test Len
+func TestLenSinglyList(t *testing.T) {
+	var l list.SinglyLinkedList
+
+	l.InsertHead("one")
+	l.InsertHead("two")
+	l.InsertHead("three")
+
+	len := l.Len()
+
+	assert.Equal(t, 3, len)
+}
+
 // test InsertHead
 func TestInsertHeadSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
@@ -306,6 +319,19 @@ func TestPeekTailEmptyListSinglyList(t *testing.T) {
 
 // Testing doubly linked list:
 //
+// test Len
+func TestLenDoublyList(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	l.InsertHead("one")
+	l.InsertHead("two")
+	l.InsertHead("three")
+
+	len := l.Len()
+
+	assert.Equal(t, 3, len)
+}
+
 // test InsertHead
 func TestInsertHeadDoublyList(t *testing.T) {
 	var l list.DoublyLinkedList
