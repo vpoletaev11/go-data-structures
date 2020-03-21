@@ -7,8 +7,10 @@ import (
 	"github.com/vpoletaev11/go-data-structures/list"
 )
 
+// Testing singly linked list:
+//
 // test InsertHead
-func TestInsertHead(t *testing.T) {
+func TestInsertHeadSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -33,7 +35,7 @@ func TestInsertHead(t *testing.T) {
 }
 
 // test Insert
-func TestInsertSuccess(t *testing.T) {
+func TestInsertSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	ok := l.Insert(0, "two")
@@ -69,7 +71,7 @@ func TestInsertSuccess(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestInsertOutOfRange(t *testing.T) {
+func TestInsertOutOfRangeSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	ok := l.Insert(5, "one")
@@ -80,7 +82,7 @@ func TestInsertOutOfRange(t *testing.T) {
 }
 
 // test InsertTail
-func TestInsertTail(t *testing.T) {
+func TestInsertTailSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertTail("one")
@@ -105,7 +107,7 @@ func TestInsertTail(t *testing.T) {
 }
 
 // test GetHead
-func TestGetHeadSuccess(t *testing.T) {
+func TestGetHeadSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -129,7 +131,7 @@ func TestGetHeadSuccess(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestGetHeadEmptyList(t *testing.T) {
+func TestGetHeadEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.GetHead()
@@ -138,7 +140,7 @@ func TestGetHeadEmptyList(t *testing.T) {
 }
 
 // test Get
-func TestGetSuccess(t *testing.T) {
+func TestGetSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -162,7 +164,7 @@ func TestGetSuccess(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestGetEmptyList(t *testing.T) {
+func TestGetEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.Get(0)
@@ -170,7 +172,7 @@ func TestGetEmptyList(t *testing.T) {
 	assert.Equal(t, "", val)
 }
 
-func TestGetOutOfRange(t *testing.T) {
+func TestGetOutOfRangeSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -185,7 +187,7 @@ func TestGetOutOfRange(t *testing.T) {
 }
 
 // test GetTail
-func TestGetTailSuccess(t *testing.T) {
+func TestGetTailSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -209,7 +211,7 @@ func TestGetTailSuccess(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestGetTailEmptyList(t *testing.T) {
+func TestGetTailEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.GetTail()
@@ -218,7 +220,7 @@ func TestGetTailEmptyList(t *testing.T) {
 }
 
 // test PeekHead
-func TestPeekHeadSuccess(t *testing.T) {
+func TestPeekHeadSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -230,7 +232,7 @@ func TestPeekHeadSuccess(t *testing.T) {
 	assert.True(t, ok)
 }
 
-func TestPeekHeadEmptyList(t *testing.T) {
+func TestPeekHeadEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.PeekHead()
@@ -239,7 +241,7 @@ func TestPeekHeadEmptyList(t *testing.T) {
 }
 
 // test Peek
-func TestPeekSuccess(t *testing.T) {
+func TestPeekSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -259,7 +261,7 @@ func TestPeekSuccess(t *testing.T) {
 	assert.True(t, ok)
 }
 
-func TestPeekEmptyList(t *testing.T) {
+func TestPeekEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.Peek(0)
@@ -267,7 +269,7 @@ func TestPeekEmptyList(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestPeekOutOfRange(t *testing.T) {
+func TestPeekOutOfRangeSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -282,7 +284,7 @@ func TestPeekOutOfRange(t *testing.T) {
 }
 
 // test PeekTail
-func TestPeekTailSuccess(t *testing.T) {
+func TestPeekTailSinglyListSuccess(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	l.InsertHead("one")
@@ -294,10 +296,119 @@ func TestPeekTailSuccess(t *testing.T) {
 	assert.True(t, ok)
 }
 
-func TestPeekTailEmptyList(t *testing.T) {
+func TestPeekTailEmptyListSinglyList(t *testing.T) {
 	var l list.SinglyLinkedList
 
 	val, ok := l.PeekTail()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+}
+
+// Testing doubly linked list:
+//
+// test InsertHead
+func TestInsertHeadDoublyList(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	l.InsertHead("one")
+	l.InsertHead("two")
+	l.InsertHead("three")
+
+	val, ok := l.GetHead()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+}
+
+// test Insert
+func TestInsertDoublyListSuccess(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	ok := l.Insert(0, "two")
+	assert.True(t, ok)
+
+	ok = l.Insert(0, "one")
+	assert.True(t, ok)
+
+	ok = l.Insert(1, "three")
+	assert.True(t, ok)
+
+	ok = l.Insert(3, "four")
+	assert.True(t, ok)
+
+	val, ok := l.GetHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+}
+
+func TestInsertOutOfRangeDoublyList(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	ok := l.Insert(0, "one")
+	assert.True(t, ok)
+
+	ok = l.Insert(5, "two")
+	assert.False(t, ok)
+}
+
+func TestInsertOutOfRangeEmptyListDoublyList(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	ok := l.Insert(5, "one")
+	assert.False(t, ok)
+
+	ok = l.Insert(-1, "two")
+	assert.False(t, ok)
+}
+
+// test InsertTail
+func TestInsertTailDoublyList(t *testing.T) {
+	var l list.DoublyLinkedList
+
+	l.InsertTail("one")
+	l.InsertTail("two")
+	l.InsertTail("three")
+
+	val, ok := l.GetHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }

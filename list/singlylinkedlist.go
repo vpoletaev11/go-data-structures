@@ -1,6 +1,6 @@
 package list
 
-// nodeSL - node of single linked list
+// nodeSL - node of singly linked list
 type nodeSL struct {
 	data     string  // Stored data
 	nextNode *nodeSL // Pointer to next node
@@ -159,6 +159,9 @@ func (l *SinglyLinkedList) findLastNode() *nodeSL {
 
 // nodeByIndex returns node from list by index
 func (l *SinglyLinkedList) nodeByIndex(index int) *nodeSL {
+	if index < 0 {
+		return nil
+	}
 	pointer := l.head
 	if pointer == nil {
 		return nil
