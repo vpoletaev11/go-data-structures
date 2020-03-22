@@ -140,3 +140,85 @@ func TestPeekEmptyQueueListQueue(t *testing.T) {
 	assert.Equal(t, "", element)
 	assert.False(t, ok)
 }
+
+// Testing priority queue:
+//
+// test Len
+func TestLenPriorityQueue(t *testing.T) {
+	var q queue.PriorityQueue
+
+	q.Push("one", 1)
+	q.Push("two", 2)
+	q.Push("three", 3)
+
+	assert.Equal(t, 3, q.Len())
+}
+
+// test Push & Pop
+func TestPushAndPopPriorityQueue(t *testing.T) {
+	var queue queue.PriorityQueue
+
+	queue.Push("one", 1)
+	queue.Push("two", 2)
+	queue.Push("three", 3)
+	queue.Push("four", 4)
+	queue.Push("five", 5521)
+	queue.Push("six", 111)
+	queue.Push("seven", 99)
+	queue.Push("eight", 13)
+
+	val, ok := queue.Pop()
+	assert.Equal(t, "five", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "six", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "seven", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "eight", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = queue.Pop()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+}
+
+// test Peek
+func TestPeekPriorityQueue(t *testing.T) {
+	var q queue.PriorityQueue
+
+	q.Push("one", 1)
+
+	val, ok := q.Peek()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+}
+
+func TestPeekEmptyQueuePriorityQueue(t *testing.T) {
+	var q queue.PriorityQueue
+
+	val, ok := q.Peek()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+}
