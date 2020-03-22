@@ -24,7 +24,7 @@ func (q *PriorityQueue) Push(val string, priority int) {
 	parentIndex := indexParent(indexPushedElem) // Get index of the parent of the last inserted element
 
 	for {
-		if q.nodes[parentIndex].priority >= priority {
+		if q.nodes[parentIndex].priority >= priority { // Check if parent node priority >= newly inserted node priority
 			return
 		}
 
@@ -49,7 +49,7 @@ func (q *PriorityQueue) Pop() (val string, ok bool) {
 	return val, true
 }
 
-// Peek obtains element from heap
+// Peek obtains element from PriorityQueue
 func (q *PriorityQueue) Peek() (val string, ok bool) {
 	if q.Len() == 0 {
 		return "", false
@@ -90,11 +90,13 @@ func (q *PriorityQueue) swap(index1, index2 int) {
 func (q *PriorityQueue) heapify(rootIndex int) {
 	largest := rootIndex
 
+	// Check if left child priority bigger than rootIndex
 	indexLeftChild, exist := q.indexChildLeft(rootIndex)
 	if exist && (q.nodes[indexLeftChild].priority > q.nodes[largest].priority) {
 		largest = indexLeftChild
 	}
 
+	// Check if right child priority bigger than (rootIndex or left child) priority
 	indexRightChild, exist := q.indexChildRight(rootIndex)
 	if exist && (q.nodes[indexRightChild].priority > q.nodes[largest].priority) {
 		largest = indexRightChild
