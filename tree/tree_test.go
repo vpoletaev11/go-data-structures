@@ -7,7 +7,10 @@ import (
 	"github.com/vpoletaev11/go-data-structures/tree"
 )
 
-func TestLen(t *testing.T) {
+// testing Heap:
+
+// test Len
+func TestLenHeap(t *testing.T) {
 	var heap tree.Heap
 
 	heap.Push(1)
@@ -18,7 +21,8 @@ func TestLen(t *testing.T) {
 	assert.Equal(t, 4, heap.Len())
 }
 
-func TestPush(t *testing.T) {
+// test Push
+func TestPushHeap(t *testing.T) {
 	var heap tree.Heap
 
 	heap.Push(1)
@@ -42,7 +46,8 @@ func TestPush(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
-func TestPopSuccess(t *testing.T) {
+// test Pop
+func TestPopHeapSuccess(t *testing.T) {
 	var heap tree.Heap
 
 	heap.Push(1)
@@ -70,7 +75,8 @@ func TestPopEmptyHeap(t *testing.T) {
 	assert.False(t, ok)
 }
 
-func TestPeekSuccess(t *testing.T) {
+// test Peek
+func TestPeekHeapSuccess(t *testing.T) {
 	var heap tree.Heap
 
 	heap.Push(1)
@@ -86,4 +92,62 @@ func TestPeekEmptyHeap(t *testing.T) {
 	elem, ok := heap.Peek()
 	assert.Equal(t, 0, elem)
 	assert.Equal(t, false, ok)
+}
+
+// Testing binary search tree:
+
+// test Insert & Find
+func TestInsertAndFindBST(t *testing.T) {
+	var b tree.BinarySearchTree
+
+	b.Insert(8)
+	b.Insert(8)
+	b.Insert(3)
+	b.Insert(10)
+	b.Insert(1)
+	b.Insert(6)
+	b.Insert(14)
+	b.Insert(4)
+	b.Insert(7)
+	b.Insert(13)
+
+	ok := b.Find(8)
+	assert.True(t, ok)
+
+	ok = b.Find(3)
+	assert.True(t, ok)
+
+	ok = b.Find(10)
+	assert.True(t, ok)
+
+	ok = b.Find(1)
+	assert.True(t, ok)
+
+	ok = b.Find(6)
+	assert.True(t, ok)
+
+	ok = b.Find(14)
+	assert.True(t, ok)
+
+	ok = b.Find(4)
+	assert.True(t, ok)
+
+	ok = b.Find(7)
+	assert.True(t, ok)
+
+	ok = b.Find(13)
+	assert.True(t, ok)
+
+	ok = b.Find(1000)
+	assert.False(t, ok)
+
+	ok = b.Find(0)
+	assert.False(t, ok)
+}
+
+func TestFindEmptyTreeBST(t *testing.T) {
+	var b tree.BinarySearchTree
+
+	ok := b.Find(10)
+	assert.False(t, ok)
 }
