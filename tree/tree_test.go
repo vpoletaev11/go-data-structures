@@ -151,3 +151,54 @@ func TestFindEmptyTreeBST(t *testing.T) {
 	ok := b.Find(10)
 	assert.False(t, ok)
 }
+
+// test Remove
+func TestRemoveBST(t *testing.T) {
+	var b tree.BinarySearchTree
+
+	b.Insert(8)
+	b.Insert(3)
+	b.Insert(1)
+	b.Insert(14)
+	b.Insert(4)
+	b.Insert(7)
+	b.Insert(2)
+	b.Insert(12)
+	b.Insert(11)
+	b.Insert(50)
+
+	b.Remove(1000)
+	b.Remove(0)
+
+	b.Remove(8)
+	assert.False(t, b.Find(8))
+
+	b.Remove(1)
+	assert.False(t, b.Find(1))
+
+	b.Remove(3)
+	assert.False(t, b.Find(3))
+
+	b.Remove(7)
+	assert.False(t, b.Find(7))
+
+	b.Remove(2)
+	assert.False(t, b.Find(2))
+
+	b.Remove(14)
+	assert.False(t, b.Find(14))
+
+	b.Remove(50)
+	assert.False(t, b.Find(50))
+
+	b.Remove(4)
+	assert.False(t, b.Find(4))
+
+	b.Remove(11)
+	assert.False(t, b.Find(11))
+
+	b.Remove(12)
+	assert.False(t, b.Find(12))
+
+	b.Remove(0)
+}
