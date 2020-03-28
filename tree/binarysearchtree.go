@@ -188,7 +188,11 @@ func (n *nodeBST) cutLeftmostNodeValueFRS() int {
 	for {
 		if root.leftChild.leftChild == nil {
 			data := root.leftChild.data
-			root.leftChild = nil
+			if root.leftChild.rightChild == nil {
+				root.leftChild = nil
+				return data
+			}
+			root.leftChild = root.leftChild.rightChild
 			return data
 		}
 		root = root.leftChild

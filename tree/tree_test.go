@@ -76,67 +76,83 @@ func TestPushPopPeekLenHeap(t *testing.T) {
 func TestInsertRemoveFindBST(t *testing.T) {
 	var b tree.BinarySearchTree
 
-	b.Insert(8)
-	b.Insert(8) // Inserting exists value
-	b.Insert(3)
-	b.Insert(1)
-	b.Insert(14)
-	b.Insert(4)
-	b.Insert(7)
-	b.Insert(2)
-	b.Insert(12)
-	b.Insert(11)
 	b.Insert(50)
+	b.Insert(50) // Inserting exists value
+	b.Insert(70)
+	b.Insert(60)
+	b.Insert(90)
+	b.Insert(65)
+	b.Insert(62)
+	b.Insert(100)
+	b.Insert(95)
+	b.Insert(110)
+	b.Insert(48)
+	b.Insert(49)
+	b.Insert(41)
+	b.Insert(42)
 
 	// Search and Delete values out of range
-	assert.False(t, b.Find(1000))
-	b.Remove(1000)
-
 	assert.False(t, b.Find(0))
 	b.Remove(0)
 
+	assert.False(t, b.Find(0))
+	b.Remove(1000)
+
 	// Valid Finding and Removing; checking that the value does not exist after deletion
-	assert.True(t, b.Find(8))
-	b.Remove(8)
-	assert.False(t, b.Find(8))
-
-	assert.True(t, b.Find(1))
-	b.Remove(1)
-	assert.False(t, b.Find(1))
-
-	assert.True(t, b.Find(3))
-	b.Remove(3)
-	assert.False(t, b.Find(3))
-
-	assert.True(t, b.Find(7))
-	b.Remove(7)
-	assert.False(t, b.Find(7))
-
-	assert.True(t, b.Find(2))
-	b.Remove(2)
-	assert.False(t, b.Find(2))
-
-	assert.True(t, b.Find(14))
-	b.Remove(14)
-	assert.False(t, b.Find(14))
-
 	assert.True(t, b.Find(50))
 	b.Remove(50)
 	assert.False(t, b.Find(50))
 
-	assert.True(t, b.Find(4))
-	b.Remove(4)
-	assert.False(t, b.Find(4))
+	assert.True(t, b.Find(60))
+	b.Remove(60)
+	assert.False(t, b.Find(60))
 
-	assert.True(t, b.Find(11))
-	b.Remove(11)
-	assert.False(t, b.Find(11))
+	assert.True(t, b.Find(65))
+	b.Remove(65)
+	assert.False(t, b.Find(65))
 
-	assert.True(t, b.Find(12))
-	b.Remove(12)
-	assert.False(t, b.Find(12))
+	assert.True(t, b.Find(62))
+	b.Remove(62)
+	assert.False(t, b.Find(62))
+
+	assert.True(t, b.Find(70))
+	b.Remove(70)
+	assert.False(t, b.Find(70))
+
+	assert.True(t, b.Find(100))
+	b.Remove(100)
+	assert.False(t, b.Find(100))
+
+	assert.True(t, b.Find(110))
+	b.Remove(110)
+	assert.False(t, b.Find(110))
+
+	assert.True(t, b.Find(95))
+	b.Remove(95)
+	assert.False(t, b.Find(95))
+
+	assert.True(t, b.Find(48))
+	b.Remove(48)
+	assert.False(t, b.Find(48))
+
+	assert.True(t, b.Find(41))
+	b.Remove(41)
+	assert.False(t, b.Find(41))
+
+	assert.True(t, b.Find(49))
+	b.Remove(49)
+	assert.False(t, b.Find(49))
+
+	assert.True(t, b.Find(90))
+	b.Remove(90)
+	assert.False(t, b.Find(90))
+
+	assert.True(t, b.Find(42))
+	b.Remove(42)
+	assert.False(t, b.Find(42))
 
 	// Search and Delete values in empty tree
 	assert.False(t, b.Find(0))
 	b.Remove(0)
+
 }
