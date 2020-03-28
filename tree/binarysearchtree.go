@@ -56,18 +56,14 @@ func (t *BinarySearchTree) Find(val int) bool {
 			if parent.rightChild == nil {
 				return false
 			}
-			if parent.rightChild.data == val {
-				return true
-			}
+
 			parent = parent.rightChild
 
 		case parent.data > val:
 			if parent.leftChild == nil {
 				return false
 			}
-			if parent.leftChild.data == val {
-				return true
-			}
+
 			parent = parent.leftChild
 
 		case parent.data == val:
