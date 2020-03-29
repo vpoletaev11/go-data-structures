@@ -7,10 +7,11 @@ import (
 	"github.com/vpoletaev11/go-data-structures/tree"
 )
 
-// testing Heap:
-func TestPushPopPeekLenHeap(t *testing.T) {
+// Testing Heap:
+func TestHeap(t *testing.T) {
 	var h tree.Heap
 
+	// Push
 	h.Push(1)
 	h.Push(2)
 	h.Push(3)
@@ -23,59 +24,86 @@ func TestPushPopPeekLenHeap(t *testing.T) {
 	// Len
 	assert.Equal(t, 8, h.Len())
 
-	// Peek valid
+	// Peek and Pop success
 	val, ok := h.Peek()
 	assert.Equal(t, 5521, val)
 	assert.True(t, ok)
 
-	// Pop valid
 	val, ok = h.Pop()
 	assert.Equal(t, 5521, val)
+	assert.True(t, ok)
+
+	val, ok = h.Peek()
+	assert.Equal(t, 111, val)
 	assert.True(t, ok)
 
 	val, ok = h.Pop()
 	assert.Equal(t, 111, val)
 	assert.True(t, ok)
 
+	val, ok = h.Peek()
+	assert.Equal(t, 99, val)
+	assert.True(t, ok)
+
 	val, ok = h.Pop()
 	assert.Equal(t, 99, val)
+	assert.True(t, ok)
+
+	val, ok = h.Peek()
+	assert.Equal(t, 13, val)
 	assert.True(t, ok)
 
 	val, ok = h.Pop()
 	assert.Equal(t, 13, val)
 	assert.True(t, ok)
 
+	val, ok = h.Peek()
+	assert.Equal(t, 4, val)
+	assert.True(t, ok)
+
 	val, ok = h.Pop()
 	assert.Equal(t, 4, val)
+	assert.True(t, ok)
+
+	val, ok = h.Peek()
+	assert.Equal(t, 3, val)
 	assert.True(t, ok)
 
 	val, ok = h.Pop()
 	assert.Equal(t, 3, val)
 	assert.True(t, ok)
 
+	val, ok = h.Peek()
+	assert.Equal(t, 2, val)
+	assert.True(t, ok)
+
 	val, ok = h.Pop()
 	assert.Equal(t, 2, val)
+	assert.True(t, ok)
+
+	val, ok = h.Peek()
+	assert.Equal(t, 1, val)
 	assert.True(t, ok)
 
 	val, ok = h.Pop()
 	assert.Equal(t, 1, val)
 	assert.True(t, ok)
 
-	// Pop empty heap
-	elem, ok := h.Pop()
-	assert.Equal(t, 0, elem)
+	// Peek and Pop in empty heap
+	val, ok = h.Peek()
+	assert.Equal(t, 0, val)
 	assert.False(t, ok)
 
-	// Peek empty heap
-	val, ok = h.Peek()
+	val, ok = h.Pop()
 	assert.Equal(t, 0, val)
 	assert.False(t, ok)
 }
 
 // Testing Binary Search Tree:
-func TestInsertRemoveFindBST(t *testing.T) {
+func TestBinarySearchTree(t *testing.T) {
 	var b tree.BinarySearchTree
 
+	// Insert
 	b.Insert(50)
 	b.Insert(50) // Inserting exists value
 	b.Insert(70)
@@ -98,7 +126,7 @@ func TestInsertRemoveFindBST(t *testing.T) {
 	assert.False(t, b.Find(0))
 	b.Remove(1000)
 
-	// Valid Finding and Removing; checking that the value does not exist after deletion
+	// Success Find and Remove; checking that the value does not exist after deletion
 	assert.True(t, b.Find(50))
 	b.Remove(50)
 	assert.False(t, b.Find(50))
@@ -154,5 +182,4 @@ func TestInsertRemoveFindBST(t *testing.T) {
 	// Search and Delete values in empty tree
 	assert.False(t, b.Find(0))
 	b.Remove(0)
-
 }
