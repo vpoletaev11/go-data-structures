@@ -56,47 +56,47 @@ func TestSliceStack(t *testing.T) {
 
 // Testing singly linked list based stack:
 func TestListStack(t *testing.T) {
-	var s stack.ListStack
+	var l stack.ListStack
 
 	// Push
-	s.Push("one")
-	s.Push("two")
-	s.Push("three")
+	l.Push("one")
+	l.Push("two")
+	l.Push("three")
 
 	// Len
-	assert.Equal(t, 3, s.Len())
+	assert.Equal(t, 3, l.Len())
 
 	// Success Peek and Pop
-	val, ok := s.Peek()
+	val, ok := l.Peek()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
-	val, ok = s.Pop()
+	val, ok = l.Pop()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
-	val, ok = s.Peek()
+	val, ok = l.Peek()
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
-	val, ok = s.Pop()
+	val, ok = l.Pop()
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
-	val, ok = s.Peek()
+	val, ok = l.Peek()
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
-	val, ok = s.Pop()
+	val, ok = l.Pop()
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
 	// Peek and Pop in empty stack
-	val, ok = s.Peek()
+	val, ok = l.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.Pop()
+	val, ok = l.Pop()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
