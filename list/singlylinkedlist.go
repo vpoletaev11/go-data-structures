@@ -13,37 +13,37 @@ type SinglyLinkedList struct {
 }
 
 // Len returns length of list
-func (l *SinglyLinkedList) Len() int {
-	pointer := l.head
-	i := 1
+func (s *SinglyLinkedList) Len() int {
+	node := s.head
+	len := 1
 	for {
-		if pointer.nextNode == nil {
-			return i
+		if node.nextNode == nil {
+			return len
 		}
-		pointer = pointer.nextNode
-		i++
+		node = node.nextNode
+		len++
 	}
 }
 
 // InsertHead adds value in begin of list
-func (l *SinglyLinkedList) InsertHead(val string) {
-	if l.head == nil {
-		l.head = &nodeSL{val, nil}
+func (s *SinglyLinkedList) InsertHead(val string) {
+	if s.head == nil {
+		s.head = &nodeSL{val, nil}
 		return
 	}
 
-	l.head = &nodeSL{val, l.head}
+	s.head = &nodeSL{val, s.head}
 }
 
 // Insert adds value in list by index.
 // If on index already exists value, it and all subsequent values will be moved by 1, and in its place will be inserted new value
-func (l *SinglyLinkedList) Insert(index int, val string) (ok bool) {
+func (s *SinglyLinkedList) Insert(index int, val string) (ok bool) {
 	if index == 0 {
-		l.InsertHead(val)
+		s.InsertHead(val)
 		return true
 	}
 
-	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be inserted
+	prevNode := s.nodeByIndex(index - 1) // Find node before of candidate node to be inserted
 	if prevNode == nil {
 		return false
 	}
@@ -52,57 +52,49 @@ func (l *SinglyLinkedList) Insert(index int, val string) (ok bool) {
 }
 
 // InsertTail adds value in end of list
-func (l *SinglyLinkedList) InsertTail(val string) {
-	if l.head == nil {
-		l.head = &nodeSL{val, nil}
+func (s *SinglyLinkedList) InsertTail(val string) {
+	if s.head == nil {
+		s.head = &nodeSL{val, nil}
 		return
 	}
 
-	lastNode := l.findLastNode()
+	lastNode := s.findLastNode()
 	lastNode.nextNode = &nodeSL{val, nil}
 }
 
 // GetHead obtains and deletes element from begin of list
-func (l *SinglyLinkedList) GetHead() (val string, ok bool) {
-	if l.head == nil {
+func (s *SinglyLinkedList) GetHead() (val string, ok bool) {
+	if s.head == nil {
 		return "", false
 	}
 
-	val = l.head.data
-	l.head = l.head.nextNode
+	val = s.head.data
+	s.head = s.head.nextNode
 	return val, true
 }
 
 // Get obtains and deletes element by index from list
-func (l *SinglyLinkedList) Get(index int) (val string, ok bool) {
-	if l.head == nil {
-		return "", false
-	}
-
+func (s *SinglyLinkedList) Get(index int) (val string, ok bool) {
 	if index == 0 {
-		// Similar to GetHead, but without check for empty of list
-		val = l.head.data
-		l.head = l.head.nextNode
-		return val, true
+		return s.GetHead()
 	}
 
-	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be obtained and deleted
+	prevNode := s.nodeByIndex(index - 1) // Find node before of candidate node to be obtained and deleted
 	if prevNode == nil || prevNode.nextNode == nil {
 		return "", false
 	}
 	val = prevNode.nextNode.data                   // Obtain node data
 	prevNode.nextNode = prevNode.nextNode.nextNode // prevNode now pointing to next node after deleted node.
-
 	return val, true
 }
 
 // GetTail obtains and deletes element from end of SinglyLinkedList
-func (l *SinglyLinkedList) GetTail() (val string, ok bool) {
-	if l.head == nil {
+func (s *SinglyLinkedList) GetTail() (val string, ok bool) {
+	if s.head == nil {
 		return "", false
 	}
 
-	p1, p2 := l.head, l.head // Initialize variables that stores pointers to the second-to-last and last nodes respectively
+	p1, p2 := s.head, s.head // Initialize variables that stores pointers to the second-to-last and last nodes respectively
 	for {
 		if p2.nextNode == nil {
 			break
@@ -113,35 +105,25 @@ func (l *SinglyLinkedList) GetTail() (val string, ok bool) {
 	}
 
 	if p1 == p2 { // checking if in list is only 1 element
-		l.head = nil
+		s.head = nil
 	}
 
 	val = p2.data
 	p1.nextNode = nil // Second-to-last node points to nil i.e now it last node
-
 	return val, true
 }
 
 // PeekHead obtains element from begin of list
-func (l SinglyLinkedList) PeekHead() (val string, ok bool) {
-	if l.head == nil {
+func (s *SinglyLinkedList) PeekHead() (val string, ok bool) {
+	if s.head == nil {
 		return "", false
 	}
-
-	return l.head.data, true
+	return s.head.data, true
 }
 
 // Peek obtains element by index from list
-func (l SinglyLinkedList) Peek(index int) (val string, ok bool) {
-	if l.head == nil {
-		return "", false
-	}
-
-	if index < 0 {
-		return "", false
-	}
-
-	node := l.nodeByIndex(index)
+func (s *SinglyLinkedList) Peek(index int) (val string, ok bool) {
+	node := s.nodeByIndex(index)
 	if node == nil {
 		return "", false
 	}
@@ -149,42 +131,45 @@ func (l SinglyLinkedList) Peek(index int) (val string, ok bool) {
 }
 
 // PeekTail obtains element from end of list
-func (l SinglyLinkedList) PeekTail() (val string, ok bool) {
-	if l.head == nil {
+func (s *SinglyLinkedList) PeekTail() (val string, ok bool) {
+	lastNode := s.findLastNode()
+	if lastNode == nil {
 		return "", false
 	}
-
-	lastNode := l.findLastNode()
-
 	return lastNode.data, true
 }
 
 // findLastNode finds last element in list
-func (l *SinglyLinkedList) findLastNode() *nodeSL {
-	pointer := l.head
+func (s *SinglyLinkedList) findLastNode() *nodeSL {
+	node := s.head
+	if node == nil {
+		return nil
+	}
+
 	for {
-		if pointer.nextNode == nil {
-			return pointer
+		if node.nextNode == nil {
+			return node
 		}
-		pointer = pointer.nextNode
+		node = node.nextNode
 	}
 }
 
 // nodeByIndex returns node from list by index
-func (l *SinglyLinkedList) nodeByIndex(index int) *nodeSL {
+func (s *SinglyLinkedList) nodeByIndex(index int) *nodeSL {
 	if index < 0 {
 		return nil
 	}
-	pointer := l.head
-	if pointer == nil {
+
+	node := s.head
+	if node == nil {
 		return nil
 	}
 
 	for i := 0; i < index; i++ {
-		if pointer.nextNode == nil { // Checking if last node is reached before of index node
+		if node.nextNode == nil { // Checking if last node is reached before of index node
 			return nil
 		}
-		pointer = pointer.nextNode
+		node = node.nextNode
 	}
-	return pointer
+	return node
 }

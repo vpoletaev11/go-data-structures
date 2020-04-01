@@ -14,39 +14,39 @@ type DoublyLinkedList struct {
 }
 
 // Len returns length of list
-func (l *DoublyLinkedList) Len() int {
-	pointer := l.head
-	i := 1
+func (d *DoublyLinkedList) Len() int {
+	node := d.head
+	len := 1
 	for {
-		if pointer.nextNode == nil {
-			return i
+		if node.nextNode == nil {
+			return len
 		}
-		pointer = pointer.nextNode
-		i++
+		node = node.nextNode
+		len++
 	}
 }
 
 // InsertHead adds value in begin of list
-func (l *DoublyLinkedList) InsertHead(val string) {
-	if l.head == nil {
-		l.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
+func (d *DoublyLinkedList) InsertHead(val string) {
+	if d.head == nil {
+		d.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
 		return
 	}
 
-	nextNode := l.head
-	l.head = &nodeDL{data: val, prevNode: nil, nextNode: nextNode} // Move head node in second place and insert new node on its place
-	nextNode.prevNode = l.head                                     // Second node prevNode field points to head node
+	nextNode := d.head
+	d.head = &nodeDL{data: val, prevNode: nil, nextNode: nextNode} // Move head node in second place and insert new node on its place
+	nextNode.prevNode = d.head                                     // Second node prevNode field points to head node
 }
 
 // Insert adds value in list by index.
 // If on index already exists value, it and all subsequent values will be moved by 1, and in its place will be inserted new value
-func (l *DoublyLinkedList) Insert(index int, val string) (ok bool) {
+func (d *DoublyLinkedList) Insert(index int, val string) (ok bool) {
 	if index == 0 {
-		l.InsertHead(val)
+		d.InsertHead(val)
 		return true
 	}
 
-	prevNode := l.nodeByIndex(index - 1) // Find node before of candidate node to be inserted
+	prevNode := d.nodeByIndex(index - 1) // Find node before of candidate node to be inserted
 	if prevNode == nil {
 		return false
 	}
@@ -63,84 +63,72 @@ func (l *DoublyLinkedList) Insert(index int, val string) (ok bool) {
 }
 
 // InsertTail adds value in end of list
-func (l *DoublyLinkedList) InsertTail(val string) {
-	if l.head == nil {
-		l.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
+func (d *DoublyLinkedList) InsertTail(val string) {
+	lastNode := d.findLastNode()
+	if lastNode == nil {
+		d.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
 		return
 	}
-
-	lastNode := l.findLastNode()
 	lastNode.nextNode = &nodeDL{data: val, prevNode: lastNode, nextNode: nil}
 }
 
 // GetHead obtains and deletes element from begin of list
-func (l *DoublyLinkedList) GetHead() (val string, ok bool) {
-	if l.head == nil {
+func (d *DoublyLinkedList) GetHead() (val string, ok bool) {
+	if d.head == nil {
 		return "", false
 	}
 
-	val = l.head.data
-	l.head = l.head.nextNode
-	if l.head != nil {
-		l.head.prevNode = nil
+	val = d.head.data
+	d.head = d.head.nextNode
+	if d.head != nil {
+		d.head.prevNode = nil
 	}
 	return val, true
 }
 
 // Get obtains and deletes element by index from list
-func (l *DoublyLinkedList) Get(index int) (val string, ok bool) {
-	if l.head == nil {
-		return "", false
-	}
-
+func (d *DoublyLinkedList) Get(index int) (val string, ok bool) {
 	if index == 0 {
-		return l.GetHead()
+		return d.GetHead()
 	}
 
-	node := l.nodeByIndex(index)
+	node := d.nodeByIndex(index)
 	if node == nil {
 		return "", false
 	}
 	val = node.data
 
 	node.prevNode.nextNode = node.nextNode // Previous node nextNode field now points to next node
-
 	return val, true
 }
 
 // GetTail obtains and deletes element from end of SinglyLinkedList
-func (l *DoublyLinkedList) GetTail() (val string, ok bool) {
-	if l.head == nil {
+func (d *DoublyLinkedList) GetTail() (val string, ok bool) {
+	lastNode := d.findLastNode()
+	if lastNode == nil {
 		return "", false
 	}
 
-	lastNode := l.findLastNode()
 	val = lastNode.data
 	if lastNode.prevNode == nil { // Check if lastNode is only one in list
-		l.head = nil
+		d.head = nil
 		return val, true
 	}
 	lastNode.prevNode.nextNode = nil // Second-to-last node now points to nil
-
 	return val, true
 }
 
 // PeekHead obtains element from begin of list
-func (l DoublyLinkedList) PeekHead() (val string, ok bool) {
-	if l.head == nil {
+func (d *DoublyLinkedList) PeekHead() (val string, ok bool) {
+	if d.head == nil {
 		return "", false
 	}
-
-	return l.head.data, true
+	return d.head.data, true
 }
 
 // Peek obtains element by index from list
-func (l DoublyLinkedList) Peek(index int) (val string, ok bool) {
-	if l.head == nil {
-		return "", false
-	}
-
-	node := l.nodeByIndex(index)
+func (d *DoublyLinkedList) Peek(index int) (val string, ok bool) {
+	node := d.nodeByIndex(index)
 	if node == nil {
 		return "", false
 	}
@@ -148,43 +136,45 @@ func (l DoublyLinkedList) Peek(index int) (val string, ok bool) {
 }
 
 // PeekTail obtains element from end of list
-func (l DoublyLinkedList) PeekTail() (val string, ok bool) {
-	if l.head == nil {
+func (d *DoublyLinkedList) PeekTail() (val string, ok bool) {
+	lastNode := d.findLastNode()
+	if lastNode == nil {
 		return "", false
 	}
-
-	lastNode := l.findLastNode()
-
 	return lastNode.data, true
 }
 
 // findLastNode finds last element in list
-func (l *DoublyLinkedList) findLastNode() *nodeDL {
-	pointer := l.head
+func (d *DoublyLinkedList) findLastNode() *nodeDL {
+	node := d.head
+	if node == nil {
+		return nil
+	}
+
 	for {
-		if pointer.nextNode == nil {
-			return pointer
+		if node.nextNode == nil {
+			return node
 		}
-		pointer = pointer.nextNode
+		node = node.nextNode
 	}
 }
 
 // nodeByIndex returns node from list by index
-func (l *DoublyLinkedList) nodeByIndex(index int) *nodeDL {
+func (d *DoublyLinkedList) nodeByIndex(index int) *nodeDL {
 	if index < 0 {
 		return nil
 	}
 
-	pointer := l.head
-	if pointer == nil {
+	node := d.head
+	if node == nil {
 		return nil
 	}
 
 	for i := 0; i < index; i++ {
-		if pointer.nextNode == nil { // Checking if last node is reached before of index node
+		if node.nextNode == nil { // Checking if last node is reached before of index node
 			return nil
 		}
-		pointer = pointer.nextNode
+		node = node.nextNode
 	}
-	return pointer
+	return node
 }
