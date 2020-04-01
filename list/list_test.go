@@ -8,623 +8,365 @@ import (
 )
 
 // Testing singly linked list:
-//
-// test Len
-func TestLenSinglyList(t *testing.T) {
+// HEAD
+func TestHEADSinglyLinkedList(t *testing.T) {
 	var l list.SinglyLinkedList
 
+	// InsertHead
 	l.InsertHead("one")
 	l.InsertHead("two")
 	l.InsertHead("three")
 
-	len := l.Len()
+	// Len
+	assert.Equal(t, 3, l.Len())
 
-	assert.Equal(t, 3, len)
-}
-
-// test InsertHead
-func TestInsertHeadSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetHead()
+	// Success PeekHead and GetHead
+	val, ok := l.PeekHead()
 	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Insert
-func TestInsertSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	ok := l.Insert(0, "two")
-	assert.True(t, ok)
-
-	ok = l.Insert(0, "one")
-	assert.True(t, ok)
-
-	ok = l.Insert(1, "three")
-	assert.True(t, ok)
-
-	ok = l.Insert(3, "four")
-	assert.True(t, ok)
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
 	val, ok = l.GetHead()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
+	val, ok = l.PeekHead()
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
 	val, ok = l.GetHead()
-	assert.Equal(t, "four", val)
+	assert.Equal(t, "two", val)
 	assert.True(t, ok)
+
+	val, ok = l.PeekHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// PeekHead and GetHead in empty list
+	val, ok = l.PeekHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
 	val, ok = l.GetHead()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
 
-func TestInsertOutOfRangeSinglyList(t *testing.T) {
+// BODY
+func TestBODYSinglyLinkedList(t *testing.T) {
 	var l list.SinglyLinkedList
 
+	// Insert out of range
 	ok := l.Insert(5, "one")
 	assert.False(t, ok)
 
 	ok = l.Insert(-1, "two")
 	assert.False(t, ok)
-}
 
-// test InsertTail
-func TestInsertTailSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertTail("one")
-	l.InsertTail("two")
-	l.InsertTail("three")
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "one", val)
+	// Success Insert
+	ok = l.Insert(0, "three")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
+	ok = l.Insert(0, "one")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "three", val)
+	ok = l.Insert(1, "two")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test GetHead
-func TestGetHeadSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "three", val)
+	ok = l.Insert(3, "four")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+	// Len
+	assert.Equal(t, 4, l.Len())
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestGetHeadEmptyListSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Get
-func TestGetSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.Get(2)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestGetEmptyListSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	val, ok := l.Get(0)
-	assert.False(t, ok)
-	assert.Equal(t, "", val)
-}
-
-func TestGetOutOfRangeSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-
-	val, ok := l.Get(5)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = l.Get(-1)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test GetTail
-func TestGetTailSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetTail()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestGetTailEmptyListSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	val, ok := l.GetTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test PeekHead
-func TestPeekHeadSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.PeekHead()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-}
-
-func TestPeekHeadEmptyListSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	val, ok := l.PeekHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Peek
-func TestPeekSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.Peek(2)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek(0)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-}
-
-func TestPeekEmptyListSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	val, ok := l.Peek(0)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestPeekOutOfRangeSinglyList(t *testing.T) {
-	var l list.SinglyLinkedList
-
-	l.InsertHead("one")
-
-	val, ok := l.Peek(2)
+	// Peek and Get out of range
+	val, ok := l.Peek(5)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
 	val, ok = l.Peek(-1)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
-}
 
-// test PeekTail
-func TestPeekTailSinglyListSuccess(t *testing.T) {
-	var l list.SinglyLinkedList
+	val, ok = l.Get(5)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
+	val, ok = l.Get(-1)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
-	val, ok := l.PeekTail()
+	// Success Peek and Get
+	val, ok = l.Peek(3)
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(3)
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(2)
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(2)
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(1)
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(1)
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(0)
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
+
+	val, ok = l.Get(0)
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// Peek and Get in empty list
+	val, ok = l.Peek(0)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+
+	val, ok = l.Get(0)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
-func TestPeekTailEmptyListSinglyList(t *testing.T) {
+// TAIL
+func TestTAILSinglyLinkedList(t *testing.T) {
 	var l list.SinglyLinkedList
 
+	// InsertTail
+	l.InsertTail("one")
+	l.InsertTail("two")
+	l.InsertTail("three")
+
+	// Len
+	assert.Equal(t, 3, l.Len())
+
+	// Success PeekTail and GetTail
 	val, ok := l.PeekTail()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.PeekTail()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.PeekTail()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// PeekTail and GetTail in empty list
+	val, ok = l.PeekTail()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+
+	val, ok = l.GetTail()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
 
 // Testing doubly linked list:
-//
-// test Len
-func TestLenDoublyList(t *testing.T) {
+// HEAD
+func TestHEADDoublyLinkedList(t *testing.T) {
 	var l list.DoublyLinkedList
 
+	// InsertHead
 	l.InsertHead("one")
 	l.InsertHead("two")
 	l.InsertHead("three")
 
-	len := l.Len()
+	// Len
+	assert.Equal(t, 3, l.Len())
 
-	assert.Equal(t, 3, len)
-}
-
-// test InsertHead
-func TestInsertHeadDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetHead()
+	// Success PeekHead and GetHead
+	val, ok := l.PeekHead()
 	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Insert
-func TestInsertDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	ok := l.Insert(0, "two")
-	assert.True(t, ok)
-
-	ok = l.Insert(0, "one")
-	assert.True(t, ok)
-
-	ok = l.Insert(1, "three")
-	assert.True(t, ok)
-
-	ok = l.Insert(3, "four")
-	assert.True(t, ok)
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
 	val, ok = l.GetHead()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
+	val, ok = l.PeekHead()
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
 	val, ok = l.GetHead()
-	assert.Equal(t, "four", val)
+	assert.Equal(t, "two", val)
 	assert.True(t, ok)
+
+	val, ok = l.PeekHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetHead()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// PeekHead and GetHead in empty list
+	val, ok = l.PeekHead()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
 	val, ok = l.GetHead()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
 
-func TestInsertOutOfRangeDoublyList(t *testing.T) {
+// BODY
+func TestBODYDoublyLinkedList(t *testing.T) {
 	var l list.DoublyLinkedList
 
-	ok := l.Insert(0, "one")
-	assert.True(t, ok)
-
-	ok = l.Insert(5, "two")
-	assert.False(t, ok)
-}
-
-func TestInsertOutOfRangeEmptyListDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
+	// // Insert out of range
 	ok := l.Insert(5, "one")
 	assert.False(t, ok)
 
 	ok = l.Insert(-1, "two")
 	assert.False(t, ok)
-}
 
-// test InsertTail
-func TestInsertTailDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertTail("one")
-	l.InsertTail("two")
-	l.InsertTail("three")
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "one", val)
+	// Success Insert
+	ok = l.Insert(0, "three")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
+	ok = l.Insert(0, "one")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "three", val)
+	ok = l.Insert(1, "two")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test GetHead
-func TestGetHeadDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetHead()
-	assert.Equal(t, "three", val)
+	ok = l.Insert(3, "four")
 	assert.True(t, ok)
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+	// Len
+	assert.Equal(t, 4, l.Len())
 
-	val, ok = l.GetHead()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Get
-func TestGetDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.Get(2)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Get(0)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestGetEmptyListDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	val, ok := l.Get(0)
-	assert.False(t, ok)
-	assert.Equal(t, "", val)
-}
-
-func TestGetOutOfRangeDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-
-	val, ok := l.Get(5)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = l.Get(-1)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test GetTail
-func TestGetTailDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.GetTail()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.GetTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestGetTailEmptyListDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	val, ok := l.GetTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test PeekHead
-func TestPeekHeadDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.PeekHead()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-}
-
-func TestPeekHeadEmptyListDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	val, ok := l.PeekHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// test Peek
-func TestPeekDoubleListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
-
-	val, ok := l.Peek(2)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek(0)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-}
-
-func TestPeekEmptyListDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	val, ok := l.Peek(0)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-func TestPeekOutOfRangeDoublyList(t *testing.T) {
-	var l list.DoublyLinkedList
-
-	l.InsertHead("one")
-
-	val, ok := l.Peek(2)
+	// // Peek and Get out of range
+	val, ok := l.Peek(5)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
 	val, ok = l.Peek(-1)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
-}
 
-// test PeekTail
-func TestPeekTailDoublyListSuccess(t *testing.T) {
-	var l list.DoublyLinkedList
+	val, ok = l.Get(5)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
-	l.InsertHead("one")
-	l.InsertHead("two")
-	l.InsertHead("three")
+	val, ok = l.Get(-1)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 
-	val, ok := l.PeekTail()
+	// Success Peek and Get
+	val, ok = l.Peek(3)
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(3)
+	assert.Equal(t, "four", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(2)
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(2)
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(1)
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Get(1)
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.Peek(0)
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
+
+	val, ok = l.Get(0)
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// Peek and Get in empty list
+	val, ok = l.Peek(0)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+
+	val, ok = l.Get(0)
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
 }
 
-func TestPeekTailEmptyListDoublyList(t *testing.T) {
+// TAIL
+func TestDoublyLinkedList(t *testing.T) {
 	var l list.DoublyLinkedList
 
+	// InsertTail
+	l.InsertTail("one")
+	l.InsertTail("two")
+	l.InsertTail("three")
+
+	// Len
+	assert.Equal(t, 3, l.Len())
+
+	// Success PeekTail and GetTail
 	val, ok := l.PeekTail()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "three", val)
+	assert.True(t, ok)
+
+	val, ok = l.PeekTail()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "two", val)
+	assert.True(t, ok)
+
+	val, ok = l.PeekTail()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	val, ok = l.GetTail()
+	assert.Equal(t, "one", val)
+	assert.True(t, ok)
+
+	// PeekTail and GetTail in empty list
+	val, ok = l.PeekTail()
+	assert.Equal(t, "", val)
+	assert.False(t, ok)
+
+	val, ok = l.GetTail()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
