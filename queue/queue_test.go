@@ -106,14 +106,14 @@ func TestPriorityQueue(t *testing.T) {
 	var p queue.PriorityQueue
 
 	// Push
-	p.Push("one", 1)
-	p.Push("two", 2)
-	p.Push("three", 3)
-	p.Push("four", 4)
-	p.Push("five", 5521)
-	p.Push("six", 111)
-	p.Push("seven", 99)
-	p.Push("eight", 13)
+	p.Enqueue("one", 1)
+	p.Enqueue("two", 2)
+	p.Enqueue("three", 3)
+	p.Enqueue("four", 4)
+	p.Enqueue("five", 5521)
+	p.Enqueue("six", 111)
+	p.Enqueue("seven", 99)
+	p.Enqueue("eight", 13)
 
 	// Len
 	assert.Equal(t, 8, p.Len())
@@ -123,7 +123,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "five", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "five", val)
 	assert.True(t, ok)
 
@@ -131,7 +131,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "six", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "six", val)
 	assert.True(t, ok)
 
@@ -139,7 +139,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "seven", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "seven", val)
 	assert.True(t, ok)
 
@@ -147,7 +147,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "eight", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "eight", val)
 	assert.True(t, ok)
 
@@ -155,7 +155,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "four", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "four", val)
 	assert.True(t, ok)
 
@@ -163,7 +163,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "three", val)
 	assert.True(t, ok)
 
@@ -171,7 +171,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "two", val)
 	assert.True(t, ok)
 
@@ -179,7 +179,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "one", val)
 	assert.True(t, ok)
 
@@ -188,7 +188,7 @@ func TestPriorityQueue(t *testing.T) {
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = p.Pop()
+	val, ok = p.Dequeue()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }

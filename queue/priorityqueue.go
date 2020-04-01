@@ -16,8 +16,8 @@ func (p *PriorityQueue) Len() int {
 	return len(p.nodes)
 }
 
-// Push appends element into PriorityQueue
-func (p *PriorityQueue) Push(val string, priority int) {
+// Enqueue appends element into PriorityQueue
+func (p *PriorityQueue) Enqueue(val string, priority int) {
 	p.nodes = append(p.nodes, nodePQ{data: val, priority: priority})
 
 	indexPushedElem := p.Len() - 1              // Get index of the last inserted element
@@ -34,8 +34,8 @@ func (p *PriorityQueue) Push(val string, priority int) {
 	}
 }
 
-// Pop obtains and deletes element with biggest priority from PriorityQueue
-func (p *PriorityQueue) Pop() (val string, ok bool) {
+// Dequeue obtains and deletes element with biggest priority from PriorityQueue
+func (p *PriorityQueue) Dequeue() (val string, ok bool) {
 	if p.Len() == 0 {
 		return "", false
 	}
