@@ -12,50 +12,50 @@ type PriorityQueue struct {
 }
 
 // Len returns length of the PriorityQueue
-func (q *PriorityQueue) Len() int {
-	return len(q.nodes)
+func (p *PriorityQueue) Len() int {
+	return len(p.nodes)
 }
 
 // Push appends element into PriorityQueue
-func (q *PriorityQueue) Push(val string, priority int) {
-	q.nodes = append(q.nodes, nodePQ{data: val, priority: priority})
+func (p *PriorityQueue) Push(val string, priority int) {
+	p.nodes = append(p.nodes, nodePQ{data: val, priority: priority})
 
-	indexPushedElem := q.Len() - 1              // Get index of the last inserted element
+	indexPushedElem := p.Len() - 1              // Get index of the last inserted element
 	parentIndex := indexParent(indexPushedElem) // Get index of the parent of the last inserted element
 
 	for {
-		if q.nodes[parentIndex].priority >= priority { // Check if parent node priority >= newly inserted node priority
+		if p.nodes[parentIndex].priority >= priority { // Check if parent node priority >= newly inserted node priority
 			return
 		}
 
-		q.swap(indexPushedElem, parentIndex)
+		p.swap(indexPushedElem, parentIndex)
 		indexPushedElem = parentIndex
 		parentIndex = indexParent(indexPushedElem)
 	}
 }
 
 // Pop obtains and deletes element with biggest priority from PriorityQueue
-func (q *PriorityQueue) Pop() (val string, ok bool) {
-	if q.Len() == 0 {
+func (p *PriorityQueue) Pop() (val string, ok bool) {
+	if p.Len() == 0 {
 		return "", false
 	}
 
-	val = q.nodes[0].data           // Obtain the root element
-	q.nodes[0] = q.nodes[q.Len()-1] // Set the last node in place of the root node
-	q.nodes = q.nodes[:q.Len()-1]   // Remove the last node
+	val = p.nodes[0].data           // Obtain the root element
+	p.nodes[0] = p.nodes[p.Len()-1] // Set the last node in place of the root node
+	p.nodes = p.nodes[:p.Len()-1]   // Remove the last node
 
-	q.heapify(0)
+	p.heapify(0)
 
 	return val, true
 }
 
 // Peek obtains element from PriorityQueue
-func (q *PriorityQueue) Peek() (val string, ok bool) {
-	if q.Len() == 0 {
+func (p *PriorityQueue) Peek() (val string, ok bool) {
+	if p.Len() == 0 {
 		return "", false
 	}
 
-	return q.nodes[0].data, true
+	return p.nodes[0].data, true
 }
 
 // indexParent returns parent node index for inserted node index
@@ -64,46 +64,46 @@ func indexParent(i int) int {
 }
 
 // indexChildLeft returns index of the left child for inserted parent index
-func (q *PriorityQueue) indexChildLeft(parentIndex int) (childIndex int, exist bool) {
+func (p *PriorityQueue) indexChildLeft(parentIndex int) (childIndex int, exist bool) {
 	childIndex = 2*parentIndex + 1
-	if childIndex > q.Len()-1 {
+	if childIndex > p.Len()-1 {
 		return 0, false
 	}
 	return childIndex, true
 }
 
 // indexChildRight returns index of the right child for inserted parent index
-func (q *PriorityQueue) indexChildRight(parentIndex int) (childIndex int, exist bool) {
+func (p *PriorityQueue) indexChildRight(parentIndex int) (childIndex int, exist bool) {
 	childIndex = 2*parentIndex + 2
-	if childIndex > q.Len()-1 {
+	if childIndex > p.Len()-1 {
 		return 0, false
 	}
 	return childIndex, true
 }
 
 // swap swaps tho nodes
-func (q *PriorityQueue) swap(index1, index2 int) {
-	q.nodes[index1], q.nodes[index2] = q.nodes[index2], q.nodes[index1]
+func (p *PriorityQueue) swap(index1, index2 int) {
+	p.nodes[index1], p.nodes[index2] = p.nodes[index2], p.nodes[index1]
 }
 
 // heapify restores the property of ordering in the entire subtree, the root of which is the rootIndex
-func (q *PriorityQueue) heapify(rootIndex int) {
+func (p *PriorityQueue) heapify(rootIndex int) {
 	largest := rootIndex
 
 	// Check if left child priority bigger than rootIndex
-	indexLeftChild, exist := q.indexChildLeft(rootIndex)
-	if exist && (q.nodes[indexLeftChild].priority > q.nodes[largest].priority) {
+	indexLeftChild, exist := p.indexChildLeft(rootIndex)
+	if exist && (p.nodes[indexLeftChild].priority > p.nodes[largest].priority) {
 		largest = indexLeftChild
 	}
 
 	// Check if right child priority bigger than (rootIndex or left child) priority
-	indexRightChild, exist := q.indexChildRight(rootIndex)
-	if exist && (q.nodes[indexRightChild].priority > q.nodes[largest].priority) {
+	indexRightChild, exist := p.indexChildRight(rootIndex)
+	if exist && (p.nodes[indexRightChild].priority > p.nodes[largest].priority) {
 		largest = indexRightChild
 	}
 
 	if rootIndex != largest {
-		q.swap(rootIndex, largest)
-		q.heapify(largest)
+		p.swap(rootIndex, largest)
+		p.heapify(largest)
 	}
 }
