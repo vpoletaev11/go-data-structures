@@ -50,9 +50,15 @@ func (l *DoublyLinkedList) Insert(index int, val string) (ok bool) {
 	if prevNode == nil {
 		return false
 	}
+	if prevNode.nextNode != nil {
+		nextNode := prevNode.nextNode
+		newNode := &nodeDL{data: val, prevNode: prevNode, nextNode: nextNode}
 
-	// prevNode now pointing on inserted node which pointing to node who was here before and prevNode
-	prevNode.nextNode = &nodeDL{data: val, prevNode: prevNode, nextNode: prevNode.nextNode}
+		prevNode.nextNode = newNode
+		nextNode.prevNode = newNode
+		return true
+	}
+	prevNode.nextNode = &nodeDL{data: val, prevNode: prevNode, nextNode: nil}
 	return true
 }
 
@@ -88,13 +94,7 @@ func (l *DoublyLinkedList) Get(index int) (val string, ok bool) {
 	}
 
 	if index == 0 {
-		// Similar to GetHead, but without check for empty of list
-		val = l.head.data
-		l.head = l.head.nextNode
-		if l.head != nil {
-			l.head.prevNode = nil
-		}
-		return val, true
+		return l.GetHead()
 	}
 
 	node := l.nodeByIndex(index)
@@ -103,9 +103,6 @@ func (l *DoublyLinkedList) Get(index int) (val string, ok bool) {
 	}
 	val = node.data
 
-	if node.nextNode == nil {
-		node.prevNode.nextNode = nil // Previous node nextNode field now points to nil
-	}
 	node.prevNode.nextNode = node.nextNode // Previous node nextNode field now points to next node
 
 	return val, true
