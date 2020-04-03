@@ -11,24 +11,24 @@ func (s *SliceStack) Len() int {
 }
 
 // Push adds element into stack
-func (s *SliceStack) Push(element string) {
-	s.elements = append(s.elements, element)
+func (s *SliceStack) Push(val string) {
+	s.elements = append(s.elements, val)
 }
 
 // Pop obtains and deletes element from stack
-func (s *SliceStack) Pop() (element string, status bool) {
+func (s *SliceStack) Pop() (val string, status bool) {
 	if s.Len() == 0 {
 		return "", false
 	}
 
 	index := s.Len() - 1            // Get the index of the last inserted element.
-	element = s.elements[index]     // Obtain the last inserted element.
+	val = s.elements[index]     // Obtain the last inserted element.
 	s.elements = s.elements[:index] // Remove the last inserted element.
-	return element, true
+	return val, true
 }
 
 // Peek obtains element from stack
-func (s *SliceStack) Peek() (element string, status bool) {
+func (s *SliceStack) Peek() (val string, status bool) {
 	if s.Len() == 0 {
 		return "", false
 	}

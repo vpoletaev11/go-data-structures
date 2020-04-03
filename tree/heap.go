@@ -13,15 +13,15 @@ func (h *Heap) Len() int {
 	return len(h.elements)
 }
 
-// Push appends element into Heap
-func (h *Heap) Push(element int) {
-	h.elements = append(h.elements, element)
+// Push appends value into Heap
+func (h *Heap) Push(val int) {
+	h.elements = append(h.elements, val)
 
 	indexPushedElem := h.Len() - 1              // Get index of the last inserted element
 	parentIndex := indexParent(indexPushedElem) // Get index of the parent of the last inserted element
 
 	for {
-		if h.elements[parentIndex] >= element {
+		if h.elements[parentIndex] >= val {
 			return
 		}
 
@@ -32,22 +32,22 @@ func (h *Heap) Push(element int) {
 }
 
 // Pop obtains and deletes root element from heap
-func (h *Heap) Pop() (element int, status bool) {
+func (h *Heap) Pop() (val int, status bool) {
 	if h.Len() == 0 {
 		return 0, false
 	}
 
-	element = h.elements[0]               // Obtain the root element
+	val = h.elements[0]               // Obtain the root element
 	h.elements[0] = h.elements[h.Len()-1] // Set the last node in place of the root node
 	h.elements = h.elements[:h.Len()-1]   // Remove the last node
 
 	h.heapify(0)
 
-	return element, true
+	return val, true
 }
 
-// Peek obtains element from heap
-func (h *Heap) Peek() (element int, status bool) {
+// Peek obtains value from heap
+func (h *Heap) Peek() (val int, status bool) {
 	if h.Len() == 0 {
 		return 0, false
 	}

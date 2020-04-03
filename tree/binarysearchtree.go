@@ -16,12 +16,12 @@ type BinarySearchTree struct {
 }
 
 // Insert adds value into BinarySearchTree
-func (t *BinarySearchTree) Insert(val int) {
-	if t.root == nil {
-		t.root = &nodeBST{data: val, leftChild: nil, rightChild: nil}
+func (b *BinarySearchTree) Insert(val int) {
+	if b.root == nil {
+		b.root = &nodeBST{data: val, leftChild: nil, rightChild: nil}
 		return
 	}
-	parent := t.root
+	parent := b.root
 	for {
 		switch {
 		case parent.data < val:
@@ -45,25 +45,23 @@ func (t *BinarySearchTree) Insert(val int) {
 }
 
 // Find checks if value exists in tree
-func (t *BinarySearchTree) Find(val int) bool {
-	if t.root == nil {
+func (b *BinarySearchTree) Find(val int) bool {
+	if b.root == nil {
 		return false
 	}
-	parent := t.root
+	parent := b.root
 	for {
 		switch {
 		case parent.data < val:
 			if parent.rightChild == nil {
 				return false
 			}
-
 			parent = parent.rightChild
 
 		case parent.data > val:
 			if parent.leftChild == nil {
 				return false
 			}
-
 			parent = parent.leftChild
 
 		case parent.data == val:
@@ -73,27 +71,27 @@ func (t *BinarySearchTree) Find(val int) bool {
 }
 
 // Remove removes value from tree
-func (t *BinarySearchTree) Remove(val int) {
-	if t.root == nil {
+func (b *BinarySearchTree) Remove(val int) {
+	if b.root == nil {
 		return
 	}
 
-	if t.root.data == val {
-		if t.root.noChildren() {
-			t.root = nil
+	if b.root.data == val {
+		if b.root.noChildren() {
+			b.root = nil
 			return
 		}
 
-		if t.root.hasTwoChild() {
-			t.root.data = t.root.cutLeftmostNodeValueFRS()
+		if b.root.hasTwoChild() {
+			b.root.data = b.root.cutLeftmostNodeValueFRS()
 			return
 		}
 
-		t.root.removeNodeWithOneChild()
+		b.root.removeNodeWithOneChild()
 		return
 	}
 
-	parent := t.root
+	parent := b.root
 	for {
 		switch {
 		case parent.data < val:
@@ -168,9 +166,9 @@ func (n *nodeBST) removeNodeWithOneChild() {
 	}
 }
 
-// cutLeftmostNodeFRS obtains leftmost node data and deletes leftmost node From Right Subtree of node n
+// cutLeftmostNodeFRS obtains leftmost node data and deletes leftmost node From Right Subtree
 func (n *nodeBST) cutLeftmostNodeValueFRS() int {
-	if n.rightChild.leftChild == nil {
+	if n.rightChild.leftChild == nil { // case when right subtree haven't left child
 		data := n.rightChild.data
 		if n.rightChild.rightChild == nil {
 			n.rightChild = nil

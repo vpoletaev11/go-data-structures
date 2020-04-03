@@ -11,23 +11,23 @@ func (s *SliceQueue) Len() int {
 }
 
 // Enqueue adds element into queue
-func (s *SliceQueue) Enqueue(element string) {
-	s.elements = append(s.elements, element)
+func (s *SliceQueue) Enqueue(val string) {
+	s.elements = append(s.elements, val)
 }
 
 // Dequeue obtains and deletes element from queue
-func (s *SliceQueue) Dequeue() (element string, ok bool) {
+func (s *SliceQueue) Dequeue() (val string, ok bool) {
 	if s.Len() == 0 {
 		return "", false
 	}
 
-	element = s.elements[0]     // Obtain the first inserted element.
+	val = s.elements[0]     // Obtain the first inserted element.
 	s.elements = s.elements[1:] // Remove the first inserted element.
-	return element, true
+	return val, true
 }
 
 // Peek obtains element from queue
-func (s *SliceQueue) Peek() (element string, ok bool) {
+func (s *SliceQueue) Peek() (val string, ok bool) {
 	if s.Len() == 0 {
 		return "", false
 	}
