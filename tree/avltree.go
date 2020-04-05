@@ -26,6 +26,7 @@ func (b *AVLTree) Insert(val int) {
 		}
 		return
 	}
+
 	parent := b.root
 	for {
 		switch {
@@ -38,6 +39,8 @@ func (b *AVLTree) Insert(val int) {
 					leftChild:  nil,
 					rightChild: nil,
 				}
+
+				parent.fixHeight()
 				return
 			}
 			parent = parent.rightChild
@@ -51,6 +54,8 @@ func (b *AVLTree) Insert(val int) {
 					leftChild:  nil,
 					rightChild: nil,
 				}
+
+				parent.fixHeight()
 				return
 			}
 			parent = parent.leftChild
@@ -59,4 +64,32 @@ func (b *AVLTree) Insert(val int) {
 			return
 		}
 	}
+}
+
+// fixHeight recalculates height of the node and node ancestors
+func (n *nodeAVL) fixHeight() {
+	if n == nil {
+		return
+	}
+
+	if n.leftChild == nil {
+		n.height = n.rightChild.height + 1
+		n.parent.fixHeight()
+		return
+	}
+
+	if n.rightChild == nil {
+		n.height = n.leftChild.height + 1
+		n.parent.fixHeight()
+		return
+	}
+
+	if n.leftChild.height > n.rightChild.height {
+		n.height = n.leftChild.height + 1
+		n.parent.fixHeight()
+		return
+	}
+
+	n.height = n.rightChild.height + 1
+	n.parent.fixHeight()
 }
