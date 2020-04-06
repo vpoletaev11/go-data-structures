@@ -183,3 +183,7 @@ func TestBinarySearchTree(t *testing.T) {
 	assert.False(t, b.Find(0))
 	b.Remove(0)
 }
+
+func TestTemp(t *testing.T) {
+	tree.A()
+}

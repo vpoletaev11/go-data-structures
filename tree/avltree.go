@@ -1,5 +1,7 @@
 package tree
 
+import "fmt"
+
 // nodeAVL - node of AVL tree
 type nodeAVL struct {
 	data       int
@@ -41,6 +43,10 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
+				if unbalancedNode := parent.findUnbalancedNode(); unbalancedNode != nil {
+					fmt.Println("UN:", unbalancedNode)
+					unbalancedNode.smallLeftRotation()
+				}
 				return
 			}
 			parent = parent.rightChild
@@ -56,6 +62,10 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
+				// if unbalancedNode := parent.findUnbalancedNode(); unbalancedNode != nil {
+				// 	fmt.Println("UN:", unbalancedNode)
+				// 	unbalancedNode.smallLeftRotation()
+				// }
 				return
 			}
 			parent = parent.leftChild
@@ -92,4 +102,59 @@ func (n *nodeAVL) fixHeight() {
 
 	n.height = n.rightChild.height + 1
 	n.parent.fixHeight()
+}
+
+func (n *nodeAVL) findUnbalancedNode() *nodeAVL {
+	node := n
+	var balanceFactor int
+	for {
+		switch {
+		case node.leftChild == nil:
+			balanceFactor = 0 - node.rightChild.height
+
+		case node.rightChild == nil:
+			balanceFactor = node.leftChild.height - 0
+
+		default:
+			balanceFactor = node.leftChild.height - node.rightChild.height
+		}
+
+		if balanceFactor > 1 {
+			return node
+		}
+		if balanceFactor < -1 {
+			return node
+		}
+
+		if node.parent == nil {
+			return nil
+		}
+		node = node.parent
+	}
+}
+
+func (n *nodeAVL) smallLeftRotation() {
+	n.data, n.rightChild.data = n.rightChild.data, n.data
+	n.leftChild = n.rightChild
+	n.leftChild.height = 1
+
+	n.rightChild = n.rightChild.rightChild
+	n.rightChild.parent = n
+
+	n.leftChild.rightChild = nil
+
+	n.fixHeight()
+	fmt.Println("After rebalancing root:", n)
+	fmt.Println("After rebalancing root LC:", n.leftChild)
+	fmt.Println("After rebalancing root RC:", n.rightChild)
+}
+
+func A() {
+	var a AVLTree
+
+	a.Insert(100)
+	a.Insert(120)
+	a.Insert(130)
+	a.Insert(150)
+	fmt.Println(a.root.rightChild.rightChild)
 }
