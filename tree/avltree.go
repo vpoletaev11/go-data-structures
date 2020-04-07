@@ -1,7 +1,5 @@
 package tree
 
-import "fmt"
-
 // nodeAVL - node of AVL tree
 type nodeAVL struct {
 	data       int
@@ -43,10 +41,6 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
-				if unbalancedNode := parent.findUnbalancedNode(); unbalancedNode != nil {
-					fmt.Println("UN:", unbalancedNode)
-					unbalancedNode.smallLeftRotation()
-				}
 				return
 			}
 			parent = parent.rightChild
@@ -62,10 +56,6 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
-				// if unbalancedNode := parent.findUnbalancedNode(); unbalancedNode != nil {
-				// 	fmt.Println("UN:", unbalancedNode)
-				// 	unbalancedNode.smallLeftRotation()
-				// }
 				return
 			}
 			parent = parent.leftChild
@@ -82,26 +72,27 @@ func (n *nodeAVL) fixHeight() {
 		return
 	}
 
-	if n.leftChild == nil {
+	switch {
+	case n.rightChild == nil && n.leftChild == nil:
+		n.height = 1
+		n.parent.fixHeight()
+
+	case n.leftChild == nil:
 		n.height = n.rightChild.height + 1
 		n.parent.fixHeight()
-		return
-	}
 
-	if n.rightChild == nil {
+	case n.rightChild == nil:
 		n.height = n.leftChild.height + 1
 		n.parent.fixHeight()
-		return
-	}
 
-	if n.leftChild.height > n.rightChild.height {
+	case n.leftChild.height > n.rightChild.height:
 		n.height = n.leftChild.height + 1
 		n.parent.fixHeight()
-		return
-	}
 
-	n.height = n.rightChild.height + 1
-	n.parent.fixHeight()
+	default:
+		n.height = n.rightChild.height + 1
+		n.parent.fixHeight()
+	}
 }
 
 func (n *nodeAVL) findUnbalancedNode() *nodeAVL {
@@ -133,28 +124,36 @@ func (n *nodeAVL) findUnbalancedNode() *nodeAVL {
 	}
 }
 
-func (n *nodeAVL) smallLeftRotation() {
+func (n *nodeAVL) rotationR() {
+	n.data, n.leftChild.data = n.leftChild.data, n.data
+
+	n.rightChild = &nodeAVL{
+		data:       n.leftChild.data,
+		height:     n.leftChild.height,
+		parent:     n,
+		leftChild:  n.leftChild.rightChild,
+		rightChild: n.rightChild,
+	}
+
+	n.leftChild = n.leftChild.leftChild
+	n.leftChild.parent = n
+
+	n.rightChild.fixHeight()
+}
+
+func (n *nodeAVL) rotationL() {
 	n.data, n.rightChild.data = n.rightChild.data, n.data
-	n.leftChild = n.rightChild
-	n.leftChild.height = 1
+
+	n.leftChild = &nodeAVL{
+		data:       n.rightChild.data,
+		height:     n.rightChild.height,
+		parent:     n,
+		leftChild:  n.leftChild,
+		rightChild: n.rightChild.leftChild,
+	}
 
 	n.rightChild = n.rightChild.rightChild
 	n.rightChild.parent = n
 
-	n.leftChild.rightChild = nil
-
-	n.fixHeight()
-	fmt.Println("After rebalancing root:", n)
-	fmt.Println("After rebalancing root LC:", n.leftChild)
-	fmt.Println("After rebalancing root RC:", n.rightChild)
-}
-
-func A() {
-	var a AVLTree
-
-	a.Insert(100)
-	a.Insert(120)
-	a.Insert(130)
-	a.Insert(150)
-	fmt.Println(a.root.rightChild.rightChild)
+	n.leftChild.fixHeight()
 }
