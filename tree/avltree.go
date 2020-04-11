@@ -14,10 +14,10 @@ type AVLTree struct {
 	root *nodeAVL
 }
 
-// Insert adds value into AVL tree
-func (b *AVLTree) Insert(val int) {
-	if b.root == nil {
-		b.root = &nodeAVL{
+// Insert adds value into tree
+func (a *AVLTree) Insert(val int) {
+	if a.root == nil {
+		a.root = &nodeAVL{
 			data:       val,
 			height:     1,
 			parent:     nil,
@@ -27,7 +27,7 @@ func (b *AVLTree) Insert(val int) {
 		return
 	}
 
-	parent := b.root
+	parent := a.root
 	for {
 		switch {
 		case parent.data < val:
@@ -70,6 +70,32 @@ func (b *AVLTree) Insert(val int) {
 	}
 }
 
+// Find checks if value exists in tree
+func (a *AVLTree) Find(val int) bool {
+	if a.root == nil {
+		return false
+	}
+	parent := a.root
+	for {
+		switch {
+		case parent.data < val:
+			if parent.rightChild == nil {
+				return false
+			}
+			parent = parent.rightChild
+
+		case parent.data > val:
+			if parent.leftChild == nil {
+				return false
+			}
+			parent = parent.leftChild
+
+		case parent.data == val:
+			return true
+		}
+	}
+}
+
 // fixHeight recalculates height of the node and node ancestors
 func (n *nodeAVL) fixHeight() {
 	if n == nil {
@@ -99,6 +125,9 @@ func (n *nodeAVL) fixHeight() {
 	}
 }
 
+// findUnbalancedNode checks if inputted node and it ancestors are unbalanced.
+// In case when node are unbalanced will be returned unbalanced node and it balance factor.
+// In case when unbalanced node not found will be returned nil and 0.
 func (n *nodeAVL) findUnbalancedNode() (unbalancedNode *nodeAVL, balanceFactor int) {
 	node := n
 	for {
@@ -127,6 +156,7 @@ func (n *nodeAVL) findUnbalancedNode() (unbalancedNode *nodeAVL, balanceFactor i
 	}
 }
 
+// rotationR makes right rotation
 func (n *nodeAVL) rotationR() {
 	n.data, n.leftChild.data = n.leftChild.data, n.data
 
@@ -146,6 +176,7 @@ func (n *nodeAVL) rotationR() {
 	n.rightChild.fixHeight()
 }
 
+// rotationL makes left rotation
 func (n *nodeAVL) rotationL() {
 	n.data, n.rightChild.data = n.rightChild.data, n.data
 
@@ -165,16 +196,19 @@ func (n *nodeAVL) rotationL() {
 	n.leftChild.fixHeight()
 }
 
+// rotationRL makes right-left (big left) rotation
 func (n *nodeAVL) rotationRL() {
 	n.rightChild.rotationR()
 	n.rotationL()
 }
 
+// rotationLR makes left-right (big right) rotation
 func (n *nodeAVL) rotationLR() {
 	n.leftChild.rotationL()
 	n.rotationR()
 }
 
+// balanceNode balances node by using one of rotaions if it needed
 func balanceNode(unbalancedNode *nodeAVL, balanceFactor int) {
 	if unbalancedNode == nil {
 		return
