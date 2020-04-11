@@ -41,6 +41,8 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
+				unbalancedNode, balanceFactor := parent.findUnbalancedNode()
+				balanceNode(unbalancedNode, balanceFactor)
 				return
 			}
 			parent = parent.rightChild
@@ -56,6 +58,8 @@ func (b *AVLTree) Insert(val int) {
 				}
 
 				parent.fixHeight()
+				unbalancedNode, balanceFactor := parent.findUnbalancedNode()
+				balanceNode(unbalancedNode, balanceFactor)
 				return
 			}
 			parent = parent.leftChild
@@ -95,9 +99,8 @@ func (n *nodeAVL) fixHeight() {
 	}
 }
 
-func (n *nodeAVL) findUnbalancedNode() *nodeAVL {
+func (n *nodeAVL) findUnbalancedNode() (unbalancedNode *nodeAVL, balanceFactor int) {
 	node := n
-	var balanceFactor int
 	for {
 		switch {
 		case node.leftChild == nil:
@@ -111,14 +114,14 @@ func (n *nodeAVL) findUnbalancedNode() *nodeAVL {
 		}
 
 		if balanceFactor > 1 {
-			return node
+			return node, balanceFactor
 		}
 		if balanceFactor < -1 {
-			return node
+			return node, balanceFactor
 		}
 
 		if node.parent == nil {
-			return nil
+			return nil, 0
 		}
 		node = node.parent
 	}
@@ -170,4 +173,31 @@ func (n *nodeAVL) rotationRL() {
 func (n *nodeAVL) rotationLR() {
 	n.leftChild.rotationL()
 	n.rotationR()
+}
+
+func balanceNode(unbalancedNode *nodeAVL, balanceFactor int) {
+	if unbalancedNode == nil {
+		return
+	}
+
+	switch {
+
+	case balanceFactor == 2 && unbalancedNode.leftChild.leftChild == nil:
+		unbalancedNode.rotationLR()
+
+	case balanceFactor == -2 && unbalancedNode.rightChild.rightChild == nil:
+		unbalancedNode.rotationRL()
+
+	case balanceFactor == -2 && unbalancedNode.rightChild.leftChild.height > unbalancedNode.rightChild.rightChild.height:
+		unbalancedNode.rotationRL()
+
+	case balanceFactor == 2 && unbalancedNode.leftChild.rightChild.height > unbalancedNode.leftChild.leftChild.height:
+		unbalancedNode.rotationLR()
+
+	case balanceFactor == 2:
+		unbalancedNode.rotationR()
+
+	case balanceFactor == -2:
+		unbalancedNode.rotationL()
+	}
 }
