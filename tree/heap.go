@@ -37,7 +37,7 @@ func (h *Heap) Pop() (val int, status bool) {
 		return 0, false
 	}
 
-	val = h.elements[0]               // Obtain the root element
+	val = h.elements[0]                   // Obtain the root element
 	h.elements[0] = h.elements[h.Len()-1] // Set the last node in place of the root node
 	h.elements = h.elements[:h.Len()-1]   // Remove the last node
 
