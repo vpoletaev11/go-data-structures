@@ -96,6 +96,103 @@ func (a *AVLTree) Find(val int) bool {
 	}
 }
 
+// Remove removes value from tree
+func (a *AVLTree) Remove(val int) {
+	if a.root == nil {
+		return
+	}
+
+	if a.root.data == val {
+		if a.root.noChildren() {
+			a.root = nil
+			return
+		}
+
+		if a.root.hasTwoChildren() {
+			data, cutNodeParent := a.root.cutLeftmostNodeValueFRS()
+			a.root.data = data
+
+			unbalancedNode, balanceFactor := cutNodeParent.findUnbalancedNode()
+			balanceNode(unbalancedNode, balanceFactor)
+			return
+		}
+
+		removeNodeWithOneChild(a.root)
+		a.root.fixHeight()
+		return
+	}
+
+	parent := a.root
+	for {
+		switch {
+		case parent.data < val:
+			if parent.rightChild == nil {
+				return
+			}
+
+			if parent.rightChild.data == val {
+				if parent.rightChild.noChildren() {
+					parent.rightChild = nil
+
+					parent.fixHeight()
+					unbalancedNode, balanceFactor := parent.findUnbalancedNode()
+					balanceNode(unbalancedNode, balanceFactor)
+					return
+				}
+
+				if parent.rightChild.hasTwoChildren() {
+					data, cutNodeParent := parent.rightChild.cutLeftmostNodeValueFRS()
+					parent.rightChild.data = data
+
+					unbalancedNode, balanceFactor := cutNodeParent.findUnbalancedNode()
+					balanceNode(unbalancedNode, balanceFactor)
+					return
+				}
+
+				removeNodeWithOneChild(parent.rightChild)
+
+				parent.rightChild.fixHeight()
+				unbalancedNode, balanceFactor := parent.rightChild.findUnbalancedNode()
+				balanceNode(unbalancedNode, balanceFactor)
+				return
+			}
+			parent = parent.rightChild
+
+		case parent.data > val:
+			if parent.leftChild == nil {
+				return
+			}
+			if parent.leftChild.data == val {
+				if parent.leftChild.noChildren() {
+					parent.leftChild = nil
+
+					parent.fixHeight()
+					unbalancedNode, balanceFactor := parent.findUnbalancedNode()
+					balanceNode(unbalancedNode, balanceFactor)
+					return
+				}
+
+				if parent.leftChild.hasTwoChildren() {
+					data, cutNodeParent := parent.leftChild.cutLeftmostNodeValueFRS() ////////////////////////// cutted !!!!!!!
+					parent.leftChild.data = data
+
+					unbalancedNode, balanceFactor := cutNodeParent.findUnbalancedNode()
+					balanceNode(unbalancedNode, balanceFactor)
+					return
+				}
+
+				removeNodeWithOneChild(parent.leftChild)
+
+				parent.leftChild.fixHeight()
+				unbalancedNode, balanceFactor := parent.leftChild.findUnbalancedNode()
+				balanceNode(unbalancedNode, balanceFactor)
+				return
+			}
+			parent = parent.leftChild
+		}
+	}
+}
+
 // fixHeight recalculates height of the node and node ancestors
 func (n *nodeAVL) fixHeight() {
 	if n == nil {
@@ -132,6 +229,9 @@ func (n *nodeAVL) findUnbalancedNode() (unbalancedNode *nodeAVL, balanceFactor i
 	node := n
 	for {
 		switch {
+		case node.leftChild == nil && node.rightChild == nil:
+			balanceFactor = 0
+
 		case node.leftChild == nil:
 			balanceFactor = 0 - node.rightChild.height
 
@@ -214,24 +314,105 @@ func balanceNode(unbalancedNode *nodeAVL, balanceFactor int) {
 		return
 	}
 
-	switch {
+	if balanceFactor == 2 {
+		if unbalancedNode.leftChild.leftChild == nil {
+			unbalancedNode.rotationLR()
+			return
+		}
 
-	case balanceFactor == 2 && unbalancedNode.leftChild.leftChild == nil:
-		unbalancedNode.rotationLR()
+		if unbalancedNode.leftChild.rightChild != nil {
+			if unbalancedNode.leftChild.rightChild.height > unbalancedNode.leftChild.leftChild.height {
+				unbalancedNode.rotationLR()
+				return
+			}
+		}
 
-	case balanceFactor == -2 && unbalancedNode.rightChild.rightChild == nil:
-		unbalancedNode.rotationRL()
-
-	case balanceFactor == -2 && unbalancedNode.rightChild.leftChild.height > unbalancedNode.rightChild.rightChild.height:
-		unbalancedNode.rotationRL()
-
-	case balanceFactor == 2 && unbalancedNode.leftChild.rightChild.height > unbalancedNode.leftChild.leftChild.height:
-		unbalancedNode.rotationLR()
-
-	case balanceFactor == 2:
 		unbalancedNode.rotationR()
+		return
+	}
 
-	case balanceFactor == -2:
+	if balanceFactor == -2 {
+		if unbalancedNode.rightChild.rightChild == nil {
+			unbalancedNode.rotationRL()
+			return
+		}
+
+		if unbalancedNode.rightChild.leftChild != nil {
+			if unbalancedNode.rightChild.leftChild.height > unbalancedNode.rightChild.rightChild.height {
+				unbalancedNode.rotationRL()
+				return
+			}
+		}
+
 		unbalancedNode.rotationL()
+	}
+}
+
+// noChildren checks that the node has no children
+func (n *nodeAVL) noChildren() bool {
+	if n.leftChild == nil && n.rightChild == nil {
+		return true
+	}
+	return false
+}
+
+// hasTwoChild check that the node has two child
+func (n *nodeAVL) hasTwoChildren() bool {
+	if n.leftChild != nil && n.rightChild != nil {
+		return true
+	}
+	return false
+}
+
+// removeNodeWithOneChild removes node who have only one child
+func removeNodeWithOneChild(n *nodeAVL) {
+	if n.leftChild != nil {
+		*n = *n.leftChild
+		return
+	}
+	if n.rightChild != nil {
+		*n = *n.rightChild
+		return
+	}
+}
+
+// cutLeftmostNodeFRS obtains leftmost node data and deletes leftmost node From Right Subtree;
+// return leftmost node data and it parent.
+func (n *nodeAVL) cutLeftmostNodeValueFRS() (data int, parent *nodeAVL) {
+	if n.rightChild.leftChild == nil { // case when right subtree haven't left child
+		data = n.rightChild.data
+		parent = n.rightChild.parent
+
+		if n.rightChild.rightChild == nil {
+			n.rightChild = nil
+
+			n.fixHeight()
+			return data, parent
+		}
+
+		n.rightChild = n.rightChild.rightChild
+		n.rightChild.parent = n
+		n.rightChild.fixHeight()
+		return data, parent
+	}
+
+	root := n.rightChild
+	for {
+		if root.leftChild.leftChild == nil {
+			data = root.leftChild.data
+			parent = root
+
+			if root.leftChild.rightChild == nil {
+				root.leftChild = nil
+				root.fixHeight()
+				return data, parent
+			}
+
+			root.leftChild = root.leftChild.rightChild
+			root.leftChild.parent = root
+			root.leftChild.fixHeight()
+			return data, parent
+		}
+		root = root.leftChild
 	}
 }
