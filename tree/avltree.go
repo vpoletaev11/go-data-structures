@@ -262,10 +262,15 @@ func (n *nodeAVL) rotationR() {
 
 	n.rightChild = &nodeAVL{
 		data:       n.leftChild.data,
-		height:     n.leftChild.height,
 		parent:     n,
 		leftChild:  n.leftChild.rightChild,
 		rightChild: n.rightChild,
+	}
+	if n.rightChild.leftChild != nil {
+		n.rightChild.leftChild.parent = n.rightChild
+	}
+	if n.rightChild.rightChild != nil {
+		n.rightChild.rightChild.parent = n.rightChild
 	}
 
 	n.leftChild = n.leftChild.leftChild
@@ -282,15 +287,20 @@ func (n *nodeAVL) rotationL() {
 
 	n.leftChild = &nodeAVL{
 		data:       n.rightChild.data,
-		height:     n.rightChild.height,
 		parent:     n,
 		leftChild:  n.leftChild,
 		rightChild: n.rightChild.leftChild,
+	}
+	if n.leftChild.rightChild != nil {
+		n.leftChild.rightChild.parent = n.leftChild
 	}
 
 	n.rightChild = n.rightChild.rightChild
 	if n.rightChild != nil {
 		n.rightChild.parent = n
+	}
+	if n.leftChild.leftChild != nil {
+		n.leftChild.leftChild.parent = n.leftChild
 	}
 
 	n.leftChild.fixHeight()
