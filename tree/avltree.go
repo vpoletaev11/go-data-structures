@@ -118,7 +118,6 @@ func (a *AVLTree) Remove(val int) {
 		}
 
 		removeNodeWithOneChild(a.root)
-		a.root.fixHeight()
 		return
 	}
 
@@ -151,8 +150,8 @@ func (a *AVLTree) Remove(val int) {
 
 				removeNodeWithOneChild(parent.rightChild)
 
-				parent.rightChild.fixHeight()
-				unbalancedNode, balanceFactor := parent.rightChild.findUnbalancedNode()
+				parent.fixHeight()
+				unbalancedNode, balanceFactor := parent.findUnbalancedNode()
 				balanceNode(unbalancedNode, balanceFactor)
 				return
 			}
@@ -173,7 +172,7 @@ func (a *AVLTree) Remove(val int) {
 				}
 
 				if parent.leftChild.hasTwoChildren() {
-					data, cutNodeParent := parent.leftChild.cutLeftmostNodeValueFRS() ////////////////////////// cutted !!!!!!!
+					data, cutNodeParent := parent.leftChild.cutLeftmostNodeValueFRS()
 					parent.leftChild.data = data
 
 					unbalancedNode, balanceFactor := cutNodeParent.findUnbalancedNode()
@@ -183,8 +182,8 @@ func (a *AVLTree) Remove(val int) {
 
 				removeNodeWithOneChild(parent.leftChild)
 
-				parent.leftChild.fixHeight()
-				unbalancedNode, balanceFactor := parent.leftChild.findUnbalancedNode()
+				parent.fixHeight()
+				unbalancedNode, balanceFactor := parent.findUnbalancedNode()
 				balanceNode(unbalancedNode, balanceFactor)
 				return
 			}
