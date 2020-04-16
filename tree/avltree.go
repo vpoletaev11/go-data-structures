@@ -376,11 +376,15 @@ func (n *nodeAVL) hasTwoChildren() bool {
 // removeNodeWithOneChild removes node who have only one child
 func removeNodeWithOneChild(n *nodeAVL) {
 	if n.leftChild != nil {
+		parent := n.parent
 		*n = *n.leftChild
+		n.parent = parent
 		return
 	}
 	if n.rightChild != nil {
+		parent := n.parent
 		*n = *n.rightChild
+		n.parent = parent
 		return
 	}
 }
