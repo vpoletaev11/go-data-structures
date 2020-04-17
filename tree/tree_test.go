@@ -1,6 +1,7 @@
 package tree_test
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -8,89 +9,40 @@ import (
 )
 
 // Testing Heap:
-func TestHeap(t *testing.T) {
+func TestHeapSuccess(t *testing.T) {
 	var h tree.Heap
 
-	// Push
-	h.Push(1)
-	h.Push(2)
-	h.Push(3)
-	h.Push(4)
-	h.Push(5521)
-	h.Push(111)
-	h.Push(99)
-	h.Push(13)
+	dataset := []int{1, 2, 3, 4, 5521, 111, 99, 13}
+	expectedOut := []int{5521, 111, 99, 13, 4, 3, 2, 1}
 
-	// Len
-	assert.Equal(t, 8, h.Len())
+	for _, value := range dataset {
+		h.Push(value)
+	}
 
-	// Peek and Pop success
-	val, ok := h.Peek()
-	assert.Equal(t, 5521, val)
-	assert.True(t, ok)
+	for i, expected := range expectedOut {
+		assert.Equal(t, len(expectedOut)-i, h.Len())
 
-	val, ok = h.Pop()
-	assert.Equal(t, 5521, val)
-	assert.True(t, ok)
+		val, ok := h.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = h.Peek()
-	assert.Equal(t, 111, val)
-	assert.True(t, ok)
+		val, ok = h.Pop()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Pop for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = h.Pop()
-	assert.Equal(t, 111, val)
-	assert.True(t, ok)
+func TestHeapOutOfRange(t *testing.T) {
+	var h tree.Heap
 
-	val, ok = h.Peek()
-	assert.Equal(t, 99, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 99, val)
-	assert.True(t, ok)
-
-	val, ok = h.Peek()
-	assert.Equal(t, 13, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 13, val)
-	assert.True(t, ok)
-
-	val, ok = h.Peek()
-	assert.Equal(t, 4, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 4, val)
-	assert.True(t, ok)
-
-	val, ok = h.Peek()
-	assert.Equal(t, 3, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 3, val)
-	assert.True(t, ok)
-
-	val, ok = h.Peek()
-	assert.Equal(t, 2, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 2, val)
-	assert.True(t, ok)
-
-	val, ok = h.Peek()
-	assert.Equal(t, 1, val)
-	assert.True(t, ok)
-
-	val, ok = h.Pop()
-	assert.Equal(t, 1, val)
-	assert.True(t, ok)
+	assert.Equal(t, 0, h.Len())
 
 	// Peek and Pop in empty heap
-	val, ok = h.Peek()
+	val, ok := h.Peek()
 	assert.Equal(t, 0, val)
 	assert.False(t, ok)
 
@@ -99,87 +51,82 @@ func TestHeap(t *testing.T) {
 	assert.False(t, ok)
 }
 
-// Testing Binary Search Tree:
-func TestBinarySearchTree(t *testing.T) {
+// Testing BinarySearchTree:
+func TestBSTSuccess(t *testing.T) {
 	var b tree.BinarySearchTree
 
-	// Insert
-	b.Insert(50)
-	b.Insert(50) // Inserting exists value
-	b.Insert(70)
-	b.Insert(60)
-	b.Insert(90)
-	b.Insert(65)
-	b.Insert(62)
+	dataset := rand.Perm(10000)
+
+	for _, value := range dataset {
+		b.Insert(value)
+	}
+
+	for _, value := range dataset {
+		if !b.Find(value) {
+			t.Error("Value:", value, "been inserted, but not found")
+		}
+		b.Remove(value)
+		if b.Find(value) {
+			t.Error("Value:", value, "been removed, but were found")
+		}
+	}
+}
+
+func TestBSTOutOfRange(t *testing.T) {
+	var b tree.BinarySearchTree
+
+	// Search and Delete values in empty tree
+	assert.False(t, b.Find(50))
+	b.Remove(50)
+
+	// Insert exists value
 	b.Insert(100)
-	b.Insert(95)
-	b.Insert(110)
-	b.Insert(48)
-	b.Insert(49)
-	b.Insert(41)
-	b.Insert(42)
+	b.Insert(100)
 
 	// Search and Delete values out of range
 	assert.False(t, b.Find(0))
 	b.Remove(0)
 
-	assert.False(t, b.Find(0))
+	assert.False(t, b.Find(1000))
 	b.Remove(1000)
+}
 
-	// Success Find and Remove; checking that the value does not exist after deletion
-	assert.True(t, b.Find(50))
-	b.Remove(50)
-	assert.False(t, b.Find(50))
+// Testing AVLTree:
+func TestAVLSuccess(t *testing.T) {
+	var a tree.AVLTree
 
-	assert.True(t, b.Find(60))
-	b.Remove(60)
-	assert.False(t, b.Find(60))
+	dataset := rand.Perm(10000)
 
-	assert.True(t, b.Find(65))
-	b.Remove(65)
-	assert.False(t, b.Find(65))
+	for _, value := range dataset {
+		a.Insert(value)
+	}
 
-	assert.True(t, b.Find(62))
-	b.Remove(62)
-	assert.False(t, b.Find(62))
+	for _, value := range dataset {
+		if !a.Find(value) {
+			t.Error("Value:", value, "been inserted, but not found")
+		}
+		a.Remove(value)
+		if a.Find(value) {
+			t.Error("Value:", value, "been removed, but were found")
+		}
+	}
+}
 
-	assert.True(t, b.Find(70))
-	b.Remove(70)
-	assert.False(t, b.Find(70))
-
-	assert.True(t, b.Find(100))
-	b.Remove(100)
-	assert.False(t, b.Find(100))
-
-	assert.True(t, b.Find(110))
-	b.Remove(110)
-	assert.False(t, b.Find(110))
-
-	assert.True(t, b.Find(95))
-	b.Remove(95)
-	assert.False(t, b.Find(95))
-
-	assert.True(t, b.Find(48))
-	b.Remove(48)
-	assert.False(t, b.Find(48))
-
-	assert.True(t, b.Find(41))
-	b.Remove(41)
-	assert.False(t, b.Find(41))
-
-	assert.True(t, b.Find(49))
-	b.Remove(49)
-	assert.False(t, b.Find(49))
-
-	assert.True(t, b.Find(90))
-	b.Remove(90)
-	assert.False(t, b.Find(90))
-
-	assert.True(t, b.Find(42))
-	b.Remove(42)
-	assert.False(t, b.Find(42))
+func TestAVLOutOfRange(t *testing.T) {
+	var a tree.AVLTree
 
 	// Search and Delete values in empty tree
-	assert.False(t, b.Find(0))
-	b.Remove(0)
+	assert.False(t, a.Find(50))
+	a.Remove(50)
+
+	// Insert exists value
+	a.Insert(100)
+	a.Insert(100)
+
+	// Search and Delete values out of range
+	assert.False(t, a.Find(0))
+	a.Remove(0)
+
+	assert.False(t, a.Find(1000))
+	a.Remove(1000)
 }
