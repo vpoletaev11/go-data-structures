@@ -7,45 +7,38 @@ import (
 	"github.com/vpoletaev11/go-data-structures/queue"
 )
 
-// Testing slice based queue:
-func TestSliceQueue(t *testing.T) {
+// Testing SliceQueue:
+func TestSliceQueueSuccess(t *testing.T) {
 	var s queue.SliceQueue
 
-	// Enqueue
-	s.Enqueue("one")
-	s.Enqueue("two")
-	s.Enqueue("three")
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
-	// Len
-	assert.Equal(t, 3, s.Len())
+	for _, value := range dataset {
+		s.Enqueue(value)
+	}
 
-	// Success Peek and Dequeue
-	val, ok := s.Peek()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+	for i, expected := range dataset {
+		assert.Equal(t, len(dataset)-i, s.Len())
 
-	val, ok = s.Dequeue()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+		val, ok := s.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = s.Peek()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+		val, ok = s.Dequeue()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Dequeue for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = s.Dequeue()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = s.Peek()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = s.Dequeue()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+func TestSliceQueueOutOfRange(t *testing.T) {
+	var s queue.SliceQueue
 
 	// Peek and Dequeue in empty queue
-	val, ok = s.Peek()
+	val, ok := s.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
@@ -54,45 +47,38 @@ func TestSliceQueue(t *testing.T) {
 	assert.False(t, ok)
 }
 
-// Testing singly linked list based queue:
-func TestListQueue(t *testing.T) {
+// Testing ListQueue:
+func TestListQueueSuccess(t *testing.T) {
 	var l queue.ListQueue
 
-	// Enqueue
-	l.Enqueue("one")
-	l.Enqueue("two")
-	l.Enqueue("three")
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
-	// Len
-	assert.Equal(t, 3, l.Len())
+	for _, value := range dataset {
+		l.Enqueue(value)
+	}
 
-	// Success Peek and Dequeue
-	val, ok := l.Peek()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+	for i, expected := range dataset {
+		assert.Equal(t, len(dataset)-i, l.Len())
 
-	val, ok = l.Dequeue()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+		val, ok := l.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = l.Peek()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+		val, ok = l.Dequeue()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Dequeue for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = l.Dequeue()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = l.Dequeue()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+func TestListQueueOutOfRange(t *testing.T) {
+	var l queue.ListQueue
 
 	// Peek and Dequeue in empty queue
-	val, ok = l.Peek()
+	val, ok := l.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
@@ -101,94 +87,48 @@ func TestListQueue(t *testing.T) {
 	assert.False(t, ok)
 }
 
-// Testing priority queue:
-func TestPriorityQueue(t *testing.T) {
+// Testing PriorityQueue:
+func TestPriorityQueueSuccess(t *testing.T) {
 	var p queue.PriorityQueue
 
-	// Push
-	p.Enqueue("one", 1)
-	p.Enqueue("two", 2)
-	p.Enqueue("three", 3)
-	p.Enqueue("four", 4)
-	p.Enqueue("five", 5521)
-	p.Enqueue("six", 111)
-	p.Enqueue("seven", 99)
-	p.Enqueue("eight", 13)
+	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
+	expectedOut := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
-	// Len
-	assert.Equal(t, 8, p.Len())
+	for _, valPrior := range dataset {
+		p.Enqueue(valPrior.value, valPrior.priority)
+	}
 
-	// Success Peek and Pop
-	val, ok := p.Peek()
-	assert.Equal(t, "five", val)
-	assert.True(t, ok)
+	for i, expected := range expectedOut {
+		assert.Equal(t, len(expectedOut)-i, p.Len())
 
-	val, ok = p.Dequeue()
-	assert.Equal(t, "five", val)
-	assert.True(t, ok)
+		val, ok := p.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = p.Peek()
-	assert.Equal(t, "six", val)
-	assert.True(t, ok)
+		val, ok = p.Dequeue()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Dequeue for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = p.Dequeue()
-	assert.Equal(t, "six", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "seven", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "seven", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "eight", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "eight", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = p.Peek()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = p.Dequeue()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+func TestPriorityQueueOutOfRange(t *testing.T) {
+	var p queue.PriorityQueue
 
 	// Peek and Pop in empty queue
-	val, ok = p.Peek()
+	val, ok := p.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
 	val, ok = p.Dequeue()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
+}
+
+type valuePriority struct {
+	value    string
+	priority int
 }
