@@ -7,45 +7,39 @@ import (
 	"github.com/vpoletaev11/go-data-structures/stack"
 )
 
-// Testing slice based stack:
-func TestSliceStack(t *testing.T) {
+// Testing SliceStack
+func TestSliceStackSuccess(t *testing.T) {
 	var s stack.SliceStack
 
-	// Push
-	s.Push("one")
-	s.Push("two")
-	s.Push("three")
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
 
-	// Len
-	assert.Equal(t, 3, s.Len())
+	for _, value := range dataset {
+		s.Push(value)
+	}
 
-	// Success Peek and Pop
-	val, ok := s.Peek()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+	for i, expected := range expectedOut {
+		assert.Equal(t, len(expectedOut)-i, s.Len())
 
-	val, ok = s.Pop()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+		val, ok := s.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = s.Peek()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+		val, ok = s.Pop()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Pop for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = s.Pop()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = s.Peek()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = s.Pop()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+func TestSliceStackOutOfRange(t *testing.T) {
+	var s stack.SliceStack
 
 	// Peek and Pop in empty stack
-	val, ok = s.Peek()
+	val, ok := s.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
@@ -54,45 +48,39 @@ func TestSliceStack(t *testing.T) {
 	assert.False(t, ok)
 }
 
-// Testing singly linked list based stack:
-func TestListStack(t *testing.T) {
+// Testing ListStack
+func TestListStackSuccess(t *testing.T) {
 	var l stack.ListStack
 
-	// Push
-	l.Push("one")
-	l.Push("two")
-	l.Push("three")
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
 
-	// Len
-	assert.Equal(t, 3, l.Len())
+	for _, value := range dataset {
+		l.Push(value)
+	}
 
-	// Success Peek and Pop
-	val, ok := l.Peek()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+	for i, expected := range expectedOut {
+		assert.Equal(t, len(expectedOut)-i, l.Len())
 
-	val, ok = l.Pop()
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
+		val, ok := l.Peek()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Peek for expected value:", expected, "should return true, but returns false")
+		}
 
-	val, ok = l.Peek()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
+		val, ok = l.Pop()
+		assert.Equal(t, expected, val)
+		if !ok {
+			t.Error("Pop for expected value:", expected, "should return true, but returns false")
+		}
+	}
+}
 
-	val, ok = l.Pop()
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = l.Peek()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = l.Pop()
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
+func TestListStackOutOfRange(t *testing.T) {
+	var l stack.ListStack
 
 	// Peek and Pop in empty stack
-	val, ok = l.Peek()
+	val, ok := l.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
