@@ -18,11 +18,8 @@ type AVLTree struct {
 func (a *AVLTree) Insert(val int) {
 	if a.root == nil {
 		a.root = &nodeAVL{
-			data:       val,
-			height:     1,
-			parent:     nil,
-			leftChild:  nil,
-			rightChild: nil,
+			data:   val,
+			height: 1,
 		}
 		return
 	}
@@ -33,11 +30,9 @@ func (a *AVLTree) Insert(val int) {
 		case parent.data < val:
 			if parent.rightChild == nil {
 				parent.rightChild = &nodeAVL{
-					data:       val,
-					height:     1,
-					parent:     parent,
-					leftChild:  nil,
-					rightChild: nil,
+					data:   val,
+					height: 1,
+					parent: parent,
 				}
 
 				parent.fixHeight()
@@ -50,11 +45,9 @@ func (a *AVLTree) Insert(val int) {
 		case parent.data > val:
 			if parent.leftChild == nil {
 				parent.leftChild = &nodeAVL{
-					data:       val,
-					height:     1,
-					parent:     parent,
-					leftChild:  nil,
-					rightChild: nil,
+					data:   val,
+					height: 1,
+					parent: parent,
 				}
 
 				parent.fixHeight()
@@ -125,7 +118,7 @@ func (a *AVLTree) Remove(val int) {
 	for {
 		switch {
 		case parent.data < val:
-			if parent.rightChild == nil {
+			if parent.rightChild == nil { // case when node not found
 				return
 			}
 
@@ -158,7 +151,7 @@ func (a *AVLTree) Remove(val int) {
 			parent = parent.rightChild
 
 		case parent.data > val:
-			if parent.leftChild == nil {
+			if parent.leftChild == nil { // case when node not found
 				return
 			}
 			if parent.leftChild.data == val {
@@ -192,7 +185,8 @@ func (a *AVLTree) Remove(val int) {
 	}
 }
 
-// fixHeight recalculates height of the node and node ancestors
+// fixHeight recalculates height of the node and node ancestors using for this them children height.
+// Using of a fixHeight is possible if children of the node have correct height.
 func (n *nodeAVL) fixHeight() {
 	if n == nil {
 		return
@@ -215,7 +209,7 @@ func (n *nodeAVL) fixHeight() {
 		n.height = n.leftChild.height + 1
 		n.parent.fixHeight()
 
-	default:
+	case n.rightChild.height >= n.leftChild.height:
 		n.height = n.rightChild.height + 1
 		n.parent.fixHeight()
 	}
@@ -373,7 +367,7 @@ func (n *nodeAVL) hasTwoChildren() bool {
 	return false
 }
 
-// removeNodeWithOneChild removes node who have only one child
+// removeNodeWithOneChild removes node who have only one child by rewriting node by their child
 func removeNodeWithOneChild(n *nodeAVL) {
 	if n.leftChild != nil {
 		parent := n.parent
@@ -396,7 +390,7 @@ func (n *nodeAVL) cutLeftmostNodeValueFRS() (data int, parent *nodeAVL) {
 		data = n.rightChild.data
 		parent = n.rightChild.parent
 
-		if n.rightChild.rightChild == nil {
+		if n.rightChild.rightChild == nil { // case when right subtree haven't right child
 			n.rightChild = nil
 
 			n.fixHeight()
@@ -405,24 +399,27 @@ func (n *nodeAVL) cutLeftmostNodeValueFRS() (data int, parent *nodeAVL) {
 
 		n.rightChild = n.rightChild.rightChild
 		n.rightChild.parent = n
+
 		n.rightChild.fixHeight()
 		return data, parent
 	}
 
 	root := n.rightChild
 	for {
-		if root.leftChild.leftChild == nil {
+		if root.leftChild.leftChild == nil { // case when found leftmost node (root.leftChild)
 			data = root.leftChild.data
 			parent = root
 
-			if root.leftChild.rightChild == nil {
+			if root.leftChild.rightChild == nil { // case when leftmost node haven't right child
 				root.leftChild = nil
+
 				root.fixHeight()
 				return data, parent
 			}
 
 			root.leftChild = root.leftChild.rightChild
 			root.leftChild.parent = root
+
 			root.leftChild.fixHeight()
 			return data, parent
 		}
