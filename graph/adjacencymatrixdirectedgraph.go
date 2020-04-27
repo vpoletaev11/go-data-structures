@@ -5,7 +5,7 @@ package graph
 // Matrix stores edges of graph vertexes.
 // Indexing of vertexes starts from 0.
 type AdjacencyMatrixDirectedGraph struct {
-	adjacencyMatrix [][]int
+	adjacencyMatrix [][]bool
 }
 
 // Size returns count of vertexes in the graph
@@ -20,9 +20,9 @@ func AdjMatrixDirectedGraphInit(size int) *AdjacencyMatrixDirectedGraph {
 	}
 	var a AdjacencyMatrixDirectedGraph
 
-	a.adjacencyMatrix = make([][]int, size)
+	a.adjacencyMatrix = make([][]bool, size)
 	for i := 0; i < len(a.adjacencyMatrix); i++ {
-		a.adjacencyMatrix[i] = make([]int, size)
+		a.adjacencyMatrix[i] = make([]bool, size)
 	}
 
 	return &a
@@ -34,7 +34,7 @@ func (a *AdjacencyMatrixDirectedGraph) AddEdge(from, to int) bool {
 		return false
 	}
 
-	a.adjacencyMatrix[from][to] = 1
+	a.adjacencyMatrix[from][to] = true
 	return true
 }
 
@@ -44,7 +44,7 @@ func (a *AdjacencyMatrixDirectedGraph) RemoveEdge(from, to int) bool {
 		return false
 	}
 
-	a.adjacencyMatrix[from][to] = 0
+	a.adjacencyMatrix[from][to] = false
 	return true
 }
 
@@ -55,7 +55,7 @@ func (a *AdjacencyMatrixDirectedGraph) PeekEdges(vertex int) (edges []int, ok bo
 	}
 
 	for i, val := range a.adjacencyMatrix[vertex] {
-		if val != 0 {
+		if val == true {
 			edges = append(edges, i)
 		}
 	}

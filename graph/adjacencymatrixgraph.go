@@ -5,7 +5,7 @@ package graph
 // Matrix stores edges of graph vertexes.
 // Indexing of vertexes starts from 0.
 type AdjacencyMatrixGraph struct {
-	adjacencyMatrix [][]int
+	adjacencyMatrix [][]bool
 }
 
 // Size returns count of vertexes in the graph
@@ -20,9 +20,9 @@ func AdjMatrixGraphInit(size int) *AdjacencyMatrixGraph {
 	}
 	var a AdjacencyMatrixGraph
 
-	a.adjacencyMatrix = make([][]int, size)
+	a.adjacencyMatrix = make([][]bool, size)
 	for i := 0; i < len(a.adjacencyMatrix); i++ {
-		a.adjacencyMatrix[i] = make([]int, size)
+		a.adjacencyMatrix[i] = make([]bool, size)
 	}
 
 	return &a
@@ -34,8 +34,8 @@ func (a *AdjacencyMatrixGraph) AddEdge(from, to int) bool {
 		return false
 	}
 
-	a.adjacencyMatrix[from][to] = 1
-	a.adjacencyMatrix[to][from] = 1
+	a.adjacencyMatrix[from][to] = true
+	a.adjacencyMatrix[to][from] = true
 	return true
 }
 
@@ -45,8 +45,8 @@ func (a *AdjacencyMatrixGraph) RemoveEdge(from, to int) bool {
 		return false
 	}
 
-	a.adjacencyMatrix[from][to] = 0
-	a.adjacencyMatrix[to][from] = 0
+	a.adjacencyMatrix[from][to] = false
+	a.adjacencyMatrix[to][from] = false
 	return true
 }
 
@@ -57,7 +57,7 @@ func (a *AdjacencyMatrixGraph) PeekEdges(vertex int) (edges []int, ok bool) {
 	}
 
 	for i, val := range a.adjacencyMatrix[vertex] {
-		if val != 0 {
+		if val == true {
 			edges = append(edges, i)
 		}
 	}
