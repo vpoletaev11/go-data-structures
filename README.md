@@ -1,4 +1,6 @@
 # Go Data Structures
+[![CircleCI](https://circleci.com/gh/vpoletaev11/fileHostingSite.svg?style=svg)](https://circleci.com/gh/vpoletaev11/go-data-structures)
+[![Coverage Status](https://coveralls.io/repos/github/vpoletaev11/fileHostingSite/badge.svg?branch=master)](https://coveralls.io/github/vpoletaev11/go-data-structures?branch=master)
 
 
 # Project Content

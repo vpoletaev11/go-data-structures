@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/vpoletaev11/go-data-structures
+    steps:
+      - checkout
+      - run:
+          name: "Install Dependencies"
+          command: |
+            go get github.com/mattn/goveralls
+      - run:
+          name: "Generate Coverage"
+          command: |
+            go test -coverpkg ./... ./... -coverprofile=coverage.txt
+      - run:
+          name: "Publish Coverage to Coveralls.io"
+          command: |
+            goveralls -coverprofile=coverage.txt -service semaphore -repotoken $COVERALLS_TOKEN
