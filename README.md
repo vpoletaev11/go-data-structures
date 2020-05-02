@@ -23,3 +23,8 @@
 ```shell
 $ go get github.com/vpoletaev11/go-data-structures
 ```
+## Install dependencies
+This project uses modules, because of this to install dependencies you just need to run tests
+```shell
+$ go test ./...
+```
