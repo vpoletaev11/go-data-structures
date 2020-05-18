@@ -1,5 +1,14 @@
 package queue
 
+/*
+	PRIORITY QUEUE:
+
+	Len()                Enqueue()                Dequeue()                Peek()
+	Best:    O(1)        Best:    O(1)            Best:    O(1)            Best:    O(1)
+	Average: O(1)        Average: O(log n)        Average: O(log n)        Average: O(1)
+	Worst:   O(1)        Worst:   O(log n)        Worst:   O(log n)        Worst:   O(1)
+*/
+
 // nodePQ - node of priority queue
 type nodePQ struct {
 	priority int

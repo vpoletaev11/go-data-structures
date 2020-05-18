@@ -1,5 +1,14 @@
 package queue
 
+/*
+	SLICE QUEUE:
+
+	Len()                Enqueue()            Dequeue()            Peek()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)
+	Worst:   O(1)        Worst:   O(n)        Worst:   O(1)        Worst:   O(1)
+*/
+
 // SliceQueue - slice based list of elements organized according to the FIFO principle
 type SliceQueue struct {
 	elements []string
@@ -21,7 +30,7 @@ func (s *SliceQueue) Dequeue() (val string, ok bool) {
 		return "", false
 	}
 
-	val = s.elements[0]     // Obtain the first inserted element.
+	val = s.elements[0]         // Obtain the first inserted element.
 	s.elements = s.elements[1:] // Remove the first inserted element.
 	return val, true
 }
