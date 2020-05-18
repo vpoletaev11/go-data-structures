@@ -1,5 +1,15 @@
 package stack
 
+/*
+	SLICE STACK:
+
+	Len()                Push()               Pop()                Peek()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)
+	Worst:   O(1)        Worst:   O(n)        Worst:   O(1)        Worst:   O(1)
+*/
+
+
 // SliceStack - slice based list of elements organized according to the LIFO principle
 type SliceStack struct {
 	elements []string
@@ -22,7 +32,7 @@ func (s *SliceStack) Pop() (val string, status bool) {
 	}
 
 	index := s.Len() - 1            // Get the index of the last inserted element.
-	val = s.elements[index]     // Obtain the last inserted element.
+	val = s.elements[index]         // Obtain the last inserted element.
 	s.elements = s.elements[:index] // Remove the last inserted element.
 	return val, true
 }
