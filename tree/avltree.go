@@ -1,5 +1,14 @@
 package tree
 
+/*
+	AVL-TREE:
+
+	Insert()                 Remove()                 Find()
+	Best:    O(log n)        Best:    O(log n)        Best:    O(log n)
+	Average: O(log n)        Average: O(log n)        Average: O(log n)
+	Worst:   O(log n)        Worst:   O(log n)        Worst:   O(log n)
+*/
+
 // nodeAVL - node of AVL tree
 type nodeAVL struct {
 	data       int

@@ -1,5 +1,14 @@
 package tree
 
+/*
+	HEAP:
+
+	Len()                Push()                   Pop()                    Peek()
+	Best:    O(1)        Best:    O(1)            Best:    O(1)            Best:    O(1)
+	Average: O(1)        Average: O(log n)        Average: O(log n)        Average: O(1)
+	Worst:   O(1)        Worst:   O(log n)        Worst:   O(log n)        Worst:   O(1)
+*/
+
 // Heap - binary tree where:
 // 1) The value at any parent node is no less than the values ​​of its children;
 // 2) The depth of all leaves (distance to the root) differs by no more than 1 layer;

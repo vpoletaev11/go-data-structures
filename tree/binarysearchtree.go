@@ -1,5 +1,14 @@
 package tree
 
+/*
+	BINARY SEARCH TREE:
+
+	Insert()                 Remove()                 Find()
+	Best:    O(log n)        Best:    O(log n)        Best:    O(log n)
+	Average: O(log n)        Average: O(log n)        Average: O(log n)
+	Worst:   O(n)            Worst:   O(n)            Worst:   O(n)
+*/
+
 // nodeBST - node of binary search tree
 type nodeBST struct {
 	data       int
