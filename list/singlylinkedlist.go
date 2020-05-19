@@ -1,5 +1,31 @@
 package list
 
+/*
+	SINGLY LINKED LIST:
+
+	Len()
+	Best:    O(n)
+	Average: O(n)
+	Worst:	 O(n)
+
+	InsertHead()         Insert()             InsertTail()
+	Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(n)        Average: O(n)
+	Worst:   O(1)        Worst:   O(n)        Worst:   O(n)
+
+
+	GetHead()            Get()                GetTail()
+	Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(n)        Average: O(n)
+	Worst:   O(1)        Worst:   O(n)        Worst:   O(n)
+
+
+	PeekHead()           Peek()               PeekTail()
+	Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(n)        Average: O(n)
+	Worst:   O(1)        Worst:   O(n)        Worst:   O(n)
+*/
+
 // nodeSL - node of singly linked list
 type nodeSL struct {
 	data     string  // Stored data
