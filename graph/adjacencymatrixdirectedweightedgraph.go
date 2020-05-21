@@ -1,5 +1,14 @@
 package graph
 
+/*
+	ADJACENCY MATRIX DIRECTED WEIGHTED GRAPH:
+
+	Size()               AddEdge()            RemoveEdge()         PeekEdges()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(n)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(n)
+*/
+
 // AdjacencyMatrixDirectedWeightedGraph - Directed Weighted Graph based on adjacency matrix.
 // Quantity of rows or columns of the matrix == quantity of graph vertexes.
 // Matrix stores weighted edges of graph vertexes.

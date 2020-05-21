@@ -1,5 +1,14 @@
 package graph
 
+/*
+	ADJACENCY MATRIX DIRECTED GRAPH:
+
+	Size()               AddEdge()            RemoveEdge()         PeekEdges()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(n)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(n)
+*/
+
 // AdjacencyMatrixDirectedGraph - Directed Graph based on adjacency matrix.
 // Quantity of rows or columns of the matrix == quantity of graph vertexes.
 // Matrix stores edges of graph vertexes.

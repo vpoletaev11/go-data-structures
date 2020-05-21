@@ -93,23 +93,23 @@ func TestAdjacencyMatrixDirectedWeightedGraphSUCCESS(t *testing.T) {
 	}
 
 	edges, ok := a.PeekEdges(0)
-	assert.Equal(t, [][]int{[]int{1, 100}, []int{2, 13}, []int{3, 1000}, []int{4, 20}}, edges)
+	assert.Equal(t, [][]int{{1, 100}, {2, 13}, {3, 1000}, {4, 20}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(1)
-	assert.Equal(t, [][]int{[]int{3, 1}}, edges)
+	assert.Equal(t, [][]int{{3, 1}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(2)
-	assert.Equal(t, [][]int{[]int{0, 75}}, edges)
+	assert.Equal(t, [][]int{{0, 75}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(3)
-	assert.Equal(t, [][]int{[]int{1, 14}}, edges)
+	assert.Equal(t, [][]int{{1, 14}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(4)
-	assert.Equal(t, [][]int{[]int{2, 8}}, edges)
+	assert.Equal(t, [][]int{{2, 8}}, edges)
 	assert.True(t, ok)
 
 	// remove all edges
@@ -239,23 +239,23 @@ func TestAdjacencyMatrixWeightedGraphSUCCESS(t *testing.T) {
 	}
 
 	edges, ok := a.PeekEdges(0)
-	assert.Equal(t, [][]int{[]int{1, 100}, []int{2, 75}, []int{3, 1000}, []int{4, 20}}, edges)
+	assert.Equal(t, [][]int{{1, 100}, {2, 75}, {3, 1000}, {4, 20}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(1)
-	assert.Equal(t, [][]int{[]int{0, 100}, []int{3, 14}}, edges)
+	assert.Equal(t, [][]int{{0, 100}, {3, 14}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(2)
-	assert.Equal(t, [][]int{[]int{0, 75}, []int{4, 8}}, edges)
+	assert.Equal(t, [][]int{{0, 75}, {4, 8}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(3)
-	assert.Equal(t, [][]int{[]int{0, 1000}, []int{1, 14}}, edges)
+	assert.Equal(t, [][]int{{0, 1000}, {1, 14}}, edges)
 	assert.True(t, ok)
 
 	edges, ok = a.PeekEdges(4)
-	assert.Equal(t, [][]int{[]int{0, 20}, []int{2, 8}}, edges)
+	assert.Equal(t, [][]int{{0, 20}, {2, 8}}, edges)
 	assert.True(t, ok)
 
 	// remove all edges
