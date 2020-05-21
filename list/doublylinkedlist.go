@@ -4,9 +4,9 @@ package list
 	DOUBLY LINKED LIST:
 
 	Len()
-	Best:    O(n)
-	Average: O(n)
-	Worst:	 O(n)
+	Best:    O(1)
+	Average: O(1)
+	Worst:	 O(1)
 
 	InsertHead()         Insert()             InsertTail()
 	Best:    O(1)        Best:    O(1)        Best:    O(n)
@@ -37,31 +37,26 @@ type nodeDL struct {
 // where every node contain pointer to previous and next node, which together represent a sequence.
 type DoublyLinkedList struct {
 	head *nodeDL // First element in linked list
+	len  int     // Length of the linked list
 }
 
 // Len returns length of list
 func (d *DoublyLinkedList) Len() int {
-	node := d.head
-	len := 1
-	for {
-		if node.nextNode == nil {
-			return len
-		}
-		node = node.nextNode
-		len++
-	}
+	return d.len
 }
 
 // InsertHead adds value in begin of list
 func (d *DoublyLinkedList) InsertHead(val string) {
 	if d.head == nil {
 		d.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
+		d.len++
 		return
 	}
 
 	nextNode := d.head
 	d.head = &nodeDL{data: val, prevNode: nil, nextNode: nextNode} // Move head node in second place and insert new node on its place
 	nextNode.prevNode = d.head                                     // Second node prevNode field points to head node
+	d.len++
 }
 
 // Insert adds value in list by index.
@@ -82,9 +77,11 @@ func (d *DoublyLinkedList) Insert(index int, val string) (ok bool) {
 
 		prevNode.nextNode = newNode
 		nextNode.prevNode = newNode
+		d.len++
 		return true
 	}
 	prevNode.nextNode = &nodeDL{data: val, prevNode: prevNode, nextNode: nil}
+	d.len++
 	return true
 }
 
@@ -93,9 +90,11 @@ func (d *DoublyLinkedList) InsertTail(val string) {
 	lastNode := d.findLastNode()
 	if lastNode == nil {
 		d.head = &nodeDL{data: val, prevNode: nil, nextNode: nil}
+		d.len++
 		return
 	}
 	lastNode.nextNode = &nodeDL{data: val, prevNode: lastNode, nextNode: nil}
+	d.len++
 }
 
 // GetHead obtains and deletes element from begin of list
@@ -109,6 +108,7 @@ func (d *DoublyLinkedList) GetHead() (val string, ok bool) {
 	if d.head != nil {
 		d.head.prevNode = nil
 	}
+	d.len--
 	return val, true
 }
 
@@ -125,6 +125,7 @@ func (d *DoublyLinkedList) Get(index int) (val string, ok bool) {
 	val = node.data
 
 	node.prevNode.nextNode = node.nextNode // Previous node nextNode field now points to next node
+	d.len--
 	return val, true
 }
 
@@ -138,9 +139,11 @@ func (d *DoublyLinkedList) GetTail() (val string, ok bool) {
 	val = lastNode.data
 	if lastNode.prevNode == nil { // Check if lastNode is only one in list
 		d.head = nil
+		d.len--
 		return val, true
 	}
 	lastNode.prevNode.nextNode = nil // Second-to-last node now points to nil
+	d.len--
 	return val, true
 }
 

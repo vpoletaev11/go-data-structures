@@ -6,9 +6,9 @@ import "github.com/vpoletaev11/go-data-structures/list"
 	LIST STACK:
 
 	Len()                Push()               Pop()                Peek()
-	Best:    O(n)        Best:    O(1)        Best:    O(1)        Best:    O(1)
-	Average: O(n)        Average: O(1)        Average: O(1)        Average: O(1)
-	Worst:   O(n)        Worst:   O(1)        Worst:   O(1)        Worst:   O(1)
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(1)
 */
 
 // ListStack - singly linked list based list of elements organized according to the LIFO principle

@@ -4,9 +4,9 @@ package list
 	SINGLY LINKED LIST:
 
 	Len()
-	Best:    O(n)
-	Average: O(n)
-	Worst:	 O(n)
+	Best:    O(1)
+	Average: O(1)
+	Worst:	 O(1)
 
 	InsertHead()         Insert()             InsertTail()
 	Best:    O(1)        Best:    O(1)        Best:    O(n)
@@ -36,29 +36,24 @@ type nodeSL struct {
 // where every node contain pointer to next node, which together represent a sequence.
 type SinglyLinkedList struct {
 	head *nodeSL // First element in linked list
+	len  int     // Length of the linked list
 }
 
 // Len returns length of list
 func (s *SinglyLinkedList) Len() int {
-	node := s.head
-	len := 1
-	for {
-		if node.nextNode == nil {
-			return len
-		}
-		node = node.nextNode
-		len++
-	}
+	return s.len
 }
 
 // InsertHead adds value in begin of list
 func (s *SinglyLinkedList) InsertHead(val string) {
 	if s.head == nil {
 		s.head = &nodeSL{val, nil}
+		s.len++
 		return
 	}
 
 	s.head = &nodeSL{val, s.head}
+	s.len++
 }
 
 // Insert adds value in list by index.
@@ -74,6 +69,7 @@ func (s *SinglyLinkedList) Insert(index int, val string) (ok bool) {
 		return false
 	}
 	prevNode.nextNode = &nodeSL{val, prevNode.nextNode} // prevNode now pointing on inserted node which pointing to node who was here before
+	s.len++
 	return true
 }
 
@@ -81,11 +77,13 @@ func (s *SinglyLinkedList) Insert(index int, val string) (ok bool) {
 func (s *SinglyLinkedList) InsertTail(val string) {
 	if s.head == nil {
 		s.head = &nodeSL{val, nil}
+		s.len++
 		return
 	}
 
 	lastNode := s.findLastNode()
 	lastNode.nextNode = &nodeSL{val, nil}
+	s.len++
 }
 
 // GetHead obtains and deletes element from begin of list
@@ -96,6 +94,7 @@ func (s *SinglyLinkedList) GetHead() (val string, ok bool) {
 
 	val = s.head.data
 	s.head = s.head.nextNode
+	s.len--
 	return val, true
 }
 
@@ -111,6 +110,7 @@ func (s *SinglyLinkedList) Get(index int) (val string, ok bool) {
 	}
 	val = prevNode.nextNode.data                   // Obtain node data
 	prevNode.nextNode = prevNode.nextNode.nextNode // prevNode now pointing to next node after deleted node.
+	s.len--
 	return val, true
 }
 
@@ -136,6 +136,7 @@ func (s *SinglyLinkedList) GetTail() (val string, ok bool) {
 
 	val = p2.data
 	p1.nextNode = nil // Second-to-last node points to nil i.e now it last node
+	s.len--
 	return val, true
 }
 
