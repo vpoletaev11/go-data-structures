@@ -47,8 +47,8 @@ func TestAdjacencyMatrixDirectedGraphSUCCESS(t *testing.T) {
 	// check that graph haven't edges
 	for i := 0; i < a.Size(); i++ {
 		edges, ok = a.PeekEdges(i)
-		assert.Equal(t, []int(nil), edges)
-		assert.True(t, ok)
+		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
+		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
 	}
 }
 
@@ -120,8 +120,8 @@ func TestAdjacencyMatrixDirectedWeightedGraphSUCCESS(t *testing.T) {
 	// check that graph haven't edges
 	for i := 0; i < a.Size(); i++ {
 		edges, ok = a.PeekEdges(i)
-		assert.Equal(t, [][]int(nil), edges)
-		assert.True(t, ok)
+		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
+		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
 	}
 }
 
@@ -193,8 +193,8 @@ func TestAdjacencyMatrixGraphSUCCESS(t *testing.T) {
 	// check that graph haven't edges
 	for i := 0; i < a.Size(); i++ {
 		edges, ok = a.PeekEdges(i)
-		assert.Equal(t, []int(nil), edges)
-		assert.True(t, ok)
+		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
+		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
 	}
 }
 
@@ -266,8 +266,8 @@ func TestAdjacencyMatrixWeightedGraphSUCCESS(t *testing.T) {
 	// check that graph haven't edges
 	for i := 0; i < a.Size(); i++ {
 		edges, ok = a.PeekEdges(i)
-		assert.Equal(t, [][]int(nil), edges)
-		assert.True(t, ok)
+		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
+		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
 	}
 }
 
