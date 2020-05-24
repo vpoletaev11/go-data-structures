@@ -24,11 +24,11 @@ func TestHeapSuccess(t *testing.T) {
 
 		val, ok := h.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%d\" %s", expected, "should return true, but returns false")
 
 		val, ok = h.Pop()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Pop for expected value: \"%d\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -58,11 +58,11 @@ func TestBSTSuccess(t *testing.T) {
 	}
 
 	for _, value := range dataset {
-		assert.True(t, b.Find(value), "Value:", value, "been inserted, but not found")
+		assert.True(t, b.Find(value), "Value: %d %s", value, "been inserted, but not found")
 
 		b.Remove(value)
 
-		assert.False(t, b.Find(value), "Value:", value, "been removed, but were found")
+		assert.False(t, b.Find(value), "Value: %d %s", value, "been removed, but were found")
 	}
 }
 
@@ -96,11 +96,11 @@ func TestAVLSuccess(t *testing.T) {
 	}
 
 	for _, value := range dataset {
-		assert.True(t, a.Find(value), "Value:", value, "been inserted, but not found")
+		assert.True(t, a.Find(value), "Value: %d %s", value, "been inserted, but not found")
 
 		a.Remove(value)
 
-		assert.False(t, a.Find(value), "Value:", value, "been removed, but were found")
+		assert.False(t, a.Find(value), "Value: %d %s", value, "been removed, but were found")
 	}
 }
 

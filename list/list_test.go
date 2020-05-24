@@ -24,11 +24,11 @@ func TestSinglyListHEADSuccess(t *testing.T) {
 
 		val, ok := s.PeekHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekHead for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = s.GetHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetHead for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -151,11 +151,11 @@ func TestSinglyListTailSuccess(t *testing.T) {
 
 		val, ok := s.PeekTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekTail for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = s.GetTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetTail for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -189,11 +189,11 @@ func TestDoublyListHEADSuccess(t *testing.T) {
 
 		val, ok := d.PeekHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekHead for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = d.GetHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetHead for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -316,11 +316,11 @@ func TestDoublyListTAILSuccess(t *testing.T) {
 
 		val, ok := d.PeekTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekTail for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = d.GetTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetTail for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 

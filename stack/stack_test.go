@@ -23,11 +23,11 @@ func TestSliceStackSuccess(t *testing.T) {
 
 		val, ok := s.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = s.Pop()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Pop for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -60,11 +60,11 @@ func TestListStackSuccess(t *testing.T) {
 
 		val, ok := l.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = l.Pop()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Pop for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 

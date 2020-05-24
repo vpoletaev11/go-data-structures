@@ -22,11 +22,11 @@ func TestSliceQueueSuccess(t *testing.T) {
 
 		val, ok := s.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = s.Dequeue()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -58,11 +58,11 @@ func TestListQueueSuccess(t *testing.T) {
 
 		val, ok := l.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = l.Dequeue()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
@@ -95,11 +95,11 @@ func TestPriorityQueueSuccess(t *testing.T) {
 
 		val, ok := p.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
 
 		val, ok = p.Dequeue()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value:", expected, "should return true, but returns false")
+		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
 	}
 }
 
