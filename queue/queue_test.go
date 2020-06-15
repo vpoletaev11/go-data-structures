@@ -116,6 +116,139 @@ func TestPriorityQueueOutOfRange(t *testing.T) {
 	assert.False(t, ok)
 }
 
+// BENCHMARKS
+// Benchmarking ListQueue:
+func BenchmarkEnqueueListQueue(b *testing.B) {
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var l queue.ListQueue
+		b.StartTimer()
+
+		for _, value := range dataset {
+			l.Enqueue(value)
+		}
+	}
+}
+
+func BenchmarkDequeueListQueue(b *testing.B) {
+	var l queue.ListQueue
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			l.Enqueue(value)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			l.Dequeue()
+		}
+	}
+}
+
+func BenchmarkPeekListQueue(b *testing.B) {
+	var l queue.ListQueue
+	l.Enqueue("value")
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		l.Peek()
+	}
+}
+
+// Benchmarking SliceQueue:
+func BenchmarkEnqueueSliceQueue(b *testing.B) {
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var s queue.SliceQueue
+		b.StartTimer()
+
+		for _, value := range dataset {
+			s.Enqueue(value)
+		}
+	}
+}
+
+func BenchmarkDequeueSliceQueue(b *testing.B) {
+	var s queue.SliceQueue
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			s.Enqueue(value)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			s.Dequeue()
+		}
+	}
+}
+
+func BenchmarkPeekSliceQueue(b *testing.B) {
+	var s queue.SliceQueue
+	s.Enqueue("value")
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		s.Peek()
+	}
+}
+
+// Benchmarking PriorityQueue:
+func BenchmarkEnqueuePriorityQueue(b *testing.B) {
+	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var p queue.PriorityQueue
+		b.StartTimer()
+
+		for _, valPrior := range dataset {
+			p.Enqueue(valPrior.value, valPrior.priority)
+		}
+	}
+}
+
+func BenchmarkDequeuePriorityQueue(b *testing.B) {
+	var p queue.PriorityQueue
+	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, valPrior := range dataset {
+			p.Enqueue(valPrior.value, valPrior.priority)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			p.Dequeue()
+		}
+	}
+}
+
+func BenchmarkPeekPriorityQueue(b *testing.B) {
+	var p queue.PriorityQueue
+	p.Enqueue("value", 100)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		p.Peek()
+	}
+}
+
 type valuePriority struct {
 	value    string
 	priority int

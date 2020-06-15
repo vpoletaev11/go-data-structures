@@ -7,6 +7,13 @@ package queue
 	Best:    O(1)        Best:    O(1)            Best:    O(1)            Best:    O(1)
 	Average: O(1)        Average: O(log n)        Average: O(log n)        Average: O(1)
 	Worst:   O(1)        Worst:   O(log n)        Worst:   O(log n)        Worst:   O(1)
+
+	
+	goos: linux
+	goarch: amd64
+	BenchmarkEnqueuePriorityQueue-8          1000000              1168 ns/op             752 B/op          5 allocs/op
+	BenchmarkDequeuePriorityQueue-8          1000000               252 ns/op               0 B/op          0 allocs/op
+	BenchmarkPeekPriorityQueue-8             1000000                 0.323 ns/op           0 B/op          0 allocs/op
 */
 
 // nodePQ - node of priority queue
