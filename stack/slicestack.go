@@ -7,6 +7,13 @@ package stack
 	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)
 	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)
 	Worst:   O(1)        Worst:   O(n)        Worst:   O(1)        Worst:   O(1)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkPushSliceStack-8        1000000               970 ns/op             496 B/op          5 allocs/op
+	BenchmarkPopSliceStack-8         1000000                65.7 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekSliceStack-8        1000000                 0.329 ns/op           0 B/op          0 allocs/op
 */
 
 

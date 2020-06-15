@@ -80,3 +80,92 @@ func TestListStackOutOfRange(t *testing.T) {
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
+
+// BENCHMARKS
+// Benchmarking ListStack:
+func BenchmarkPushListStack(b *testing.B) {
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var l stack.ListStack
+		b.StartTimer()
+
+		for _, value := range dataset {
+			l.Push(value)
+		}
+	}
+}
+
+func BenchmarkPopListStack(b *testing.B) {
+	var l stack.ListStack
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			l.Push(value)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			l.Pop()
+		}
+	}
+}
+
+func BenchmarkPeekListStack(b *testing.B) {
+	var l stack.ListStack
+	l.Push("value")
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		l.Peek()
+	}
+}
+
+// Benchmarking SliceStack:
+func BenchmarkPushSliceStack(b *testing.B) {
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var s stack.SliceStack
+		b.StartTimer()
+
+		for _, value := range dataset {
+			s.Push(value)
+		}
+	}
+}
+
+func BenchmarkPopSliceStack(b *testing.B) {
+	var s stack.SliceStack
+	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			s.Push(value)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			s.Pop()
+		}
+	}
+}
+
+func BenchmarkPeekSliceStack(b *testing.B) {
+	var s stack.SliceStack
+	s.Push("value")
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		s.Peek()
+	}
+}
