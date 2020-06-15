@@ -24,6 +24,21 @@ package list
 	Best:    O(1)        Best:    O(1)        Best:    O(n)
 	Average: O(1)        Average: O(n)        Average: O(n)
 	Worst:   O(1)        Worst:   O(n)        Worst:   O(n)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkInsertHeadSinglyList-8          1000000               553 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertSinglyList-8              1000000               685 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertTailSinglyList-8          1000000               736 ns/op             320 B/op         10 allocs/op
+
+	BenchmarkGetHeadSinglyList-8             1000000                87.5 ns/op             0 B/op          0 allocs/op
+	BenchmarkGetSinglyList-8                 1000000               165 ns/op               0 B/op          0 allocs/op
+	BenchmarkGetTailSinglyList-8             1000000               155 ns/op               0 B/op          0 allocs/op
+	
+	BenchmarkPeekHeadSinglyList-8            1000000                 7.62 ns/op            0 B/op          0 allocs/op
+	BenchmarkPeekSinglyList-8                1000000                56.4 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekTailSinglyList-8            1000000                97.7 ns/op             0 B/op          0 allocs/op
 */
 
 // nodeSL - node of singly linked list

@@ -24,6 +24,21 @@ package list
 	Best:    O(1)        Best:    O(1)        Best:    O(n)
 	Average: O(1)        Average: O(n)        Average: O(n)
 	Worst:   O(1)        Worst:   O(n)        Worst:   O(n)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkInsertHeadDoublyList-8          1000000               550 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertDoublyList-8              1000000               684 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertTailDoublyList-8          1000000               747 ns/op             320 B/op         10 allocs/op
+
+	BenchmarkGetHeadDoublyList-8             1000000                86.6 ns/op             0 B/op          0 allocs/op
+	BenchmarkGetDoublyList-8                 1000000               192 ns/op               0 B/op          0 allocs/op
+	BenchmarkGetTailDoublyList-8             1000000               214 ns/op               0 B/op          0 allocs/op
+	
+	BenchmarkPeekHeadDoublyList-8            1000000                 7.55 ns/op            0 B/op          0 allocs/op
+	BenchmarkPeekDoublyList-8                1000000                48.3 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekTailDoublyList-8            1000000                71.9 ns/op             0 B/op          0 allocs/op
 */
 
 // nodeDL - node of doubly linked list
