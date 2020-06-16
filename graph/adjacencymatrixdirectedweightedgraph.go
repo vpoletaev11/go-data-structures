@@ -7,6 +7,13 @@ package graph
 	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(n)
 	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(n)
 	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(n)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkAddEdgeAMDirectedWeightedGraph-8        1000000                92.6 ns/op             0 B/op          0 allocs/op
+	BenchmarkRemoveEdgeAMDirectedWeightedGraph-8     1000000                87.3 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekEdgesAMDirectedWeightedGraph-8      1000000              1527 ns/op             448 B/op         18 allocs/op
 */
 
 // AdjacencyMatrixDirectedWeightedGraph - Directed Weighted Graph based on adjacency matrix.

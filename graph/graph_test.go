@@ -299,6 +299,215 @@ func TestAdjacencyMatrixWeightedGraphOutOfRange(t *testing.T) {
 	assert.False(t, ok)
 }
 
+// BENCHMARKS
+// Benchmarking AdjacencyMatrixDirectedGraph:
+func BenchmarkAddEdgeAMDirectedGraph(b *testing.B) {
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.AdjMatrixDirectedGraphInit(10)
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeAMDirectedGraph(b *testing.B) {
+	g := graph.AdjMatrixDirectedGraphInit(10)
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesAMDirectedGraph(b *testing.B) {
+	g := graph.AdjMatrixDirectedGraphInit(10)
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking AdjacencyMatrixDirectedWeightedGraph:
+func BenchmarkAddEdgeAMDirectedWeightedGraph(b *testing.B) {
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+		b.StartTimer()
+
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeAMDirectedWeightedGraph(b *testing.B) {
+	g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesAMDirectedWeightedGraph(b *testing.B) {
+	g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking AdjacencyMatrixGraph:
+func BenchmarkAddEdgeAMGraph(b *testing.B) {
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.AdjMatrixGraphInit(10)
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeAMGraph(b *testing.B) {
+	g := graph.AdjMatrixGraphInit(10)
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesAMGraph(b *testing.B) {
+	g := graph.AdjMatrixGraphInit(10)
+	dataset := []fromTo{{0, 6}, {1, 4}, {5, 2}, {3, 9}, {4, 4}, {8, 0}, {7, 3}, {8, 0}, {2, 4}, {5, 1}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range dataset {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking AdjacencyMatrixDirectedWeightedGraph:
+func BenchmarkAddEdgeAMWeightedGraph(b *testing.B) {
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.AdjMatrixWeightedGraphInit(10)
+		b.StartTimer()
+
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeAMWeightedGraph(b *testing.B) {
+	g := graph.AdjMatrixWeightedGraphInit(10)
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for _, ft := range dataset {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesAMWeightedGraph(b *testing.B) {
+	g := graph.AdjMatrixWeightedGraphInit(10)
+	dataset := []fromToWeight{{0, 6, 10}, {1, 4, 99}, {5, 2, 14}, {3, 9, 555}, {4, 4, 1000}, {8, 0, 0}, {7, 3, 50}, {8, 0, 98}, {2, 4, 44}, {5, 1, 1479}}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range dataset {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
 type fromToWeight struct {
 	from, to, weight int
 }
