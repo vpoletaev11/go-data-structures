@@ -7,6 +7,13 @@ package tree
 	Best:    O(1)        Best:    O(1)            Best:    O(1)            Best:    O(1)
 	Average: O(1)        Average: O(log n)        Average: O(log n)        Average: O(1)
 	Worst:   O(1)        Worst:   O(log n)        Worst:   O(log n)        Worst:   O(1)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkInsertHeap-8            1000000               722 ns/op             256 B/op          5 allocs/op
+	BenchmarkRemoveHeap-8            1000000               214 ns/op               0 B/op          0 allocs/op
+	BenchmarkPeekHeap-8              1000000                 0.634 ns/op           0 B/op          0 allocs/op
 */
 
 // Heap - binary tree where:

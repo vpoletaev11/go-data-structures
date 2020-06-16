@@ -7,6 +7,13 @@ package tree
 	Best:    O(log n)        Best:    O(log n)        Best:    O(log n)
 	Average: O(log n)        Average: O(log n)        Average: O(log n)
 	Worst:   O(log n)        Worst:   O(log n)        Worst:   O(log n)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkInsertAVL-8             1000000              1436 ns/op             768 B/op         16 allocs/op
+	BenchmarkRemoveAVL-8             1000000               600 ns/op             144 B/op          3 allocs/op
+	BenchmarkFindAVL-8               1000000                21.8 ns/op             0 B/op          0 allocs/op
 */
 
 // nodeAVL - node of AVL tree

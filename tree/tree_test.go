@@ -122,3 +122,148 @@ func TestAVLOutOfRange(t *testing.T) {
 	assert.False(t, a.Find(1000))
 	a.Remove(1000)
 }
+
+// BENCHMARKS
+// Benchmarking BinarySearchTree:
+func BenchmarkInsertBST(b *testing.B) {
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var t tree.BinarySearchTree
+		b.StartTimer()
+
+		for _, value := range dataset {
+			t.Insert(value)
+		}
+	}
+}
+
+func BenchmarkRemoveBST(b *testing.B) {
+	var t tree.BinarySearchTree
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			t.Insert(value)
+		}
+		b.StartTimer()
+
+		for _, value := range dataset {
+			t.Remove(value)
+		}
+	}
+}
+
+func BenchmarkFindBST(b *testing.B) {
+	var t tree.BinarySearchTree
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	for _, value := range dataset {
+		t.Insert(value)
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		for _, value := range dataset {
+			t.Remove(value)
+		}
+	}
+}
+
+// Benchmarking AVLTree:
+func BenchmarkInsertAVL(b *testing.B) {
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var t tree.AVLTree
+		b.StartTimer()
+
+		for _, value := range dataset {
+			t.Insert(value)
+		}
+	}
+}
+
+func BenchmarkRemoveAVL(b *testing.B) {
+	var t tree.AVLTree
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			t.Insert(value)
+		}
+		b.StartTimer()
+
+		for _, value := range dataset {
+			t.Remove(value)
+		}
+	}
+}
+
+func BenchmarkFindAVL(b *testing.B) {
+	var t tree.AVLTree
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	for _, value := range dataset {
+		t.Insert(value)
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		for _, value := range dataset {
+			t.Remove(value)
+		}
+	}
+}
+
+// Benchmarking Heap:
+func BenchmarkInsertHeap(b *testing.B) {
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		var h tree.Heap
+		b.StartTimer()
+
+		for _, value := range dataset {
+			h.Push(value)
+		}
+	}
+}
+
+func BenchmarkRemoveHeap(b *testing.B) {
+	var h tree.Heap
+	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, value := range dataset {
+			h.Push(value)
+		}
+		b.StartTimer()
+
+		for i := 0; i < len(dataset); i++ {
+			h.Pop()
+		}
+	}
+}
+
+func BenchmarkPeekHeap(b *testing.B) {
+	var h tree.Heap
+	h.Push(1)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		h.Peek()
+	}
+}

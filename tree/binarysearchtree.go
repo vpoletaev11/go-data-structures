@@ -7,6 +7,13 @@ package tree
 	Best:    O(log n)        Best:    O(log n)        Best:    O(log n)
 	Average: O(log n)        Average: O(log n)        Average: O(log n)
 	Worst:   O(n)            Worst:   O(n)            Worst:   O(n)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkInsertBST-8             1000000               693 ns/op             320 B/op         10 allocs/op
+	BenchmarkRemoveBST-8             1000000               122 ns/op               0 B/op          0 allocs/op
+	BenchmarkFindBST-8               1000000                28.2 ns/op             0 B/op          0 allocs/op
 */
 
 // nodeBST - node of binary search tree
