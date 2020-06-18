@@ -140,7 +140,11 @@ func (d *DoublyLinkedList) Get(index int) (val string, ok bool) {
 	val = node.data
 
 	node.prevNode.nextNode = node.nextNode // Previous node nextNode field now points to next node
+	if node.nextNode != nil {
+		node.nextNode.prevNode = node.prevNode // Next node prevNode field now points to previous node
+	}
 	d.len--
+
 	return val, true
 }
 
