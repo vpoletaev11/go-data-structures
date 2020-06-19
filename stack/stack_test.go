@@ -7,12 +7,12 @@ import (
 	"github.com/vpoletaev11/go-data-structures/stack"
 )
 
+var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+var expectedOut = []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
+
 // Testing SliceStack
 func TestSliceStackSuccess(t *testing.T) {
 	var s stack.SliceStack
-
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
 
 	for _, value := range dataset {
 		s.Push(value)
@@ -48,9 +48,6 @@ func TestSliceStackOutOfRange(t *testing.T) {
 func TestListStackSuccess(t *testing.T) {
 	var l stack.ListStack
 
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
-
 	for _, value := range dataset {
 		l.Push(value)
 	}
@@ -84,9 +81,6 @@ func TestListStackOutOfRange(t *testing.T) {
 // BENCHMARKS
 // Benchmarking ListStack:
 func BenchmarkPushListStack(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var l stack.ListStack
@@ -100,7 +94,6 @@ func BenchmarkPushListStack(b *testing.B) {
 
 func BenchmarkPopListStack(b *testing.B) {
 	var l stack.ListStack
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -128,9 +121,6 @@ func BenchmarkPeekListStack(b *testing.B) {
 
 // Benchmarking SliceStack:
 func BenchmarkPushSliceStack(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var s stack.SliceStack
@@ -144,7 +134,6 @@ func BenchmarkPushSliceStack(b *testing.B) {
 
 func BenchmarkPopSliceStack(b *testing.B) {
 	var s stack.SliceStack
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

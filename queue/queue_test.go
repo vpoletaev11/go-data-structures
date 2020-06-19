@@ -7,11 +7,12 @@ import (
 	"github.com/vpoletaev11/go-data-structures/queue"
 )
 
+var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+var datasetPQ = []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
+
 // Testing SliceQueue:
 func TestSliceQueueSuccess(t *testing.T) {
 	var s queue.SliceQueue
-
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
 	for _, value := range dataset {
 		s.Enqueue(value)
@@ -47,8 +48,6 @@ func TestSliceQueueOutOfRange(t *testing.T) {
 func TestListQueueSuccess(t *testing.T) {
 	var l queue.ListQueue
 
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-
 	for _, value := range dataset {
 		l.Enqueue(value)
 	}
@@ -83,15 +82,12 @@ func TestListQueueOutOfRange(t *testing.T) {
 func TestPriorityQueueSuccess(t *testing.T) {
 	var p queue.PriorityQueue
 
-	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
-	expectedOut := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-
-	for _, valPrior := range dataset {
+	for _, valPrior := range datasetPQ {
 		p.Enqueue(valPrior.value, valPrior.priority)
 	}
 
-	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, p.Len())
+	for i, expected := range dataset {
+		assert.Equal(t, len(dataset)-i, p.Len())
 
 		val, ok := p.Peek()
 		assert.Equal(t, expected, val)
@@ -119,9 +115,6 @@ func TestPriorityQueueOutOfRange(t *testing.T) {
 // BENCHMARKS
 // Benchmarking ListQueue:
 func BenchmarkEnqueueListQueue(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var l queue.ListQueue
@@ -135,7 +128,6 @@ func BenchmarkEnqueueListQueue(b *testing.B) {
 
 func BenchmarkDequeueListQueue(b *testing.B) {
 	var l queue.ListQueue
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -163,9 +155,6 @@ func BenchmarkPeekListQueue(b *testing.B) {
 
 // Benchmarking SliceQueue:
 func BenchmarkEnqueueSliceQueue(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var s queue.SliceQueue
@@ -179,7 +168,6 @@ func BenchmarkEnqueueSliceQueue(b *testing.B) {
 
 func BenchmarkDequeueSliceQueue(b *testing.B) {
 	var s queue.SliceQueue
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -207,15 +195,12 @@ func BenchmarkPeekSliceQueue(b *testing.B) {
 
 // Benchmarking PriorityQueue:
 func BenchmarkEnqueuePriorityQueue(b *testing.B) {
-	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var p queue.PriorityQueue
 		b.StartTimer()
 
-		for _, valPrior := range dataset {
+		for _, valPrior := range datasetPQ {
 			p.Enqueue(valPrior.value, valPrior.priority)
 		}
 	}
@@ -223,12 +208,11 @@ func BenchmarkEnqueuePriorityQueue(b *testing.B) {
 
 func BenchmarkDequeuePriorityQueue(b *testing.B) {
 	var p queue.PriorityQueue
-	dataset := []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		for _, valPrior := range dataset {
+		for _, valPrior := range datasetPQ {
 			p.Enqueue(valPrior.value, valPrior.priority)
 		}
 		b.StartTimer()

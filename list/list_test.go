@@ -7,13 +7,16 @@ import (
 	"github.com/vpoletaev11/go-data-structures/list"
 )
 
+var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
+var expectedOut = []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
+
+var datasetIV = []indexValue{{0, "two"}, {0, "one"}, {2, "three"}, {3, "four"}, {4, "six"}, {4, "five"}, {6, "ten"}, {6, "nine"}, {6, "eight"}, {6, "seven"}}
+var expectedOutIV = []indexValue{{4, "five"}, {1, "two"}, {7, "ten"}, {3, "six"}, {5, "nine"}, {3, "seven"}, {3, "eight"}, {0, "one"}, {1, "four"}, {0, "three"}}
+
 // Testing SinglyLinkedList:
 // HEAD
 func TestSinglyListHEADSuccess(t *testing.T) {
 	var s list.SinglyLinkedList
-
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
 
 	for _, value := range dataset {
 		s.InsertHead(value)
@@ -49,50 +52,20 @@ func TestSinglyListHEADOutOfRange(t *testing.T) {
 func TestSinglyListBODYSuccess(t *testing.T) {
 	var s list.SinglyLinkedList
 
-	ok := s.Insert(0, "three")
-	assert.True(t, ok)
+	for _, iv := range datasetIV {
+		ok := s.Insert(iv.index, iv.value)
+		assert.True(t, ok, "On insertion with index: %d and value \"%s\"", iv.index, iv.value)
+	}
 
-	ok = s.Insert(0, "one")
-	assert.True(t, ok)
+	for _, iv := range expectedOutIV {
+		val, ok := s.Peek(iv.index)
+		assert.Equal(t, iv.value, val, "On Peeking with index: %d", iv.index)
+		assert.True(t, ok, "On Peeking with index: \"%d\"", iv.index)
 
-	ok = s.Insert(1, "two")
-	assert.True(t, ok)
-
-	ok = s.Insert(3, "four")
-	assert.True(t, ok)
-
-	val, ok := s.Peek(3)
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = s.Get(3)
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = s.Peek(2)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = s.Get(2)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = s.Peek(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = s.Get(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = s.Peek(0)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = s.Get(0)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
+		val, ok = s.Get(iv.index)
+		assert.Equal(t, iv.value, val, "On Getting with index: %d", iv.index)
+		assert.True(t, ok, "On Getting with index: %d", iv.index)
+	}
 }
 
 func TestSinglyListBODYOutOfRange(t *testing.T) {
@@ -139,9 +112,6 @@ func TestSinglyListBODYOutOfRange(t *testing.T) {
 func TestSinglyListTailSuccess(t *testing.T) {
 	var s list.SinglyLinkedList
 
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
-
 	for _, value := range dataset {
 		s.InsertTail(value)
 	}
@@ -177,9 +147,6 @@ func TestSinglyListTailOutOfRange(t *testing.T) {
 func TestDoublyListHEADSuccess(t *testing.T) {
 	var d list.DoublyLinkedList
 
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
-
 	for _, value := range dataset {
 		d.InsertHead(value)
 	}
@@ -214,50 +181,20 @@ func TestDoublyListHEADOutOfRange(t *testing.T) {
 func TestDoublyListBODYSuccess(t *testing.T) {
 	var d list.DoublyLinkedList
 
-	ok := d.Insert(0, "three")
-	assert.True(t, ok)
+	for _, iv := range datasetIV {
+		ok := d.Insert(iv.index, iv.value)
+		assert.True(t, ok, "On insertion with index: %d and value \"%s\"", iv.index, iv.value)
+	}
 
-	ok = d.Insert(0, "one")
-	assert.True(t, ok)
+	for _, iv := range expectedOutIV {
+		val, ok := d.Peek(iv.index)
+		assert.Equal(t, iv.value, val, "On Peeking with index: %d", iv.index)
+		assert.True(t, ok, "On Peeking with index: \"%d\"", iv.index)
 
-	ok = d.Insert(1, "two")
-	assert.True(t, ok)
-
-	ok = d.Insert(3, "four")
-	assert.True(t, ok)
-
-	val, ok := d.Peek(3)
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = d.Get(3)
-	assert.Equal(t, "four", val)
-	assert.True(t, ok)
-
-	val, ok = d.Peek(2)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = d.Get(2)
-	assert.Equal(t, "three", val)
-	assert.True(t, ok)
-
-	val, ok = d.Peek(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = d.Get(1)
-	assert.Equal(t, "two", val)
-	assert.True(t, ok)
-
-	val, ok = d.Peek(0)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
-	val, ok = d.Get(0)
-	assert.Equal(t, "one", val)
-	assert.True(t, ok)
-
+		val, ok = d.Get(iv.index)
+		assert.Equal(t, iv.value, val, "On Getting with index: %d", iv.index)
+		assert.True(t, ok, "On Getting with index: %d", iv.index)
+	}
 }
 
 func TestDoublyListBODYOutOfRange(t *testing.T) {
@@ -304,9 +241,6 @@ func TestDoublyListBODYOutOfRange(t *testing.T) {
 func TestDoublyListTAILSuccess(t *testing.T) {
 	var d list.DoublyLinkedList
 
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	expectedOut := []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
-
 	for _, value := range dataset {
 		d.InsertTail(value)
 	}
@@ -340,9 +274,6 @@ func TestDoublyListTAILOutOfRange(t *testing.T) {
 // BENCHMARKS
 // Benchmarking SinglyLinkedList:
 func BenchmarkInsertHeadSinglyList(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var s list.SinglyLinkedList
@@ -355,24 +286,18 @@ func BenchmarkInsertHeadSinglyList(b *testing.B) {
 }
 
 func BenchmarkInsertSinglyList(b *testing.B) {
-	dataset := []valueIndex{{"two", 0}, {"one", 0}, {"three", 2}, {"four", 3}, {"six", 4}, {"five", 4}, {"ten", 6}, {"nine", 6}, {"eight", 6}, {"seven", 6}}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var s list.SinglyLinkedList
 		b.StartTimer()
 
-		for _, valPrior := range dataset {
-			s.Insert(valPrior.index, valPrior.value)
+		for _, iv := range datasetIV {
+			s.Insert(iv.index, iv.value)
 		}
 	}
 }
 
 func BenchmarkInsertTailSinglyList(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var s list.SinglyLinkedList
@@ -386,7 +311,6 @@ func BenchmarkInsertTailSinglyList(b *testing.B) {
 
 func BenchmarkGetHeadSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -404,7 +328,6 @@ func BenchmarkGetHeadSinglyList(b *testing.B) {
 
 func BenchmarkGetSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	indexset := []int{6, 6, 6, 6, 4, 4, 3, 2, 0, 0}
 	b.ResetTimer()
 
@@ -423,7 +346,6 @@ func BenchmarkGetSinglyList(b *testing.B) {
 
 func BenchmarkGetTailSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -441,7 +363,6 @@ func BenchmarkGetTailSinglyList(b *testing.B) {
 
 func BenchmarkPeekHeadSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	s.InsertHead("value")
 	b.ResetTimer()
 
@@ -454,7 +375,6 @@ func BenchmarkPeekHeadSinglyList(b *testing.B) {
 
 func BenchmarkPeekSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	indexset := []int{6, 6, 6, 6, 4, 4, 3, 2, 0, 0}
 
 	for _, value := range dataset {
@@ -471,7 +391,6 @@ func BenchmarkPeekSinglyList(b *testing.B) {
 
 func BenchmarkPeekTailSinglyList(b *testing.B) {
 	var s list.SinglyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
 	for _, value := range dataset {
 		s.InsertHead(value)
@@ -487,9 +406,6 @@ func BenchmarkPeekTailSinglyList(b *testing.B) {
 
 // Benchmarking DoublyLinkedList:
 func BenchmarkInsertHeadDoublyList(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var d list.DoublyLinkedList
@@ -502,24 +418,18 @@ func BenchmarkInsertHeadDoublyList(b *testing.B) {
 }
 
 func BenchmarkInsertDoublyList(b *testing.B) {
-	dataset := []valueIndex{{"two", 0}, {"one", 0}, {"three", 2}, {"four", 3}, {"six", 4}, {"five", 4}, {"ten", 6}, {"nine", 6}, {"eight", 6}, {"seven", 6}}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var d list.DoublyLinkedList
 		b.StartTimer()
 
-		for _, valPrior := range dataset {
-			d.Insert(valPrior.index, valPrior.value)
+		for _, iv := range datasetIV {
+			d.Insert(iv.index, iv.value)
 		}
 	}
 }
 
 func BenchmarkInsertTailDoublyList(b *testing.B) {
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var d list.DoublyLinkedList
@@ -533,7 +443,6 @@ func BenchmarkInsertTailDoublyList(b *testing.B) {
 
 func BenchmarkGetHeadDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -551,7 +460,6 @@ func BenchmarkGetHeadDoublyList(b *testing.B) {
 
 func BenchmarkGetDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	indexset := []int{6, 6, 6, 6, 4, 4, 3, 2, 0, 0}
 	b.ResetTimer()
 
@@ -570,7 +478,6 @@ func BenchmarkGetDoublyList(b *testing.B) {
 
 func BenchmarkGetTailDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -588,7 +495,6 @@ func BenchmarkGetTailDoublyList(b *testing.B) {
 
 func BenchmarkPeekHeadDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	d.InsertHead("value")
 	b.ResetTimer()
 
@@ -601,7 +507,6 @@ func BenchmarkPeekHeadDoublyList(b *testing.B) {
 
 func BenchmarkPeekDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 	indexset := []int{6, 6, 6, 6, 4, 4, 3, 2, 0, 0}
 
 	for _, value := range dataset {
@@ -618,7 +523,6 @@ func BenchmarkPeekDoublyList(b *testing.B) {
 
 func BenchmarkPeekTailDoublyList(b *testing.B) {
 	var d list.DoublyLinkedList
-	dataset := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
 
 	for _, value := range dataset {
 		d.InsertHead(value)
@@ -632,7 +536,7 @@ func BenchmarkPeekTailDoublyList(b *testing.B) {
 	}
 }
 
-type valueIndex struct {
-	value string
+type indexValue struct {
 	index int
+	value string
 }

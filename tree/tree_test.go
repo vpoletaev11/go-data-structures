@@ -8,14 +8,16 @@ import (
 	"github.com/vpoletaev11/go-data-structures/tree"
 )
 
+var datasetSmall = []int{1, 2, 3, 4, 5521, 111, 99, 13}
+var datasetBig = rand.Perm(10000)
+
 // Testing Heap:
 func TestHeapSuccess(t *testing.T) {
 	var h tree.Heap
 
-	dataset := []int{1, 2, 3, 4, 5521, 111, 99, 13}
 	expectedOut := []int{5521, 111, 99, 13, 4, 3, 2, 1}
 
-	for _, value := range dataset {
+	for _, value := range datasetSmall {
 		h.Push(value)
 	}
 
@@ -51,13 +53,11 @@ func TestHeapOutOfRange(t *testing.T) {
 func TestBSTSuccess(t *testing.T) {
 	var b tree.BinarySearchTree
 
-	dataset := rand.Perm(10000)
-
-	for _, value := range dataset {
+	for _, value := range datasetBig {
 		b.Insert(value)
 	}
 
-	for _, value := range dataset {
+	for _, value := range datasetBig {
 		assert.True(t, b.Find(value), "Value: %d %s", value, "been inserted, but not found")
 
 		b.Remove(value)
@@ -89,13 +89,11 @@ func TestBSTOutOfRange(t *testing.T) {
 func TestAVLSuccess(t *testing.T) {
 	var a tree.AVLTree
 
-	dataset := rand.Perm(10000)
-
-	for _, value := range dataset {
+	for _, value := range datasetBig {
 		a.Insert(value)
 	}
 
-	for _, value := range dataset {
+	for _, value := range datasetBig {
 		assert.True(t, a.Find(value), "Value: %d %s", value, "been inserted, but not found")
 
 		a.Remove(value)
@@ -126,15 +124,12 @@ func TestAVLOutOfRange(t *testing.T) {
 // BENCHMARKS
 // Benchmarking BinarySearchTree:
 func BenchmarkInsertBST(b *testing.B) {
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var t tree.BinarySearchTree
 		b.StartTimer()
 
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Insert(value)
 		}
 	}
@@ -142,17 +137,16 @@ func BenchmarkInsertBST(b *testing.B) {
 
 func BenchmarkRemoveBST(b *testing.B) {
 	var t tree.BinarySearchTree
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Insert(value)
 		}
 		b.StartTimer()
 
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Remove(value)
 		}
 	}
@@ -160,15 +154,14 @@ func BenchmarkRemoveBST(b *testing.B) {
 
 func BenchmarkFindBST(b *testing.B) {
 	var t tree.BinarySearchTree
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	for _, value := range dataset {
+	for _, value := range datasetSmall {
 		t.Insert(value)
 	}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Remove(value)
 		}
 	}
@@ -176,15 +169,12 @@ func BenchmarkFindBST(b *testing.B) {
 
 // Benchmarking AVLTree:
 func BenchmarkInsertAVL(b *testing.B) {
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var t tree.AVLTree
 		b.StartTimer()
 
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Insert(value)
 		}
 	}
@@ -192,17 +182,16 @@ func BenchmarkInsertAVL(b *testing.B) {
 
 func BenchmarkRemoveAVL(b *testing.B) {
 	var t tree.AVLTree
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Insert(value)
 		}
 		b.StartTimer()
 
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Remove(value)
 		}
 	}
@@ -210,15 +199,14 @@ func BenchmarkRemoveAVL(b *testing.B) {
 
 func BenchmarkFindAVL(b *testing.B) {
 	var t tree.AVLTree
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	for _, value := range dataset {
+	for _, value := range datasetSmall {
 		t.Insert(value)
 	}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			t.Remove(value)
 		}
 	}
@@ -226,15 +214,12 @@ func BenchmarkFindAVL(b *testing.B) {
 
 // Benchmarking Heap:
 func BenchmarkInsertHeap(b *testing.B) {
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		var h tree.Heap
 		b.StartTimer()
 
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			h.Push(value)
 		}
 	}
@@ -242,17 +227,16 @@ func BenchmarkInsertHeap(b *testing.B) {
 
 func BenchmarkRemoveHeap(b *testing.B) {
 	var h tree.Heap
-	dataset := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		for _, value := range dataset {
+		for _, value := range datasetSmall {
 			h.Push(value)
 		}
 		b.StartTimer()
 
-		for i := 0; i < len(dataset); i++ {
+		for i := 0; i < len(datasetSmall); i++ {
 			h.Pop()
 		}
 	}
