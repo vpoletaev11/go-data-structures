@@ -46,7 +46,7 @@ func AdjMatrixGraphInit(size int) *AdjacencyMatrixGraph {
 
 // AddEdge adds edge between vertexes
 func (a *AdjacencyMatrixGraph) AddEdge(from, to int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -57,7 +57,7 @@ func (a *AdjacencyMatrixGraph) AddEdge(from, to int) bool {
 
 // RemoveEdge removes edge between vertexes
 func (a *AdjacencyMatrixGraph) RemoveEdge(from, to int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -68,7 +68,7 @@ func (a *AdjacencyMatrixGraph) RemoveEdge(from, to int) bool {
 
 // PeekEdges returns slice of edges of inputted vertex
 func (a *AdjacencyMatrixGraph) PeekEdges(vertex int) (edges []int, ok bool) {
-	if vertex > a.Size() || vertex < 0 {
+	if vertex > a.Size()-1 || vertex < 0 {
 		return []int{}, false
 	}
 

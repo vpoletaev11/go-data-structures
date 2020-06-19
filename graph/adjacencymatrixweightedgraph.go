@@ -46,7 +46,7 @@ func AdjMatrixWeightedGraphInit(size int) *AdjacencyMatrixWeightedGraph {
 
 // AddEdge adds edge between vertexes
 func (a *AdjacencyMatrixWeightedGraph) AddEdge(from, to, weight int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -57,7 +57,7 @@ func (a *AdjacencyMatrixWeightedGraph) AddEdge(from, to, weight int) bool {
 
 // RemoveEdge removes edge between vertexes
 func (a *AdjacencyMatrixWeightedGraph) RemoveEdge(from, to int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -68,7 +68,7 @@ func (a *AdjacencyMatrixWeightedGraph) RemoveEdge(from, to int) bool {
 
 // PeekEdges returns slice of pairs edges and edges weight of inputted vertex
 func (a *AdjacencyMatrixWeightedGraph) PeekEdges(vertex int) (edges [][]int, ok bool) {
-	if vertex > a.Size() || vertex < 0 {
+	if vertex > a.Size()-1 || vertex < 0 {
 		return [][]int{}, false
 	}
 

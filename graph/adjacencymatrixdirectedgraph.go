@@ -17,7 +17,7 @@ package graph
 */
 
 // AdjacencyMatrixDirectedGraph - Directed Graph based on adjacency matrix.
-// Quantity of rows or columns of the matrix == quantity of graph vertexes.
+// Quantity of rows and columns of the matrix == quantity of graph vertexes.
 // Matrix stores edges of graph vertexes.
 // Indexing of vertexes starts from 0.
 type AdjacencyMatrixDirectedGraph struct {
@@ -46,7 +46,7 @@ func AdjMatrixDirectedGraphInit(size int) *AdjacencyMatrixDirectedGraph {
 
 // AddEdge adds edge between vertexes
 func (a *AdjacencyMatrixDirectedGraph) AddEdge(from, to int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -56,7 +56,7 @@ func (a *AdjacencyMatrixDirectedGraph) AddEdge(from, to int) bool {
 
 // RemoveEdge removes edge between vertexes
 func (a *AdjacencyMatrixDirectedGraph) RemoveEdge(from, to int) bool {
-	if from > a.Size() || to > a.Size() || from < 0 || to < 0 {
+	if from > a.Size()-1 || to > a.Size()-1 || from < 0 || to < 0 {
 		return false
 	}
 
@@ -66,7 +66,7 @@ func (a *AdjacencyMatrixDirectedGraph) RemoveEdge(from, to int) bool {
 
 // PeekEdges returns slice of edges of inputted vertex
 func (a *AdjacencyMatrixDirectedGraph) PeekEdges(vertex int) (edges []int, ok bool) {
-	if vertex > a.Size() || vertex < 0 {
+	if vertex > a.Size()-1 || vertex < 0 {
 		return []int{}, false
 	}
 
