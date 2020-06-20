@@ -7,6 +7,20 @@ import (
 	"github.com/vpoletaev11/go-data-structures/graph"
 )
 
+type graphI interface {
+	AddEdge(int, int) bool
+	RemoveEdge(int, int) bool
+	PeekEdges(int) ([]int, bool)
+	Size() int
+}
+
+type weightedGraphI interface {
+	AddEdge(int, int, int) bool
+	RemoveEdge(int, int) bool
+	PeekEdges(int) ([][]int, bool)
+	Size() int
+}
+
 var datasetFT = []fromTo{
 	{0, 6},
 	{1, 4},
@@ -19,6 +33,7 @@ var datasetFT = []fromTo{
 	{2, 4},
 	{5, 1},
 }
+
 var datasetFTW = []fromToWeight{
 	{0, 6, 1000},
 	{1, 4, 38193},
@@ -32,69 +47,106 @@ var datasetFTW = []fromToWeight{
 	{5, 1, 0},
 }
 
-// Testing AdjacencyMatrixDirectedGraph:
-func TestAdjacencyMatrixDirectedGraphSUCCESS(t *testing.T) {
-	a := graph.AdjMatrixDirectedGraphInit(10)
-	expectedOut := [][]int{{6}, {4}, {4}, {2, 3, 9}, {4}, {1}, []int(nil), []int(nil), {0}, []int(nil)} // indexes of slices == indexes of vertexes
+// Testing AMDirectedGraph and AMGraph:
+func TestAMDirectedGraphSuccess(t *testing.T) {
+	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
+		{6},
+		{4},
+		{4},
+		{2, 3, 9},
+		{4},
+		{1},
+		[]int(nil),
+		[]int(nil),
+		{0},
+		[]int(nil),
+	}
+	graphSuccess(t, graph.AMDirectedGraphInit(10), expectedOut)
+}
 
-	assert.Equal(t, 10, a.Size())
+func TestAMGraphSuccess(t *testing.T) {
+	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
+		{6, 8},
+		{4, 5},
+		{3, 4},
+		{2, 3, 9},
+		{1, 2, 4},
+		{1},
+		{0},
+		[]int(nil),
+		{0},
+		{3},
+	}
+	graphSuccess(t, graph.AMGraphInit(10), expectedOut)
+}
+
+func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
+	assert.Equal(t, 10, graph.Size())
 
 	for _, value := range datasetFT {
-		ok := a.AddEdge(value.from, value.to)
+		ok := graph.AddEdge(value.from, value.to)
 		assert.True(t, ok, "On adding edge with from: %d and to: %d", value.from, value.to)
 	}
 
 	for i, out := range expectedOut {
-		edges, ok := a.PeekEdges(i)
+		edges, ok := graph.PeekEdges(i)
 		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
 		assert.True(t, ok, "On peeking edges with vertex: %d", i)
 	}
 
 	// remove all edges
 	for _, value := range datasetFT {
-		ok := a.RemoveEdge(value.from, value.to)
+		ok := graph.RemoveEdge(value.from, value.to)
 		assert.True(t, ok, "On deleting edge with from: %d and to: %d", value.from, value.to)
 	}
 
 	// check that graph haven't edges
-	for i := 0; i < a.Size(); i++ {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
-		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
+	for i := 0; i < graph.Size(); i++ {
+		edges, ok := graph.PeekEdges(i)
+		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d", i)
+		assert.True(t, ok, "PeekEdges for node %d", i)
 	}
 }
 
-func TestAdjacencyMatrixDirectedGraphOutOfRange(t *testing.T) {
-	a := graph.AdjMatrixDirectedGraphInit(5)
-
+func TestAMDirectedGraphOutOfRange(t *testing.T) {
 	// AdjMatrixDirectedGraphInit out of range
-	assert.Nil(t, graph.AdjMatrixDirectedGraphInit(0))
+	assert.Nil(t, graph.AMDirectedGraphInit(0))
 
+	graphOutOfRange(t, graph.AMDirectedGraphInit(5))
+}
+
+func TestAMGraphOutOfRange(t *testing.T) {
+	// AdjMatrixDirectedGraphInit out of range
+	assert.Nil(t, graph.AMGraphInit(0))
+
+	graphOutOfRange(t, graph.AMGraphInit(5))
+}
+
+func graphOutOfRange(t *testing.T, graph graphI) {
 	// AddEdge out of range
-	assert.False(t, a.AddEdge(-1, 0))
-	assert.False(t, a.AddEdge(0, -1))
-	assert.False(t, a.AddEdge(10, 0))
-	assert.False(t, a.AddEdge(0, 10))
+	assert.False(t, graph.AddEdge(-1, 0))
+	assert.False(t, graph.AddEdge(0, -1))
+	assert.False(t, graph.AddEdge(10, 0))
+	assert.False(t, graph.AddEdge(0, 10))
 
 	// RemoveEdge out of range
-	assert.False(t, a.RemoveEdge(-1, 0))
-	assert.False(t, a.RemoveEdge(0, -1))
-	assert.False(t, a.RemoveEdge(10, 0))
-	assert.False(t, a.RemoveEdge(0, 10))
+	assert.False(t, graph.RemoveEdge(-1, 0))
+	assert.False(t, graph.RemoveEdge(0, -1))
+	assert.False(t, graph.RemoveEdge(10, 0))
+	assert.False(t, graph.RemoveEdge(0, 10))
 
 	// PeekEdges out of range
-	edges, ok := a.PeekEdges(-1)
+	edges, ok := graph.PeekEdges(-1)
 	assert.Equal(t, []int{}, edges)
 	assert.False(t, ok)
 
-	edges, ok = a.PeekEdges(10)
+	edges, ok = graph.PeekEdges(10)
 	assert.Equal(t, []int{}, edges)
 	assert.False(t, ok)
 }
 
-// Testing AdjacencyMatrixDirectedWeightedGraph:
-func TestAdjacencyMatrixDirectedWeightedGraphSUCCESS(t *testing.T) {
-	a := graph.AdjMatrixDirectedWeightedGraphInit(10)
+// Testing AMDirectedWeightedGraph and AMWeightedGraph:
+func TestAMDirectedWeightedGraphSuccess(t *testing.T) {
 	expectedOut := [][][]int{
 		{{6, 1000}},
 		{{4, 38193}},
@@ -107,124 +159,10 @@ func TestAdjacencyMatrixDirectedWeightedGraphSUCCESS(t *testing.T) {
 		{{0, 15}},
 		[][]int(nil),
 	}
-
-	assert.Equal(t, 10, a.Size())
-
-	for _, value := range datasetFTW {
-		ok := a.AddEdge(value.from, value.to, value.weight)
-		assert.True(t, ok, "On adding edge with from: %d, to: %d, weight: %d", value.from, value.to, value.weight)
-	}
-
-	for i, out := range expectedOut {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
-		assert.True(t, ok, "On peeking edges with vertex: %d", i)
-	}
-	// remove all edges
-	for _, value := range datasetFTW {
-		ok := a.RemoveEdge(value.from, value.to)
-		assert.True(t, ok, "On deleting edge with from: %d and to: %d", value.from, value.to)
-	}
-
-	// check that graph haven't edges
-	for i := 0; i < a.Size(); i++ {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
-		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
-	}
+	weightedGraphSuccess(t, graph.AMDirectedWeightedGraphInit(10), expectedOut)
 }
 
-func TestAdjacencyMatrixDirectedWeightedGraphOutOfRange(t *testing.T) {
-	a := graph.AdjMatrixDirectedWeightedGraphInit(5)
-
-	// AdjMatrixDirectedWeightedGraphInit out of range
-	assert.Nil(t, graph.AdjMatrixDirectedWeightedGraphInit(0))
-
-	// AddEdge out of range
-	assert.False(t, a.AddEdge(-1, 0, 0))
-	assert.False(t, a.AddEdge(0, -1, 0))
-	assert.False(t, a.AddEdge(10, 0, 0))
-	assert.False(t, a.AddEdge(0, 10, 0))
-
-	// RemoveEdge out of range
-	assert.False(t, a.RemoveEdge(-1, 0))
-	assert.False(t, a.RemoveEdge(0, -1))
-	assert.False(t, a.RemoveEdge(10, 0))
-	assert.False(t, a.RemoveEdge(0, 10))
-
-	// PeekEdges out of range
-	edges, ok := a.PeekEdges(-1)
-	assert.Equal(t, [][]int{}, edges)
-	assert.False(t, ok)
-
-	edges, ok = a.PeekEdges(10)
-	assert.Equal(t, [][]int{}, edges)
-	assert.False(t, ok)
-}
-
-// Testing AdjacencyMatrixGraph:
-func TestAdjacencyMatrixGraphSUCCESS(t *testing.T) {
-	a := graph.AdjMatrixGraphInit(10)
-	expectedOut := [][]int{{6, 8}, {4, 5}, {3, 4}, {2, 3, 9}, {1, 2, 4}, {1}, {0}, []int(nil), {0}, {3}} // indexes of slices == indexes of vertexes
-
-	assert.Equal(t, 10, a.Size())
-
-	for _, value := range datasetFT {
-		ok := a.AddEdge(value.from, value.to)
-		assert.True(t, ok, "On adding edge with from: %d and to: %d", value.from, value.to)
-	}
-
-	for i, out := range expectedOut {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
-		assert.True(t, ok, "On peeking edges with vertex: %d", i)
-	}
-
-	// remove all edges
-	for _, value := range datasetFT {
-		ok := a.RemoveEdge(value.from, value.to)
-		assert.True(t, ok, "On deleting edge with from: %d and to: %d", value.from, value.to)
-	}
-
-	// check that graph haven't edges
-	for i := 0; i < a.Size(); i++ {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
-		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
-	}
-}
-
-func TestAdjacencyMatrixGraphOutOfRange(t *testing.T) {
-	a := graph.AdjMatrixGraphInit(5)
-
-	// AdjMatrixDirectedGraphInit out of range
-	assert.Nil(t, graph.AdjMatrixGraphInit(0))
-
-	// AddEdge out of range
-	assert.False(t, a.AddEdge(-1, 0))
-	assert.False(t, a.AddEdge(0, -1))
-	assert.False(t, a.AddEdge(10, 0))
-	assert.False(t, a.AddEdge(0, 10))
-
-	// RemoveEdge out of range
-	assert.False(t, a.RemoveEdge(-1, 0))
-	assert.False(t, a.RemoveEdge(0, -1))
-	assert.False(t, a.RemoveEdge(10, 0))
-	assert.False(t, a.RemoveEdge(0, 10))
-
-	// PeekEdges out of range
-	edges, ok := a.PeekEdges(-1)
-	assert.Equal(t, []int{}, edges)
-	assert.False(t, ok)
-
-	edges, ok = a.PeekEdges(10)
-	assert.Equal(t, []int{}, edges)
-	assert.False(t, ok)
-}
-
-// Testing AdjacencyMatrixWeightedGraph:
-func TestAdjacencyMatrixWeightedGraphSUCCESS(t *testing.T) {
-	a := graph.AdjMatrixWeightedGraphInit(10)
+func TestAMWeightedGraphSuccess(t *testing.T) {
 	expectedOut := [][][]int{
 		{{6, 1000}, {8, 15}},
 		{{4, 38193}},
@@ -237,68 +175,80 @@ func TestAdjacencyMatrixWeightedGraphSUCCESS(t *testing.T) {
 		{{0, 15}},
 		{{3, 222222}},
 	}
+	weightedGraphSuccess(t, graph.AMWeightedGraphInit(10), expectedOut)
+}
 
-	assert.Equal(t, 10, a.Size())
+func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]int) {
+	assert.Equal(t, 10, graph.Size())
 
 	for _, value := range datasetFTW {
-		ok := a.AddEdge(value.from, value.to, value.weight)
+		ok := graph.AddEdge(value.from, value.to, value.weight)
 		assert.True(t, ok, "On adding edge with from: %d, to: %d, weight: %d", value.from, value.to, value.weight)
 	}
 
 	for i, out := range expectedOut {
-		edges, ok := a.PeekEdges(i)
+		edges, ok := graph.PeekEdges(i)
 		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
 		assert.True(t, ok, "On peeking edges with vertex: %d", i)
 	}
-
 	// remove all edges
 	for _, value := range datasetFTW {
-		ok := a.RemoveEdge(value.from, value.to)
+		ok := graph.RemoveEdge(value.from, value.to)
 		assert.True(t, ok, "On deleting edge with from: %d and to: %d", value.from, value.to)
 	}
 
 	// check that graph haven't edges
-	for i := 0; i < a.Size(); i++ {
-		edges, ok := a.PeekEdges(i)
-		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d %s", i, "should return empty slice")
-		assert.True(t, ok, "PeekEdges for node %d %s", i, "should return true")
+	for i := 0; i < graph.Size(); i++ {
+		edges, ok := graph.PeekEdges(i)
+		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d", i)
+		assert.True(t, ok, "PeekEdges for node %d", i)
 	}
 }
 
-func TestAdjacencyMatrixWeightedGraphOutOfRange(t *testing.T) {
-	a := graph.AdjMatrixWeightedGraphInit(5)
 
+func TestAMDirectedWeightedGraphOutOfRange(t *testing.T) {
 	// AdjMatrixDirectedWeightedGraphInit out of range
-	assert.Nil(t, graph.AdjMatrixWeightedGraphInit(0))
+	assert.Nil(t, graph.AMDirectedWeightedGraphInit(0))
 
+	weightedGraphOutOfRange(t, graph.AMDirectedWeightedGraphInit(5))
+}
+
+func TestAMWeightedGraphOutOfRange(t *testing.T) {
+	// AdjMatrixDirectedWeightedGraphInit out of range
+	assert.Nil(t, graph.AMWeightedGraphInit(0))
+
+	weightedGraphOutOfRange(t, graph.AMWeightedGraphInit(5))
+}
+
+func weightedGraphOutOfRange(t *testing.T, graph weightedGraphI) {
 	// AddEdge out of range
-	assert.False(t, a.AddEdge(-1, 0, 0))
-	assert.False(t, a.AddEdge(0, -1, 0))
-	assert.False(t, a.AddEdge(10, 0, 0))
-	assert.False(t, a.AddEdge(0, 10, 0))
+	assert.False(t, graph.AddEdge(-1, 0, 0))
+	assert.False(t, graph.AddEdge(0, -1, 0))
+	assert.False(t, graph.AddEdge(10, 0, 0))
+	assert.False(t, graph.AddEdge(0, 10, 0))
 
 	// RemoveEdge out of range
-	assert.False(t, a.RemoveEdge(-1, 0))
-	assert.False(t, a.RemoveEdge(0, -1))
-	assert.False(t, a.RemoveEdge(10, 0))
-	assert.False(t, a.RemoveEdge(0, 10))
+	assert.False(t, graph.RemoveEdge(-1, 0))
+	assert.False(t, graph.RemoveEdge(0, -1))
+	assert.False(t, graph.RemoveEdge(10, 0))
+	assert.False(t, graph.RemoveEdge(0, 10))
 
 	// PeekEdges out of range
-	edges, ok := a.PeekEdges(-1)
+	edges, ok := graph.PeekEdges(-1)
 	assert.Equal(t, [][]int{}, edges)
 	assert.False(t, ok)
 
-	edges, ok = a.PeekEdges(10)
+	edges, ok = graph.PeekEdges(10)
 	assert.Equal(t, [][]int{}, edges)
 	assert.False(t, ok)
 }
 
 // BENCHMARKS
-// Benchmarking AdjacencyMatrixDirectedGraph:
+// Benchmarking AMDirectedGraph:
 func BenchmarkAddEdgeAMDirectedGraph(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		g := graph.AdjMatrixDirectedGraphInit(10)
+		g := graph.AMDirectedGraphInit(10)
 		b.StartTimer()
 
 		for _, ft := range datasetFT {
@@ -308,7 +258,7 @@ func BenchmarkAddEdgeAMDirectedGraph(b *testing.B) {
 }
 
 func BenchmarkRemoveEdgeAMDirectedGraph(b *testing.B) {
-	g := graph.AdjMatrixDirectedGraphInit(10)
+	g := graph.AMDirectedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -325,7 +275,7 @@ func BenchmarkRemoveEdgeAMDirectedGraph(b *testing.B) {
 }
 
 func BenchmarkPeekEdgesAMDirectedGraph(b *testing.B) {
-	g := graph.AdjMatrixDirectedGraphInit(10)
+	g := graph.AMDirectedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -341,11 +291,11 @@ func BenchmarkPeekEdgesAMDirectedGraph(b *testing.B) {
 	}
 }
 
-// Benchmarking AdjacencyMatrixDirectedWeightedGraph:
+// Benchmarking AMDirectedWeightedGraph:
 func BenchmarkAddEdgeAMDirectedWeightedGraph(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+		g := graph.AMDirectedWeightedGraphInit(10)
 		b.StartTimer()
 
 		for _, ftw := range datasetFTW {
@@ -355,7 +305,7 @@ func BenchmarkAddEdgeAMDirectedWeightedGraph(b *testing.B) {
 }
 
 func BenchmarkRemoveEdgeAMDirectedWeightedGraph(b *testing.B) {
-	g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+	g := graph.AMDirectedWeightedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -372,7 +322,7 @@ func BenchmarkRemoveEdgeAMDirectedWeightedGraph(b *testing.B) {
 }
 
 func BenchmarkPeekEdgesAMDirectedWeightedGraph(b *testing.B) {
-	g := graph.AdjMatrixDirectedWeightedGraphInit(10)
+	g := graph.AMDirectedWeightedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -388,11 +338,11 @@ func BenchmarkPeekEdgesAMDirectedWeightedGraph(b *testing.B) {
 	}
 }
 
-// Benchmarking AdjacencyMatrixGraph:
+// Benchmarking AMGraph:
 func BenchmarkAddEdgeAMGraph(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		g := graph.AdjMatrixGraphInit(10)
+		g := graph.AMGraphInit(10)
 		b.StartTimer()
 
 		for _, ft := range datasetFT {
@@ -402,7 +352,7 @@ func BenchmarkAddEdgeAMGraph(b *testing.B) {
 }
 
 func BenchmarkRemoveEdgeAMGraph(b *testing.B) {
-	g := graph.AdjMatrixGraphInit(10)
+	g := graph.AMGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -419,7 +369,7 @@ func BenchmarkRemoveEdgeAMGraph(b *testing.B) {
 }
 
 func BenchmarkPeekEdgesAMGraph(b *testing.B) {
-	g := graph.AdjMatrixGraphInit(10)
+	g := graph.AMGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -435,11 +385,11 @@ func BenchmarkPeekEdgesAMGraph(b *testing.B) {
 	}
 }
 
-// Benchmarking AdjacencyMatrixDirectedWeightedGraph:
+// Benchmarking AMDirectedWeightedGraph:
 func BenchmarkAddEdgeAMWeightedGraph(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		g := graph.AdjMatrixWeightedGraphInit(10)
+		g := graph.AMWeightedGraphInit(10)
 		b.StartTimer()
 
 		for _, ftw := range datasetFTW {
@@ -449,7 +399,7 @@ func BenchmarkAddEdgeAMWeightedGraph(b *testing.B) {
 }
 
 func BenchmarkRemoveEdgeAMWeightedGraph(b *testing.B) {
-	g := graph.AdjMatrixWeightedGraphInit(10)
+	g := graph.AMWeightedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -466,7 +416,7 @@ func BenchmarkRemoveEdgeAMWeightedGraph(b *testing.B) {
 }
 
 func BenchmarkPeekEdgesAMWeightedGraph(b *testing.B) {
-	g := graph.AdjMatrixWeightedGraphInit(10)
+	g := graph.AMWeightedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

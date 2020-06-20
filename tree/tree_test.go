@@ -8,14 +8,68 @@ import (
 	"github.com/vpoletaev11/go-data-structures/tree"
 )
 
-var datasetSmall = []int{1, 2, 3, 4, 5521, 111, 99, 13}
+type treeI interface {
+	Insert(int)
+	Remove(int)
+	Find(int) bool
+}
+
+var datasetSmall = []int{1, 2, 3, 5521, 8, 111, 99, 13, 9, 10}
 var datasetBig = rand.Perm(10000)
+
+// Testing Trees:
+func TestBSTSuccess(t *testing.T) {
+	treeSuccess(t, &tree.BinarySearchTree{})
+}
+
+func TestAVLSuccess(t *testing.T) {
+	treeSuccess(t, &tree.AVLTree{})
+}
+
+func treeSuccess(t *testing.T, tree treeI) {
+	for _, value := range datasetBig {
+		tree.Insert(value)
+	}
+
+	for _, value := range datasetBig {
+		assert.True(t, tree.Find(value), "Value: %d %s", value, "been inserted, but not found")
+
+		tree.Remove(value)
+
+		assert.False(t, tree.Find(value), "Value: %d %s", value, "been removed, but were found")
+	}
+}
+
+func TestBSTOutOfRange(t *testing.T) {
+	treeOutOfRange(t, &tree.BinarySearchTree{})
+}
+
+func TestAVLOutOfRange(t *testing.T) {
+	treeOutOfRange(t, &tree.AVLTree{})
+}
+
+func treeOutOfRange(t *testing.T, tree treeI) {
+	// Search and Delete values in empty tree
+	assert.False(t, tree.Find(50))
+	tree.Remove(50)
+
+	// Insert exists value
+	tree.Insert(100)
+	tree.Insert(100)
+
+	// Search and Delete values out of range
+	assert.False(t, tree.Find(0))
+	tree.Remove(0)
+
+	assert.False(t, tree.Find(1000))
+	tree.Remove(1000)
+}
 
 // Testing Heap:
 func TestHeapSuccess(t *testing.T) {
 	var h tree.Heap
 
-	expectedOut := []int{5521, 111, 99, 13, 4, 3, 2, 1}
+	expectedOut := []int{5521, 111, 99, 13, 10, 9, 8, 3, 2, 1}
 
 	for _, value := range datasetSmall {
 		h.Push(value)
@@ -26,11 +80,11 @@ func TestHeapSuccess(t *testing.T) {
 
 		val, ok := h.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%d\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%d\"", expected)
 
 		val, ok = h.Pop()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value: \"%d\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Pop for expected value: \"%d\"", expected)
 	}
 }
 
@@ -47,78 +101,6 @@ func TestHeapOutOfRange(t *testing.T) {
 	val, ok = h.Pop()
 	assert.Equal(t, 0, val)
 	assert.False(t, ok)
-}
-
-// Testing BinarySearchTree:
-func TestBSTSuccess(t *testing.T) {
-	var b tree.BinarySearchTree
-
-	for _, value := range datasetBig {
-		b.Insert(value)
-	}
-
-	for _, value := range datasetBig {
-		assert.True(t, b.Find(value), "Value: %d %s", value, "been inserted, but not found")
-
-		b.Remove(value)
-
-		assert.False(t, b.Find(value), "Value: %d %s", value, "been removed, but were found")
-	}
-}
-
-func TestBSTOutOfRange(t *testing.T) {
-	var b tree.BinarySearchTree
-
-	// Search and Delete values in empty tree
-	assert.False(t, b.Find(50))
-	b.Remove(50)
-
-	// Insert exists value
-	b.Insert(100)
-	b.Insert(100)
-
-	// Search and Delete values out of range
-	assert.False(t, b.Find(0))
-	b.Remove(0)
-
-	assert.False(t, b.Find(1000))
-	b.Remove(1000)
-}
-
-// Testing AVLTree:
-func TestAVLSuccess(t *testing.T) {
-	var a tree.AVLTree
-
-	for _, value := range datasetBig {
-		a.Insert(value)
-	}
-
-	for _, value := range datasetBig {
-		assert.True(t, a.Find(value), "Value: %d %s", value, "been inserted, but not found")
-
-		a.Remove(value)
-
-		assert.False(t, a.Find(value), "Value: %d %s", value, "been removed, but were found")
-	}
-}
-
-func TestAVLOutOfRange(t *testing.T) {
-	var a tree.AVLTree
-
-	// Search and Delete values in empty tree
-	assert.False(t, a.Find(50))
-	a.Remove(50)
-
-	// Insert exists value
-	a.Insert(100)
-	a.Insert(100)
-
-	// Search and Delete values out of range
-	assert.False(t, a.Find(0))
-	a.Remove(0)
-
-	assert.False(t, a.Find(1000))
-	a.Remove(1000)
 }
 
 // BENCHMARKS

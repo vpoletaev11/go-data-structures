@@ -7,73 +7,81 @@ import (
 	"github.com/vpoletaev11/go-data-structures/queue"
 )
 
-var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-var datasetPQ = []valuePriority{{"four", 80}, {"two", 1000}, {"ten", 1}, {"three", 100}, {"seven", 58}, {"eight", 54}, {"five", 75}, {"one", 10000}, {"six", 60}, {"nine", 30}}
+type queueI interface {
+	Enqueue(string)
+	Dequeue() (string, bool)
+	Peek() (string, bool)
+	Len() int
+}
 
-// Testing SliceQueue:
+var dataset = []string{
+	"one",
+	"two",
+	"three",
+	"four",
+	"five",
+	"six",
+	"seven",
+	"eight",
+	"nine",
+	"ten",
+}
+
+var datasetPQ = []valuePriority{
+	{"four", 80},
+	{"two", 1000},
+	{"ten", 1},
+	{"three", 100},
+	{"seven", 58},
+	{"eight", 54},
+	{"five", 75},
+	{"one", 10000},
+	{"six", 60},
+	{"nine", 30},
+}
+
+// Testing SliceQueue and ListQueue:
 func TestSliceQueueSuccess(t *testing.T) {
-	var s queue.SliceQueue
+	queueSuccess(t, &queue.SliceQueue{})
+}
 
+func TestListQueueSuccess(t *testing.T) {
+	queueSuccess(t, &queue.ListQueue{})
+}
+
+func queueSuccess(t *testing.T, queue queueI) {
 	for _, value := range dataset {
-		s.Enqueue(value)
+		queue.Enqueue(value)
 	}
 
 	for i, expected := range dataset {
-		assert.Equal(t, len(dataset)-i, s.Len())
+		assert.Equal(t, len(dataset)-i, queue.Len())
 
-		val, ok := s.Peek()
+		val, ok := queue.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\"", expected)
 
-		val, ok = s.Dequeue()
+		val, ok = queue.Dequeue()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Dequeue for expected value: \"%s\"", expected)
 	}
 }
 
 func TestSliceQueueOutOfRange(t *testing.T) {
-	var s queue.SliceQueue
-
-	// Peek and Dequeue in empty queue
-	val, ok := s.Peek()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = s.Dequeue()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// Testing ListQueue:
-func TestListQueueSuccess(t *testing.T) {
-	var l queue.ListQueue
-
-	for _, value := range dataset {
-		l.Enqueue(value)
-	}
-
-	for i, expected := range dataset {
-		assert.Equal(t, len(dataset)-i, l.Len())
-
-		val, ok := l.Peek()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
-
-		val, ok = l.Dequeue()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
-	}
+	queueOutOfRange(t, &queue.SliceQueue{})
 }
 
 func TestListQueueOutOfRange(t *testing.T) {
-	var l queue.ListQueue
+	queueOutOfRange(t, &queue.ListQueue{})
+}
 
+func queueOutOfRange(t *testing.T, queue queueI) {
 	// Peek and Dequeue in empty queue
-	val, ok := l.Peek()
+	val, ok := queue.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = l.Dequeue()
+	val, ok = queue.Dequeue()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
@@ -91,11 +99,11 @@ func TestPriorityQueueSuccess(t *testing.T) {
 
 		val, ok := p.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\"", expected)
 
 		val, ok = p.Dequeue()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Dequeue for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Dequeue for expected value: \"%s\"", expected)
 	}
 }
 

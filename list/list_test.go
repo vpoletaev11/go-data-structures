@@ -7,266 +7,234 @@ import (
 	"github.com/vpoletaev11/go-data-structures/list"
 )
 
-var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-var expectedOut = []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
+type listI interface {
+	InsertHead(string)
+	Insert(int, string) bool
+	InsertTail(string)
 
-var datasetIV = []indexValue{{0, "two"}, {0, "one"}, {2, "three"}, {3, "four"}, {4, "six"}, {4, "five"}, {6, "ten"}, {6, "nine"}, {6, "eight"}, {6, "seven"}}
-var expectedOutIV = []indexValue{{4, "five"}, {1, "two"}, {7, "ten"}, {3, "six"}, {5, "nine"}, {3, "seven"}, {3, "eight"}, {0, "one"}, {1, "four"}, {0, "three"}}
+	GetHead() (string, bool)
+	Get(int) (string, bool)
+	GetTail() (string, bool)
 
-// Testing SinglyLinkedList:
+	PeekHead() (string, bool)
+	Peek(int) (string, bool)
+	PeekTail() (string, bool)
+
+	Len() int
+}
+
+var dataset = []string{
+	"one",
+	"two",
+	"three",
+	"four",
+	"five",
+	"six",
+	"seven",
+	"eight",
+	"nine",
+	"ten",
+}
+
+var expectedOut = []string{
+	"ten",
+	"nine",
+	"eight",
+	"seven",
+	"six",
+	"five",
+	"four",
+	"three",
+	"two",
+	"one",
+}
+
+var datasetIV = []indexValue{
+	{0, "two"},
+	{0, "one"},
+	{2, "three"},
+	{3, "four"},
+	{4, "six"},
+	{4, "five"},
+	{6, "ten"},
+	{6, "nine"},
+	{6, "eight"},
+	{6, "seven"},
+}
+
+var expectedOutIV = []indexValue{
+	{4, "five"},
+	{1, "two"},
+	{7, "ten"},
+	{3, "six"},
+	{5, "nine"},
+	{3, "seven"},
+	{3, "eight"},
+	{0, "one"},
+	{1, "four"},
+	{0, "three"},
+}
+
 // HEAD
-func TestSinglyListHEADSuccess(t *testing.T) {
-	var s list.SinglyLinkedList
+func TestSinglyListHeadSuccess(t *testing.T) {
+	listHeadSuccess(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListHeadSuccess(t *testing.T) {
+	listHeadSuccess(t, &list.DoublyLinkedList{})
+}
+
+func listHeadSuccess(t *testing.T, list listI) {
 	for _, value := range dataset {
-		s.InsertHead(value)
+		list.InsertHead(value)
 	}
 
 	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, s.Len())
+		assert.Equal(t, len(expectedOut)-i, list.Len())
 
-		val, ok := s.PeekHead()
+		val, ok := list.PeekHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekHead for expected value: \"%s\"", expected)
 
-		val, ok = s.GetHead()
+		val, ok = list.GetHead()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetHead for expected value: \"%s\"", expected)
 	}
 }
 
-func TestSinglyListHEADOutOfRange(t *testing.T) {
-	var s list.SinglyLinkedList
+func TestSinglyListHeadOutOfRange(t *testing.T) {
+	listHeadOutOfRange(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListHeadOutOfRange(t *testing.T) {
+	listHeadOutOfRange(t, &list.DoublyLinkedList{})
+}
+
+func listHeadOutOfRange(t *testing.T, list listI) {
 	// PeekHead and GetHead in empty list
-	val, ok := s.PeekHead()
+	val, ok := list.PeekHead()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.GetHead()
+	val, ok = list.GetHead()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
 
 // BODY
-func TestSinglyListBODYSuccess(t *testing.T) {
-	var s list.SinglyLinkedList
+func TestSinglyListBodySuccess(t *testing.T) {
+	listBodySuccess(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListBodySuccess(t *testing.T) {
+	listBodySuccess(t, &list.DoublyLinkedList{})
+}
+
+func listBodySuccess(t *testing.T, list listI) {
 	for _, iv := range datasetIV {
-		ok := s.Insert(iv.index, iv.value)
+		ok := list.Insert(iv.index, iv.value)
 		assert.True(t, ok, "On insertion with index: %d and value \"%s\"", iv.index, iv.value)
 	}
 
 	for _, iv := range expectedOutIV {
-		val, ok := s.Peek(iv.index)
+		val, ok := list.Peek(iv.index)
 		assert.Equal(t, iv.value, val, "On Peeking with index: %d", iv.index)
 		assert.True(t, ok, "On Peeking with index: \"%d\"", iv.index)
 
-		val, ok = s.Get(iv.index)
+		val, ok = list.Get(iv.index)
 		assert.Equal(t, iv.value, val, "On Getting with index: %d", iv.index)
 		assert.True(t, ok, "On Getting with index: %d", iv.index)
 	}
 }
 
-func TestSinglyListBODYOutOfRange(t *testing.T) {
-	var s list.SinglyLinkedList
+func TestSinglyListBodyOutOfRange(t *testing.T) {
+	listBodyOutOfRange(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListBodyOutOfRange(t *testing.T) {
+	listBodyOutOfRange(t, &list.DoublyLinkedList{})
+}
+
+func listBodyOutOfRange(t *testing.T, list listI) {
 	// Insert out of range
-	ok := s.Insert(5, "one")
+	ok := list.Insert(5, "one")
 	assert.False(t, ok)
 
-	ok = s.Insert(-1, "two")
+	ok = list.Insert(-1, "two")
 	assert.False(t, ok)
 
 	// Peek and Get in empty list
-	val, ok := s.Peek(10)
+	val, ok := list.Peek(10)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.Get(10)
+	val, ok = list.Get(10)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
 	// for following tests list should be not empty
-	s.InsertHead("stub")
+	list.InsertHead("stub")
 
 	// Peek and Get out of range
-	val, ok = s.Peek(5)
+	val, ok = list.Peek(5)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.Peek(-1)
+	val, ok = list.Peek(-1)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.Get(5)
+	val, ok = list.Get(5)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.Get(-1)
+	val, ok = list.Get(-1)
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
 
 // TAIL
 func TestSinglyListTailSuccess(t *testing.T) {
-	var s list.SinglyLinkedList
+	listTailSuccess(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListTailSuccess(t *testing.T) {
+	listTailSuccess(t, &list.DoublyLinkedList{})
+}
+
+func listTailSuccess(t *testing.T, list listI) {
 	for _, value := range dataset {
-		s.InsertTail(value)
+		list.InsertTail(value)
 	}
 
 	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, s.Len())
+		assert.Equal(t, len(expectedOut)-i, list.Len())
 
-		val, ok := s.PeekTail()
+		val, ok := list.PeekTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "PeekTail for expected value: \"%s\"", expected)
 
-		val, ok = s.GetTail()
+		val, ok = list.GetTail()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "GetTail for expected value: \"%s\"", expected)
 	}
 }
 
 func TestSinglyListTailOutOfRange(t *testing.T) {
-	var s list.SinglyLinkedList
+	listTailOutOfRange(t, &list.SinglyLinkedList{})
+}
 
+func TestDoublyListTailOutOfRange(t *testing.T) {
+	listTailOutOfRange(t, &list.DoublyLinkedList{})
+}
+
+func listTailOutOfRange(t *testing.T, list listI) {
 	// PeekTail and GetTail in empty list
-	val, ok := s.PeekTail()
+	val, ok := list.PeekTail()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = s.GetTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// Testing DoublyLinkedList:
-// HEAD
-func TestDoublyListHEADSuccess(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	for _, value := range dataset {
-		d.InsertHead(value)
-	}
-
-	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, d.Len())
-
-		val, ok := d.PeekHead()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
-
-		val, ok = d.GetHead()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetHead for expected value: \"%s\" %s", expected, "should return true, but returns false")
-	}
-}
-
-func TestDoublyListHEADOutOfRange(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	// PeekHead and GetHead in empty list
-	val, ok := d.PeekHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.GetHead()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// BODY
-func TestDoublyListBODYSuccess(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	for _, iv := range datasetIV {
-		ok := d.Insert(iv.index, iv.value)
-		assert.True(t, ok, "On insertion with index: %d and value \"%s\"", iv.index, iv.value)
-	}
-
-	for _, iv := range expectedOutIV {
-		val, ok := d.Peek(iv.index)
-		assert.Equal(t, iv.value, val, "On Peeking with index: %d", iv.index)
-		assert.True(t, ok, "On Peeking with index: \"%d\"", iv.index)
-
-		val, ok = d.Get(iv.index)
-		assert.Equal(t, iv.value, val, "On Getting with index: %d", iv.index)
-		assert.True(t, ok, "On Getting with index: %d", iv.index)
-	}
-}
-
-func TestDoublyListBODYOutOfRange(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	// Insert out of range
-	ok := d.Insert(5, "one")
-	assert.False(t, ok)
-
-	ok = d.Insert(-1, "two")
-	assert.False(t, ok)
-
-	// Peek and Get in empty list
-	val, ok := d.Peek(10)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.Get(10)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	// for following tests list should be not empty
-	d.InsertHead("stub")
-
-	// Peek and Get out of range
-	val, ok = d.Peek(5)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.Peek(-1)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.Get(5)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.Get(-1)
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// TAIL
-func TestDoublyListTAILSuccess(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	for _, value := range dataset {
-		d.InsertTail(value)
-	}
-
-	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, d.Len())
-
-		val, ok := d.PeekTail()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "PeekTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
-
-		val, ok = d.GetTail()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "GetTail for expected value: \"%s\" %s", expected, "should return true, but returns false")
-	}
-}
-
-func TestDoublyListTAILOutOfRange(t *testing.T) {
-	var d list.DoublyLinkedList
-
-	// PeekTail and GetTail in empty list
-	val, ok := d.PeekTail()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = d.GetTail()
+	val, ok = list.GetTail()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }

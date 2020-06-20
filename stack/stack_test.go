@@ -7,73 +7,80 @@ import (
 	"github.com/vpoletaev11/go-data-structures/stack"
 )
 
-var dataset = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"}
-var expectedOut = []string{"ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one"}
+type stackI interface {
+	Push(string)
+	Pop() (string, bool)
+	Peek() (string, bool)
+	Len() int
+}
 
-// Testing SliceStack
+var dataset = []string{
+	"one",
+	"two",
+	"three",
+	"four",
+	"five",
+	"six",
+	"seven",
+	"eight",
+	"nine",
+	"ten",
+}
+
+var expectedOut = []string{
+	"ten",
+	"nine",
+	"eight",
+	"seven",
+	"six",
+	"five",
+	"four",
+	"three",
+	"two",
+	"one",
+}
+
 func TestSliceStackSuccess(t *testing.T) {
-	var s stack.SliceStack
+	stackSuccess(t, &stack.SliceStack{})
+}
 
+func TestListStackSuccess(t *testing.T) {
+	stackSuccess(t, &stack.ListStack{})
+}
+
+func stackSuccess(t *testing.T, stack stackI) {
 	for _, value := range dataset {
-		s.Push(value)
+		stack.Push(value)
 	}
 
 	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, s.Len())
+		assert.Equal(t, len(expectedOut)-i, stack.Len())
 
-		val, ok := s.Peek()
+		val, ok := stack.Peek()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Peek for expected value: \"%s\"", expected)
 
-		val, ok = s.Pop()
+		val, ok = stack.Pop()
 		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value: \"%s\" %s", expected, "should return true, but returns false")
+		assert.True(t, ok, "Pop for expected value: \"%s\"", expected)
 	}
 }
 
 func TestSliceStackOutOfRange(t *testing.T) {
-	var s stack.SliceStack
-
-	// Peek and Pop in empty stack
-	val, ok := s.Peek()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-
-	val, ok = s.Pop()
-	assert.Equal(t, "", val)
-	assert.False(t, ok)
-}
-
-// Testing ListStack
-func TestListStackSuccess(t *testing.T) {
-	var l stack.ListStack
-
-	for _, value := range dataset {
-		l.Push(value)
-	}
-
-	for i, expected := range expectedOut {
-		assert.Equal(t, len(expectedOut)-i, l.Len())
-
-		val, ok := l.Peek()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Peek for expected value: \"%s\" %s", expected, "should return true, but returns false")
-
-		val, ok = l.Pop()
-		assert.Equal(t, expected, val)
-		assert.True(t, ok, "Pop for expected value: \"%s\" %s", expected, "should return true, but returns false")
-	}
+	stackOutOfRange(t, &stack.SliceStack{})
 }
 
 func TestListStackOutOfRange(t *testing.T) {
-	var l stack.ListStack
+	stackOutOfRange(t, &stack.ListStack{})
+}
 
+func stackOutOfRange(t *testing.T, stack stackI) {
 	// Peek and Pop in empty stack
-	val, ok := l.Peek()
+	val, ok := stack.Peek()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 
-	val, ok = l.Pop()
+	val, ok = stack.Pop()
 	assert.Equal(t, "", val)
 	assert.False(t, ok)
 }
