@@ -1,5 +1,6 @@
 package set
 
+// Set - abstract data type that stores unique values, without any particular order.
 type Set struct {
 	set map[int]struct{}
 }
@@ -39,7 +40,7 @@ func (s *Set) Clear() {
 
 // GetSet returns all values of Set
 func (s *Set) GetSet() []int {
-	keys := []int{} //make([]int, len(s.set))
+	keys := make([]int, 0, len(s.set))
 	for k := range s.set {
 		keys = append(keys, k)
 	}
