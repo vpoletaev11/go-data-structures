@@ -67,11 +67,12 @@ func (a *AMGraph) RemoveEdge(from, to int) bool {
 }
 
 // PeekEdges returns slice of edges of inputted vertex
-func (a *AMGraph) PeekEdges(vertex int) (edges []int, ok bool) {
+func (a *AMGraph) PeekEdges(vertex int) ([]int, bool) {
 	if vertex > a.Size()-1 || vertex < 0 {
 		return []int{}, false
 	}
 
+	edges := []int{}
 	for i, val := range a.adjacencyMatrix[vertex] {
 		if val == true {
 			edges = append(edges, i)

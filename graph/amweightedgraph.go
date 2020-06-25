@@ -67,11 +67,12 @@ func (a *AMWeightedGraph) RemoveEdge(from, to int) bool {
 }
 
 // PeekEdges returns slice of pairs edges and edges weight of inputted vertex
-func (a *AMWeightedGraph) PeekEdges(vertex int) (edges [][]int, ok bool) {
+func (a *AMWeightedGraph) PeekEdges(vertex int) ([][]int, bool) {
 	if vertex > a.Size()-1 || vertex < 0 {
 		return [][]int{}, false
 	}
 
+	edges := [][]int{}
 	for i, val := range a.adjacencyMatrix[vertex] {
 		if val != 0 {
 			edges = append(edges, []int{i, val})

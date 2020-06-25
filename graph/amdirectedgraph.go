@@ -65,11 +65,12 @@ func (a *AMDirectedGraph) RemoveEdge(from, to int) bool {
 }
 
 // PeekEdges returns slice of edges of inputted vertex
-func (a *AMDirectedGraph) PeekEdges(vertex int) (edges []int, ok bool) {
+func (a *AMDirectedGraph) PeekEdges(vertex int) ([]int, bool) {
 	if vertex > a.Size()-1 || vertex < 0 {
 		return []int{}, false
 	}
 
+	edges := []int{}
 	for i, val := range a.adjacencyMatrix[vertex] {
 		if val == true {
 			edges = append(edges, i)

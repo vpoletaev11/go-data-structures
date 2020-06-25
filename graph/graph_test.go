@@ -56,10 +56,10 @@ func TestAMDirectedGraphSuccess(t *testing.T) {
 		{2, 3, 9},
 		{4},
 		{1},
-		[]int(nil),
-		[]int(nil),
+		{},
+		{},
 		{0},
-		[]int(nil),
+		{},
 	}
 	graphSuccess(t, graph.AMDirectedGraphInit(10), expectedOut)
 }
@@ -73,7 +73,7 @@ func TestAMGraphSuccess(t *testing.T) {
 		{1, 2, 4},
 		{1},
 		{0},
-		[]int(nil),
+		{},
 		{0},
 		{3},
 	}
@@ -103,7 +103,7 @@ func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
 	// check that graph haven't edges
 	for i := 0; i < graph.Size(); i++ {
 		edges, ok := graph.PeekEdges(i)
-		assert.Equal(t, []int(nil), edges, "PeekEdges for node %d", i)
+		assert.Equal(t, []int{}, edges, "PeekEdges for node %d", i)
 		assert.True(t, ok, "PeekEdges for node %d", i)
 	}
 }
@@ -150,14 +150,14 @@ func TestAMDirectedWeightedGraphSuccess(t *testing.T) {
 	expectedOut := [][][]int{
 		{{6, 1000}},
 		{{4, 38193}},
-		[][]int(nil),
+		{},
 		{{2, 14}, {3, 13992}, {9, 222222}},
 		{{4, 1309}},
-		[][]int(nil),
-		[][]int(nil),
-		[][]int(nil),
+		{},
+		{},
+		{},
 		{{0, 15}},
-		[][]int(nil),
+		{},
 	}
 	weightedGraphSuccess(t, graph.AMDirectedWeightedGraphInit(10), expectedOut)
 }
@@ -169,9 +169,9 @@ func TestAMWeightedGraphSuccess(t *testing.T) {
 		{{3, 14}},
 		{{2, 14}, {3, 13992}, {9, 222222}},
 		{{1, 38193}, {4, 1309}},
-		[][]int(nil),
+		{},
 		{{0, 1000}},
-		[][]int(nil),
+		{},
 		{{0, 15}},
 		{{3, 222222}},
 	}
@@ -200,7 +200,7 @@ func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]
 	// check that graph haven't edges
 	for i := 0; i < graph.Size(); i++ {
 		edges, ok := graph.PeekEdges(i)
-		assert.Equal(t, [][]int(nil), edges, "PeekEdges for node %d", i)
+		assert.Equal(t, [][]int{}, edges, "PeekEdges for node %d", i)
 		assert.True(t, ok, "PeekEdges for node %d", i)
 	}
 }
