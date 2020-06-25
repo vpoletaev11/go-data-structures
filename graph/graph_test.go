@@ -47,53 +47,48 @@ var datasetFTW = []fromToWeight{
 	{5, 1, 0},
 }
 
-// Testing AMDirectedGraph ALDirectedGraph and AMGraph:
-func TestAMDirectedGraphSuccess(t *testing.T) {
-	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
-		{6},
-		{4},
-		{4},
-		{2, 3, 9},
-		{4},
-		{1},
-		{},
-		{},
-		{0},
-		{},
-	}
-	graphSuccess(t, graph.AMDirectedGraphInit(10), expectedOut)
+var expectedOut = [][]int{
+	{6, 8},
+	{4, 5},
+	{3, 4},
+	{2, 3, 9},
+	{1, 2, 4},
+	{1},
+	{0},
+	{},
+	{0},
+	{3},
 }
 
+var expectedOutDirected = [][]int{
+	{6},
+	{4},
+	{4},
+	{2, 3, 9},
+	{4},
+	{1},
+	{},
+	{},
+	{0},
+	{},
+}
+
+// Testing NOT WEIGHTED GRAPHS (AMDirectedGraph ALDirectedGraph and AMGraph ALGraph):
+
 func TestAMGraphSuccess(t *testing.T) {
-	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
-		{6, 8},
-		{4, 5},
-		{3, 4},
-		{2, 3, 9},
-		{1, 2, 4},
-		{1},
-		{0},
-		{},
-		{0},
-		{3},
-	}
 	graphSuccess(t, graph.AMGraphInit(10), expectedOut)
 }
 
+func TestAMDirectedGraphSuccess(t *testing.T) {
+	graphSuccess(t, graph.AMDirectedGraphInit(10), expectedOutDirected)
+}
+
+func TestALGraphSuccess(t *testing.T) {
+	graphSuccess(t, graph.ALGraphInit(10), expectedOut)
+}
+
 func TestALDirectedGraphSuccess(t *testing.T) {
-	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
-		{6},
-		{4},
-		{4},
-		{2, 3, 9},
-		{4},
-		{1},
-		{},
-		{},
-		{0},
-		{},
-	}
-	graphSuccess(t, graph.ALDirectedGraphInit(10), expectedOut)
+	graphSuccess(t, graph.ALDirectedGraphInit(10), expectedOutDirected)
 }
 
 func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
@@ -124,23 +119,26 @@ func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
 	}
 }
 
-func TestAMDirectedGraphOutOfRange(t *testing.T) {
-	// AdjMatrixDirectedGraphInit out of range
-	assert.Nil(t, graph.AMDirectedGraphInit(0))
-
-	graphOutOfRange(t, graph.AMDirectedGraphInit(5))
-}
-
 func TestAMGraphOutOfRange(t *testing.T) {
-	// AdjMatrixDirectedGraphInit out of range
-	assert.Nil(t, graph.AMGraphInit(0))
+	assert.Nil(t, graph.AMGraphInit(0)) // out of range
 
 	graphOutOfRange(t, graph.AMGraphInit(5))
 }
 
+func TestAMDirectedGraphOutOfRange(t *testing.T) {
+	assert.Nil(t, graph.AMDirectedGraphInit(0)) // out of range
+
+	graphOutOfRange(t, graph.AMDirectedGraphInit(5))
+}
+
+func TestALGraphOutOfRange(t *testing.T) {
+	assert.Nil(t, graph.ALGraphInit(0)) // out of range
+
+	graphOutOfRange(t, graph.ALGraphInit(5))
+}
+
 func TestALDirectedGraphOutOfRange(t *testing.T) {
-	// AdjMatrixDirectedGraphInit out of range
-	assert.Nil(t, graph.ALDirectedGraphInit(0))
+	assert.Nil(t, graph.ALDirectedGraphInit(0)) // out of range
 
 	graphOutOfRange(t, graph.ALDirectedGraphInit(5))
 }
