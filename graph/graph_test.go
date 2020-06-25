@@ -47,7 +47,7 @@ var datasetFTW = []fromToWeight{
 	{5, 1, 0},
 }
 
-// Testing AMDirectedGraph and AMGraph:
+// Testing AMDirectedGraph ALDirectedGraph and AMGraph:
 func TestAMDirectedGraphSuccess(t *testing.T) {
 	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
 		{6},
@@ -80,6 +80,22 @@ func TestAMGraphSuccess(t *testing.T) {
 	graphSuccess(t, graph.AMGraphInit(10), expectedOut)
 }
 
+func TestALDirectedGraphSuccess(t *testing.T) {
+	expectedOut := [][]int{ // indexes of slices == indexes of vertexes
+		{6},
+		{4},
+		{4},
+		{2, 3, 9},
+		{4},
+		{1},
+		{},
+		{},
+		{0},
+		{},
+	}
+	graphSuccess(t, graph.ALDirectedGraphInit(10), expectedOut)
+}
+
 func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
 	assert.Equal(t, 10, graph.Size())
 
@@ -90,7 +106,7 @@ func graphSuccess(t *testing.T, graph graphI, expectedOut [][]int) {
 
 	for i, out := range expectedOut {
 		edges, ok := graph.PeekEdges(i)
-		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
+		assert.ElementsMatch(t, out, edges, "On peeking edges with vertex: %d", i)
 		assert.True(t, ok, "On peeking edges with vertex: %d", i)
 	}
 
@@ -120,6 +136,13 @@ func TestAMGraphOutOfRange(t *testing.T) {
 	assert.Nil(t, graph.AMGraphInit(0))
 
 	graphOutOfRange(t, graph.AMGraphInit(5))
+}
+
+func TestALDirectedGraphOutOfRange(t *testing.T) {
+	// AdjMatrixDirectedGraphInit out of range
+	assert.Nil(t, graph.ALDirectedGraphInit(0))
+
+	graphOutOfRange(t, graph.ALDirectedGraphInit(5))
 }
 
 func graphOutOfRange(t *testing.T, graph graphI) {
@@ -204,7 +227,6 @@ func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]
 		assert.True(t, ok, "PeekEdges for node %d", i)
 	}
 }
-
 
 func TestAMDirectedWeightedGraphOutOfRange(t *testing.T) {
 	// AdjMatrixDirectedWeightedGraphInit out of range
