@@ -73,6 +73,32 @@ var expectedOutDirected = [][]int{
 	{},
 }
 
+var expectedOutWeighted = [][][]int{
+	{{6, 1000}, {8, 15}},
+	{{4, 38193}},
+	{{3, 14}},
+	{{2, 14}, {3, 13992}, {9, 222222}},
+	{{1, 38193}, {4, 1309}},
+	{},
+	{{0, 1000}},
+	{},
+	{{0, 15}},
+	{{3, 222222}},
+}
+
+var expectedOutDirectedWeighted = [][][]int{
+	{{6, 1000}},
+	{{4, 38193}},
+	{},
+	{{2, 14}, {3, 13992}, {9, 222222}},
+	{{4, 1309}},
+	{},
+	{},
+	{},
+	{{0, 15}},
+	{},
+}
+
 // Testing NOT WEIGHTED GRAPHS (AMDirectedGraph ALDirectedGraph and AMGraph ALGraph):
 func TestAMGraphSuccess(t *testing.T) {
 	graphSuccess(t, graph.AMGraphInit(10), expectedOut)
@@ -165,53 +191,21 @@ func graphOutOfRange(t *testing.T, graph graphI) {
 	assert.False(t, ok)
 }
 
-// Testing AMDirectedWeightedGraph and AMWeightedGraph:
+// Testing WEIGHTED GRAPHS (AMDirectedWeightedGraph ALDirectedWeightedGraph and AMWeightedGraph ALWeightedGraph):
 func TestAMDirectedWeightedGraphSuccess(t *testing.T) {
-	expectedOut := [][][]int{
-		{{6, 1000}},
-		{{4, 38193}},
-		{},
-		{{2, 14}, {3, 13992}, {9, 222222}},
-		{{4, 1309}},
-		{},
-		{},
-		{},
-		{{0, 15}},
-		{},
-	}
-	weightedGraphSuccess(t, graph.AMDirectedWeightedGraphInit(10), expectedOut)
+	weightedGraphSuccess(t, graph.AMDirectedWeightedGraphInit(10), expectedOutDirectedWeighted)
 }
 
 func TestAMWeightedGraphSuccess(t *testing.T) {
-	expectedOut := [][][]int{
-		{{6, 1000}, {8, 15}},
-		{{4, 38193}},
-		{{3, 14}},
-		{{2, 14}, {3, 13992}, {9, 222222}},
-		{{1, 38193}, {4, 1309}},
-		{},
-		{{0, 1000}},
-		{},
-		{{0, 15}},
-		{{3, 222222}},
-	}
-	weightedGraphSuccess(t, graph.AMWeightedGraphInit(10), expectedOut)
+	weightedGraphSuccess(t, graph.AMWeightedGraphInit(10), expectedOutWeighted)
 }
 
 func TestALDirectedWeightedGraphSuccess(t *testing.T) {
-	expectedOut := [][][]int{
-		{{6, 1000}},
-		{{4, 38193}},
-		{},
-		{{2, 14}, {3, 13992}, {9, 222222}},
-		{{4, 1309}},
-		{},
-		{},
-		{},
-		{{0, 15}},
-		{},
-	}
-	weightedGraphSuccess(t, graph.ALDirectedWeightedGraphInit(10), expectedOut)
+	weightedGraphSuccess(t, graph.ALDirectedWeightedGraphInit(10), expectedOutDirectedWeighted)
+}
+
+func TestALWeightedGraphSuccess(t *testing.T) {
+	weightedGraphSuccess(t, graph.ALWeightedGraphInit(10), expectedOutWeighted)
 }
 
 func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]int) {
@@ -257,6 +251,12 @@ func TestALDirectedWeightedGraphOutOfRange(t *testing.T) {
 	assert.Nil(t, graph.ALDirectedWeightedGraphInit(0)) // out of range
 
 	weightedGraphOutOfRange(t, graph.ALDirectedWeightedGraphInit(5))
+}
+
+func TestALWeightedGraphOutOfRange(t *testing.T) {
+	assert.Nil(t, graph.ALWeightedGraphInit(0)) // out of range
+
+	weightedGraphOutOfRange(t, graph.ALWeightedGraphInit(5))
 }
 
 func weightedGraphOutOfRange(t *testing.T, graph weightedGraphI) {
