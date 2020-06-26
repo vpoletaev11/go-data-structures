@@ -9,8 +9,9 @@
 | **list**  | Singly linked list<br/>Doubly linked list                 |
 | **stack** | List based stack<br/>Slice based stack                    |
 | **queue** | List based queue<br/>Slice based queue<br/>Priority queue |
+| **set**   | Set                  |
 | **tree**  | Heap<br/>Binary search tree<br/>AVL-tree                  |
-| **graph** | Adjacency matrix graph<br/>Adjacency matrix weighted graph<br/>Adjacency matrix directed graph<br/>Adjacency matrix directed weighted graph |
+| **graph** | Adjacency matrix graph<br/>Adjacency matrix weighted graph<br/>Adjacency matrix directed graph<br/>Adjacency matrix directed weighted graph<br/>Adjacency list graph<br/>Adjacency list weighted graph<br/>Adjacency list directed graph<br/>Adjacency list directed weighted graph  |
 
 
 # About project
