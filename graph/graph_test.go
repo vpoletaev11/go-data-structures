@@ -74,7 +74,6 @@ var expectedOutDirected = [][]int{
 }
 
 // Testing NOT WEIGHTED GRAPHS (AMDirectedGraph ALDirectedGraph and AMGraph ALGraph):
-
 func TestAMGraphSuccess(t *testing.T) {
 	graphSuccess(t, graph.AMGraphInit(10), expectedOut)
 }
@@ -199,6 +198,22 @@ func TestAMWeightedGraphSuccess(t *testing.T) {
 	weightedGraphSuccess(t, graph.AMWeightedGraphInit(10), expectedOut)
 }
 
+func TestALDirectedWeightedGraphSuccess(t *testing.T) {
+	expectedOut := [][][]int{
+		{{6, 1000}},
+		{{4, 38193}},
+		{},
+		{{2, 14}, {3, 13992}, {9, 222222}},
+		{{4, 1309}},
+		{},
+		{},
+		{},
+		{{0, 15}},
+		{},
+	}
+	weightedGraphSuccess(t, graph.ALDirectedWeightedGraphInit(10), expectedOut)
+}
+
 func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]int) {
 	assert.Equal(t, 10, graph.Size())
 
@@ -209,7 +224,7 @@ func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]
 
 	for i, out := range expectedOut {
 		edges, ok := graph.PeekEdges(i)
-		assert.Equal(t, out, edges, "On peeking edges with vertex: %d", i)
+		assert.ElementsMatch(t, out, edges, "On peeking edges with vertex: %d", i)
 		assert.True(t, ok, "On peeking edges with vertex: %d", i)
 	}
 	// remove all edges
@@ -227,17 +242,21 @@ func weightedGraphSuccess(t *testing.T, graph weightedGraphI, expectedOut [][][]
 }
 
 func TestAMDirectedWeightedGraphOutOfRange(t *testing.T) {
-	// AdjMatrixDirectedWeightedGraphInit out of range
-	assert.Nil(t, graph.AMDirectedWeightedGraphInit(0))
+	assert.Nil(t, graph.AMDirectedWeightedGraphInit(0)) // out of range
 
 	weightedGraphOutOfRange(t, graph.AMDirectedWeightedGraphInit(5))
 }
 
 func TestAMWeightedGraphOutOfRange(t *testing.T) {
-	// AdjMatrixDirectedWeightedGraphInit out of range
-	assert.Nil(t, graph.AMWeightedGraphInit(0))
+	assert.Nil(t, graph.AMWeightedGraphInit(0)) // out of range
 
 	weightedGraphOutOfRange(t, graph.AMWeightedGraphInit(5))
+}
+
+func TestALDirectedWeightedGraphOutOfRange(t *testing.T) {
+	assert.Nil(t, graph.ALDirectedWeightedGraphInit(0)) // out of range
+
+	weightedGraphOutOfRange(t, graph.ALDirectedWeightedGraphInit(5))
 }
 
 func weightedGraphOutOfRange(t *testing.T, graph weightedGraphI) {
