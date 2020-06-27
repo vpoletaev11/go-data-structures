@@ -40,3 +40,70 @@ func TestSet(t *testing.T) {
 	assert.Equal(t, []int{}, s.GetSet())
 
 }
+
+func BenchmarkSetAdd(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		s := set.Init()
+		b.StartTimer()
+
+		for _, val := range dataset {
+			s.Add(val)
+		}
+	}
+}
+
+func BenchmarkSetDelete(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		s := set.Init()
+		for _, val := range dataset {
+			s.Add(val)
+		}
+		b.StartTimer()
+
+		for _, val := range dataset {
+			s.Delete(val)
+		}
+	}
+}
+
+func BenchmarkSetHas(b *testing.B) {
+	s := set.Init()
+	for _, val := range dataset {
+		s.Add(val)
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		for _, val := range dataset {
+			s.Has(val)
+		}
+	}
+}
+
+func BenchmarkSetClear(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		s := set.Init()
+		for _, val := range dataset {
+			s.Add(val)
+		}
+		b.StartTimer()
+
+		s.Clear()
+	}
+}
+
+func BenchmarkGetSet(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		s := set.Init()
+		for _, val := range dataset {
+			s.Add(val)
+		}
+		b.StartTimer()
+
+		s.GetSet()
+	}
+}
