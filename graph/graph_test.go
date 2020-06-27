@@ -424,7 +424,7 @@ func BenchmarkPeekEdgesAMGraph(b *testing.B) {
 	}
 }
 
-// Benchmarking AMDirectedWeightedGraph:
+// Benchmarking AMWeightedGraph:
 func BenchmarkAddEdgeAMWeightedGraph(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
@@ -456,6 +456,194 @@ func BenchmarkRemoveEdgeAMWeightedGraph(b *testing.B) {
 
 func BenchmarkPeekEdgesAMWeightedGraph(b *testing.B) {
 	g := graph.AMWeightedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking ALDirectedGraph:
+func BenchmarkAddEdgeALDirectedGraph(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.ALDirectedGraphInit(10)
+		b.StartTimer()
+
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeALDirectedGraph(b *testing.B) {
+	g := graph.ALDirectedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for _, ft := range datasetFT {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesALDirectedGraph(b *testing.B) {
+	g := graph.ALDirectedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking ALDirectedWeightedGraph:
+func BenchmarkAddEdgeALDirectedWeightedGraph(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.ALDirectedWeightedGraphInit(10)
+		b.StartTimer()
+
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeALDirectedWeightedGraph(b *testing.B) {
+	g := graph.ALDirectedWeightedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for _, ft := range datasetFTW {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesALDirectedWeightedGraph(b *testing.B) {
+	g := graph.ALDirectedWeightedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking ALGraph:
+func BenchmarkAddEdgeALGraph(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.ALGraphInit(10)
+		b.StartTimer()
+
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeALGraph(b *testing.B) {
+	g := graph.ALGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for _, ft := range datasetFT {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesALGraph(b *testing.B) {
+	g := graph.ALGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ft := range datasetFT {
+			g.AddEdge(ft.from, ft.to)
+		}
+		b.StartTimer()
+
+		for i := 0; i < 10; i++ {
+			g.PeekEdges(i)
+		}
+	}
+}
+
+// Benchmarking ALWeightedGraph:
+func BenchmarkAddEdgeALWeightedGraph(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		g := graph.ALWeightedGraphInit(10)
+		b.StartTimer()
+
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+	}
+}
+
+func BenchmarkRemoveEdgeALWeightedGraph(b *testing.B) {
+	g := graph.ALWeightedGraphInit(10)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		for _, ftw := range datasetFTW {
+			g.AddEdge(ftw.from, ftw.to, ftw.weight)
+		}
+		b.StartTimer()
+
+		for _, ft := range datasetFTW {
+			g.RemoveEdge(ft.from, ft.to)
+		}
+	}
+}
+
+func BenchmarkPeekEdgesALWeightedGraph(b *testing.B) {
+	g := graph.ALWeightedGraphInit(10)
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
