@@ -1,5 +1,14 @@
 package set
 
+/*
+	SET:
+
+	Len()                Add()                Delete()             Has()                Clear()              GetSet()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(n)
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)        Average: O(1)        Average: O(n)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(n)
+*/
+
 // Set - abstract data type that stores unique values, without any particular order.
 type Set struct {
 	set map[int]struct{}
