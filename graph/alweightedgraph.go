@@ -1,5 +1,14 @@
 package graph
 
+/*
+	ADJACENCY LIST WEIGHTED GRAPH:
+
+	Size()               AddEge()             RemoveEdge()         PeekEdges()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+*/
+
 // ALWeightedGraph - Directed Weighted Graph based on Adjacency List.
 // Indexing of vertexes starts from 0.
 type ALWeightedGraph struct {
@@ -54,7 +63,7 @@ func (a *ALWeightedGraph) PeekEdges(vertex int) ([][]int, bool) {
 		return [][]int{}, false
 	}
 
-	edges := [][]int{}
+	edges := make([][]int, 0, len(a.adjacencyList[vertex]))
 	for key, val := range a.adjacencyList[vertex] {
 		if val != 0 {
 			edges = append(edges, []int{key, val})

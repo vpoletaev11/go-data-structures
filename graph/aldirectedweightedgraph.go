@@ -1,5 +1,14 @@
 package graph
 
+/*
+	ADJACENCY LIST DIRECTED WEIGHTED GRAPH:
+
+	Size()               AddEge()             RemoveEdge()         PeekEdges()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+*/
+
 // ALDirectedWeightedGraph - Directed Weighted Graph based on Adjacency List.
 // Indexing of vertexes starts from 0.
 type ALDirectedWeightedGraph struct {

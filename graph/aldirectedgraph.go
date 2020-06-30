@@ -4,6 +4,15 @@ import (
 	"github.com/vpoletaev11/go-data-structures/set"
 )
 
+/*
+	ADJACENCY LIST DIRECTED GRAPH:
+
+	Size()               AddEge()             RemoveEdge()         PeekEdges()
+	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
+	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
+	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+*/
+
 // ALDirectedGraph - Directed Graph based on Adjacency List.
 // Indexing of vertexes starts from 0.
 type ALDirectedGraph struct {
