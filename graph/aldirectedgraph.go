@@ -11,6 +11,13 @@ import (
 	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
 	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
 	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkAddEdgeALDirectedGraph-8              	 2065872	       582 ns/op	     560 B/op	       7 allocs/op
+	BenchmarkRemoveEdgeALDirectedGraph-8           	 4847061	       254 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesALDirectedGraph-8            	 1292356	       924 ns/op	      80 B/op	       7 allocs/op
 */
 
 // ALDirectedGraph - Directed Graph based on Adjacency List.

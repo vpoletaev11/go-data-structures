@@ -11,9 +11,9 @@ package queue
 	
 	goos: linux
 	goarch: amd64
-	BenchmarkEnqueueListQueue-8              1000000               554 ns/op             320 B/op         10 allocs/op
-	BenchmarkDequeueListQueue-8              1000000                63.1 ns/op             0 B/op          0 allocs/op
-	BenchmarkPeekListQueue-8                 1000000                 0.728 ns/op           0 B/op          0 allocs/op
+	BenchmarkEnqueueListQueue-8       	 1701579	       708 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkDequeueListQueue-8       	15704728	        76.5 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekListQueue-8          	1000000000	         0.297 ns/op	       0 B/op	       0 allocs/op
 */
 
 type nodeLQ struct {

@@ -28,17 +28,17 @@ package list
 
 	goos: linux
 	goarch: amd64
-	BenchmarkInsertHeadSinglyList-8          1000000               553 ns/op             320 B/op         10 allocs/op
-	BenchmarkInsertSinglyList-8              1000000               685 ns/op             320 B/op         10 allocs/op
-	BenchmarkInsertTailSinglyList-8          1000000               736 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertHeadSinglyList-8   	 1580721	       750 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkInsertSinglyList-8       	 1488368	       806 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkInsertTailSinglyList-8   	 1617968	       732 ns/op	     320 B/op	      10 allocs/op
 
-	BenchmarkGetHeadSinglyList-8             1000000                87.5 ns/op             0 B/op          0 allocs/op
-	BenchmarkGetSinglyList-8                 1000000               165 ns/op               0 B/op          0 allocs/op
-	BenchmarkGetTailSinglyList-8             1000000               155 ns/op               0 B/op          0 allocs/op
+	BenchmarkGetHeadSinglyList-8      	13920870	        86.5 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkGetSinglyList-8          	 6337293	       190 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkGetTailSinglyList-8      	 7814540	       154 ns/op	       0 B/op	       0 allocs/op
 	
-	BenchmarkPeekHeadSinglyList-8            1000000                 7.62 ns/op            0 B/op          0 allocs/op
-	BenchmarkPeekSinglyList-8                1000000                56.4 ns/op             0 B/op          0 allocs/op
-	BenchmarkPeekTailSinglyList-8            1000000                97.7 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekHeadSinglyList-8     	334253223	         3.08 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekSinglyList-8         	31299858	        40.6 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekTailSinglyList-8     	21066404	        56.1 ns/op	       0 B/op	       0 allocs/op
 */
 
 // nodeSL - node of singly linked list

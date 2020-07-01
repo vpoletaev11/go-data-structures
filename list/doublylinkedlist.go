@@ -28,17 +28,17 @@ package list
 
 	goos: linux
 	goarch: amd64
-	BenchmarkInsertHeadDoublyList-8          1000000               550 ns/op             320 B/op         10 allocs/op
-	BenchmarkInsertDoublyList-8              1000000               684 ns/op             320 B/op         10 allocs/op
-	BenchmarkInsertTailDoublyList-8          1000000               747 ns/op             320 B/op         10 allocs/op
+	BenchmarkInsertHeadDoublyList-8   	 1723987	       694 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkInsertDoublyList-8       	 1543200	       776 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkInsertTailDoublyList-8   	 1581918	       759 ns/op	     320 B/op	      10 allocs/op
 
-	BenchmarkGetHeadDoublyList-8             1000000                86.6 ns/op             0 B/op          0 allocs/op
-	BenchmarkGetDoublyList-8                 1000000               192 ns/op               0 B/op          0 allocs/op
-	BenchmarkGetTailDoublyList-8             1000000               214 ns/op               0 B/op          0 allocs/op
+	BenchmarkGetHeadDoublyList-8      	13622770	        88.1 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkGetDoublyList-8          	 6030784	       198 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkGetTailDoublyList-8      	 5800771	       208 ns/op	       0 B/op	       0 allocs/op
 	
-	BenchmarkPeekHeadDoublyList-8            1000000                 7.55 ns/op            0 B/op          0 allocs/op
-	BenchmarkPeekDoublyList-8                1000000                48.3 ns/op             0 B/op          0 allocs/op
-	BenchmarkPeekTailDoublyList-8            1000000                71.9 ns/op             0 B/op          0 allocs/op
+	BenchmarkPeekHeadDoublyList-8     	363169292	         2.84 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekDoublyList-8         	30046428	        40.5 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekTailDoublyList-8     	20452918	        57.1 ns/op	       0 B/op	       0 allocs/op
 */
 
 // nodeDL - node of doubly linked list

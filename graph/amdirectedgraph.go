@@ -11,9 +11,9 @@ package graph
 
 	goos: linux
 	goarch: amd64
-	BenchmarkAddEdgeAMDirectedGraph-8                1000000               109 ns/op               0 B/op          0 allocs/op
-	BenchmarkRemoveEdgeAMDirectedGraph-8             1000000                89.3 ns/op             0 B/op          0 allocs/op
-	BenchmarkPeekEdgesAMDirectedGraph-8              1000000               625 ns/op              80 B/op          9 allocs/op
+	BenchmarkAddEdgeAMDirectedGraph-8              	17377376	        86.2 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkRemoveEdgeAMDirectedGraph-8           	11097222	       107 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesAMDirectedGraph-8            	 1622994	       729 ns/op	     112 B/op	       9 allocs/op
 */
 
 // AMDirectedGraph - Directed Graph based on Adjacency Matrix.

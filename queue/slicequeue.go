@@ -11,9 +11,9 @@ package queue
 	
 	goos: linux
 	goarch: amd64
-	BenchmarkEnqueueSliceQueue-8             1000000               928 ns/op             496 B/op          5 allocs/op
-	BenchmarkDequeueSliceQueue-8             1000000                76.5 ns/op             0 B/op          0 allocs/op
-	BenchmarkPeekSliceQueue-8                1000000                 0.315 ns/op           0 B/op          0 allocs/op
+	BenchmarkEnqueueSliceQueue-8      	 1269865	       956 ns/op	     496 B/op	       5 allocs/op
+	BenchmarkDequeueSliceQueue-8      	14281522	        84.0 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekSliceQueue-8         	1000000000	         0.288 ns/op	       0 B/op	       0 allocs/op
 */
 
 // SliceQueue - slice based list of elements organized according to the FIFO principle

@@ -11,9 +11,9 @@ package tree
 
 	goos: linux
 	goarch: amd64
-	BenchmarkInsertBST-8             1000000               693 ns/op             320 B/op         10 allocs/op
-	BenchmarkRemoveBST-8             1000000               122 ns/op               0 B/op          0 allocs/op
-	BenchmarkFindBST-8               1000000                28.2 ns/op             0 B/op          0 allocs/op
+	BenchmarkInsertBST-8    	 1549041	       753 ns/op	     320 B/op	      10 allocs/op
+	BenchmarkRemoveBST-8    	 8080778	       146 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkFindBST-8      	43174561	        25.7 ns/op	       0 B/op	       0 allocs/op
 */
 
 // nodeBST - node of binary search tree

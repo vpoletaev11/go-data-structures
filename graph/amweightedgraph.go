@@ -11,9 +11,9 @@ package graph
 
 	goos: linux
 	goarch: amd64
-	BenchmarkAddEdgeAMWeightedGraph-8                1000000               109 ns/op               0 B/op          0 allocs/op
-	BenchmarkRemoveEdgeAMWeightedGraph-8             1000000               106 ns/op               0 B/op          0 allocs/op
-	BenchmarkPeekEdgesAMWeightedGraph-8              1000000              2747 ns/op             976 B/op         34 allocs/op
+	BenchmarkAddEdgeAMWeightedGraph-8              	12128056	        99.4 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkRemoveEdgeAMWeightedGraph-8           	13610829	        88.2 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesAMWeightedGraph-8            	  652176	      2053 ns/op	     688 B/op	      24 allocs/op
 */
 
 // AMWeightedGraph - Weighted Graph based on Adjacency Matrix.

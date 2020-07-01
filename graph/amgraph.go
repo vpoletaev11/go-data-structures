@@ -11,9 +11,9 @@ package graph
 
 	goos: linux
 	goarch: amd64
-	BenchmarkAddEdgeAMGraph-8                        1000000               103 ns/op               0 B/op          0 allocs/op
-	BenchmarkRemoveEdgeAMGraph-8                     1000000               105 ns/op               0 B/op          0 allocs/op
-	BenchmarkPeekEdgesAMGraph-8                      1000000              1087 ns/op             208 B/op         17 allocs/op
+	BenchmarkAddEdgeAMGraph-8                      	12893492	        93.1 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkRemoveEdgeAMGraph-8                   	10800836	       110 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesAMGraph-8                    	 1213242	       975 ns/op	     224 B/op	      16 allocs/op
 */
 
 // AMGraph - Graph based on Adjacency Matrix.

@@ -11,9 +11,9 @@ package queue
 	
 	goos: linux
 	goarch: amd64
-	BenchmarkEnqueuePriorityQueue-8          1000000              1168 ns/op             752 B/op          5 allocs/op
-	BenchmarkDequeuePriorityQueue-8          1000000               252 ns/op               0 B/op          0 allocs/op
-	BenchmarkPeekPriorityQueue-8             1000000                 0.323 ns/op           0 B/op          0 allocs/op
+	BenchmarkEnqueuePriorityQueue-8   	 1000000	      1191 ns/op	     752 B/op	       5 allocs/op
+	BenchmarkDequeuePriorityQueue-8   	 3810524	       315 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekPriorityQueue-8      	1000000000	         0.294 ns/op	       0 B/op	       0 allocs/op
 */
 
 // nodePQ - node of priority queue

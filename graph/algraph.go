@@ -11,6 +11,13 @@ import (
 	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
 	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
 	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkAddEdgeALGraph-8                      	 1514256	       795 ns/op	     720 B/op	       9 allocs/op
+	BenchmarkRemoveEdgeALGraph-8                   	 3052675	       389 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesALGraph-8                    	  999662	      1214 ns/op	     144 B/op	       9 allocs/op
 */
 
 // ALGraph - Graph based on Adjacency List.

@@ -7,6 +7,13 @@ package graph
 	Best:    O(1)        Best:    O(1)        Best:    O(1)        Best:    O(e) e - count of edges
 	Average: O(1)        Average: O(1)        Average: O(1)        Average: O(e)
 	Worst:   O(1)        Worst:   O(1)        Worst:   O(1)        Worst:   O(e)
+
+
+	goos: linux
+	goarch: amd64
+	BenchmarkAddEdgeALDirectedWeightedGraph-8      	 1991700	       605 ns/op	    1008 B/op	       7 allocs/op
+	BenchmarkRemoveEdgeALDirectedWeightedGraph-8   	 4425212	       282 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekEdgesALDirectedWeightedGraph-8    	  689288	      1886 ns/op	     416 B/op	      14 allocs/op
 */
 
 // ALDirectedWeightedGraph - Directed Weighted Graph based on Adjacency List.

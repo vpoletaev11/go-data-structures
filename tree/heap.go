@@ -11,9 +11,9 @@ package tree
 
 	goos: linux
 	goarch: amd64
-	BenchmarkInsertHeap-8            1000000               722 ns/op             256 B/op          5 allocs/op
-	BenchmarkRemoveHeap-8            1000000               214 ns/op               0 B/op          0 allocs/op
-	BenchmarkPeekHeap-8              1000000                 0.634 ns/op           0 B/op          0 allocs/op
+	BenchmarkInsertHeap-8   	 1658200	       727 ns/op	     256 B/op	       5 allocs/op
+	BenchmarkRemoveHeap-8   	 5368878	       220 ns/op	       0 B/op	       0 allocs/op
+	BenchmarkPeekHeap-8     	1000000000	         0.575 ns/op	       0 B/op	       0 allocs/op
 */
 
 // Heap - binary tree where:

@@ -11,9 +11,9 @@ package tree
 
 	goos: linux
 	goarch: amd64
-	BenchmarkInsertAVL-8             1000000              1436 ns/op             768 B/op         16 allocs/op
-	BenchmarkRemoveAVL-8             1000000               600 ns/op             144 B/op          3 allocs/op
-	BenchmarkFindAVL-8               1000000                21.8 ns/op             0 B/op          0 allocs/op
+	BenchmarkInsertAVL-8    	  687202	      1611 ns/op	     816 B/op	      17 allocs/op
+	BenchmarkRemoveAVL-8    	 1480072	       814 ns/op	     192 B/op	       4 allocs/op
+	BenchmarkFindAVL-8      	52023354	        21.1 ns/op	       0 B/op	       0 allocs/op
 */
 
 // nodeAVL - node of AVL tree
